@@ -25,6 +25,7 @@ function loadData()
 
 function showGroups()
 {
+	showPrefsButton();
    	var newGrHtml = '<li class="arrow">' + 
 	   groups.map(function(item, indx){
            return '<a href="#dates" onClick="showDates(' + indx + ')" >' + item + '</a>';
@@ -35,6 +36,7 @@ function showGroups()
 
 function showDates(groupIndex)
 {
+	hidePrefsButton();
     var newHtml = '<li class="arrow">' + 
        groupedDates[groupIndex].map(function(item, indx){
            return '<a href="#datePanel" onClick="showDate(' + groupIndex + ',' + indx + ')" >' + item + '</a>';
@@ -42,18 +44,22 @@ function showDates(groupIndex)
        '</li>'; 
     $("ul#dates").find("li.arrow").replaceWith(newHtml);
     $("ul#dates").attr("title", groups[groupIndex]);
-
 }
 
 function showDate(groupIndex, dateIndex)
 {
+	hidePrefsButton();
 	var title = groupedDates[groupIndex][dateIndex]
     $("div#datePanel").attr("title", title);
 	$("div#datePanel fieldset div input#dateName").attr("value", title);
 }
 
+function showPrefsButton()
+{
+    $("div.toolbar a#prefsButton").fadeIn(); //css({color:"#993300", fontWeight:"bold"}); //visibility="visible";
+}
+
 function hidePrefsButton()
 {
-	alert("hi");
-	$("div.toolbar").find("a#prefsButton").style.display="none";
+	$("div.toolbar a#prefsButton").fadeOut(); //css({color:"#003399", fontWeight:"bold"}); //visibility="hidden";
 }

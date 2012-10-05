@@ -15,13 +15,13 @@
         <title>DateDiff</title>
     </head>
     <body onload="startup()">
-        <div class="toolbar">
+        <div class="toolbar"">
             <h1 id="pageTitle"></h1>
             <a id="backButton" class="button" href="#"></a>
-            <a class="button" href="#prefsPanel">Prefs</a>
+            <a class="button" id="prefsButton" href="#prefsPanel">Prefs</a>
         </div>
 		
-        <ul title="Groups" selected="true" id="groups">
+        <ul title="Groups" selected="true" id="groups" onfocus="showGroups();">
             <li class="arrow">
             </li>
         </ul>
@@ -35,7 +35,7 @@
            <fieldset>
               <div class="row">
                   <label>Name</label>
-                  <input type="text" id="dateName" gname="dateName" value=""/>
+                  <input type="text" id="dateName" name="dateName" value=""/>
               </div>
               <div class="row">
                 <label>Repeat</label>

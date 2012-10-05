@@ -1,0 +1,9 @@
+
+
+Add toolbar at bottom:
+  Settings
+  Info
+Add delete swipe button to each Group
+    
+Settings brings up Settings dialog
+Info brings up Info page

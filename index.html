@@ -1,11 +1,165 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-"http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>New Web Project</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <link rel="stylesheet" href="lib/iui/iui.css" type="text/css" />
+        <link rel="stylesheet" title="Default" href="lib/iui/t/default/default-theme.css" type="text/css"/>
+        <script type="application/x-javascript" src="lib/iui/iui.js"></script>
+		<script type="text/javascript" src="lib/iui/iuiscroll.js"></script>
+
+		<script type="text/javascript" src="lib/jquery/jquery-1.3.2.js"></script>
+        <script type="application/x-javascript" src="datediff.js"></script>
+
+        <title>DateDiff</title>
     </head>
-    <body>
-        <h1>New Web Project Page</h1>
+    <body onload="startup()">
+        <div class="toolbar">
+            <h1 id="pageTitle"></h1>
+            <a id="backButton" class="button" href="#"></a>
+            <a class="button" href="#prefsPanel">Prefs</a>
+        </div>
+		
+        <ul title="Groups" selected="true" id="groups">
+            <li class="arrow">
+            </li>
+        </ul>
+
+        <ul title="Dates" id="dates">
+            <li class="arrow">
+            </li>
+        </ul>
+
+        <div class="panel" title="Date" id="datePanel">
+           <fieldset>
+              <div class="row">
+                  <label>Name</label>
+                  <input type="text" id="dateName" gname="dateName" value=""/>
+              </div>
+              <div class="row">
+                <label>Repeat</label>
+                <div class="toggle" onclick=""><span class="thumb"></span><span class="toggleOn">ON</span><span class="toggleOff">OFF</span></div>
+              </div>
+              <div class="row">
+                <label>Shuffle</label>
+                <div class="toggle" onclick="" toggled="true"><span class="thumb"></span><span class="toggleOn">ON</span><span class="toggleOff">OFF</span></div>
+              </div>
+            </fieldset>
+    
+            <h2>User</h2>
+            <fieldset>
+              <div class="row">
+                  <label>Name</label>
+                  <input type="text" name="userName" value="johnappleseed"/>
+              </div>
+              <div class="row">
+                  <label>Password</label>
+                  <input type="password" name="password" value="delicious"/>
+              </div>
+              <div class="row">
+                 <label>Confirm</label>
+                 <input type="password" name="password" value="delicious"/>
+              </div>
+            </fieldset>
+
+            <li class="infos"><strong>Some strong text</strong><br>Some normal text</li>
+
+            <li class="arrow">
+                <a href="#exportWebDAV">Export to WebDAV</a>
+            </li>
+            <li class="arrow">
+                <a href="#exportEmail">Export via Email</a>
+            </li>
+            <li class="arrow">
+                <a href="#setupWebDAV">Set up export to WebDAV</a>
+            </li>
+            <li class="arrow">
+                <a href="#importWebDAV">Import from WebDAV</a>
+            </li>
+            <li class="arrow">
+                <a href="#importEmail">Import from an Email</a>
+            </li>
+        </div>
+
+
+        <div class="panel" title="Birthdays" id="grp_0">
+          <ul id="entries_scroller" class="list scroller">
+<!--            <li class="img"><a href="#image-caption"><img src="medias/images/calendar_home.jpg" width="100%"></a></li> -->
+            <li class="arrow"><a href="#today">Today at MoMA</a><br><h3>foo</h3></li>
+            <li><a href="#empty-page">Pick a Day</a></li>
+            <li><a href="#exhibitions">Exhibitions</a></li>
+            <li><a href="#empty-page">Film Exhibitions</a></li>
+            <li><a href="#film-schedule">Film Schedule</a></li>
+            <li><a href="#programs">Programs</a></li>
+            <li class="infos"><strong>The museum of modern art</strong><br>Today's Hours: 10:30 am.-5:30 p.m.</li>
+          </ul>
+        </div>
+		
+        <div class="panel" title="Preferences" id="prefsPanel" onfocus="hidePrefsButton();">
+ 	       <h2>Playback</h2>
+           <fieldset>
+              <div class="row">
+                <label>Repeat</label>
+                <div class="toggle" onclick=""><span class="thumb"></span><span class="toggleOn">ON</span><span class="toggleOff">OFF</span></div>
+              </div>
+              <div class="row">
+                <label>Shuffle</label>
+                <div class="toggle" onclick="" toggled="true"><span class="thumb"></span><span class="toggleOn">ON</span><span class="toggleOff">OFF</span></div>
+              </div>
+            </fieldset>
+    
+            <h2>User</h2>
+            <fieldset>
+              <div class="row">
+                  <label>Name</label>
+                  <input type="text" name="userName" value="johnappleseed"/>
+              </div>
+              <div class="row">
+                  <label>Password</label>
+                  <input type="password" name="password" value="delicious"/>
+              </div>
+              <div class="row">
+                 <label>Confirm</label>
+                 <input type="password" name="password" value="delicious"/>
+              </div>
+            </fieldset>
+
+            <li class="infos"><strong>Some strong text</strong><br>Some normal text</li>
+
+            <li class="arrow">
+                <a href="#exportWebDAV">Export to WebDAV</a>
+            </li>
+            <li class="arrow">
+                <a href="#exportEmail">Export via Email</a>
+            </li>
+            <li class="arrow">
+                <a href="#setupWebDAV">Set up export to WebDAV</a>
+            </li>
+            <li class="arrow">
+                <a href="#importWebDAV">Import from WebDAV</a>
+            </li>
+            <li class="arrow">
+                <a href="#importEmail">Import from an Email</a>
+            </li>
+        </div>
+		
+        <div class="panel" title="Export" id="exportWebDAV">
+            The export to webdav goes here.
+        </div>
+        <div class="panel" title="Setup" id="setupWebDAV">
+            The setup webdav export goes here.
+        </div>
+        <div class="panel" title="Import" id="importWebDAV">
+            The setup webdav export goes here.
+        </div>
+        <div class="panel" title="Import" id="importEmail">
+            The email import goes here.
+        </div>
+        <div class="panel" title="Export" id="exportEmail">
+            The export to email goes here.
+        </div>
+
+
     </body>
 </html>

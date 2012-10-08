@@ -3,8 +3,23 @@ var groups = [];
 
 function startup()
 {
+	initMobiscroller();
 	loadData();
 	showGroups();
+	
+}
+
+function initMobiscroller()
+{
+    $(function(){
+        $('#i').scroller({
+            preset: 'date',
+            theme: 'ios',
+            display: 'inline',
+            mode: 'scroller',
+            dateOrder: 'mmD ddyy'
+        }); 
+	});
 }
 
 function loadData()
@@ -34,6 +49,16 @@ function showGroups()
 	showPrefsButton();
 }
 
+function deleteGroup(groupIndex)
+{
+	alert("deleting group " + groupIndex);
+}
+
+function deleteDate(groupIndex, dateIndex)
+{
+    alert("deleting group " + groupIndex + " date " + dateIndex);
+}
+
 function showDates(groupIndex)
 {
 	hidePrefsButton();
@@ -52,6 +77,7 @@ function showDate(groupIndex, dateIndex)
 	var title = groupedDates[groupIndex][dateIndex]
     $("div#datePanel").attr("title", title);
 	$("div#datePanel fieldset div input#dateName").attr("value", title);
+	$("div#datePanel a#deleteButton").click(function() {deleteDate(groupIndex, dateIndex)});
 }
 
 function showPrefsButton()

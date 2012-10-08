@@ -7,3 +7,7 @@ Add delete swipe button to each Group
     
 Settings brings up Settings dialog
 Info brings up Info page
+
+Attributions for Info page:
+  Icons from Glyphish http://glyphish.com
+  

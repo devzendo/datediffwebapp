@@ -1,5 +1,16 @@
+Date chooser:
+  Initialise the date chooser dialog.
+  Set the title correctly, A or B.
+  Set the A or B date in the model if OK pressed. 
+  Remove the gradient from the mobiscroller date picker.
 
-
+Edit date details page:
+  Set the initial note grey/black state appropriately.
+  Set initial lock A/B grey/black state appropriately.
+  Set A/B date to "Today" if lock toggled; remember original date to switch
+    back until date details page exitted.
+  Replace table cruft with CSS.
+  
 Add toolbar at bottom:
   Settings
   Info

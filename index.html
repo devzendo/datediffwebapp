@@ -23,6 +23,7 @@
             <h1 id="pageTitle"></h1>
             <a id="backButton" class="button" href="#"></a>
             <a class="button" id="prefsButton" href="#prefsPanel">Prefs</a>
+			<a class="button" id="noteButton" href="#noteDialog">Edit Note</a>
         </div>
 		
         <ul title="Groups" selected="true" id="groups" onfocus="showPrefsButton();">
@@ -30,23 +31,19 @@
             </li>
         </ul>
 
-        <ul title="Dates" id="dates">
+        <ul title="Dates" id="dates" onfocus="hideNoteButton();">
             <li class="arrow">
             </li>
         </ul>
 
-        <div class="panel" title="Date" id="datePanel">
+        <div class="panel" title="Date" id="datePanel" onfocus="showNoteButton();">
            <fieldset>
               <div class="row">
                   <label>Name</label>
-                  <input type="text" id="dateName" name="dateName" value="" autocorrect="on"/>
+                  <input type="text" id="dateName" border="1" value="" autocorrect="on"/>
               </div>
               <div class="row">
-                  <label>Note</label>
-                  <input type="textarea" id="note" value=""/>
-              </div>
-              <div class="row">
-                  <table border="0" cellpadding="2" cellspacing="2" width="100%">
+                  <table border="0" cellpadding="2" cellspacing="4" width="100%">
                     <tr>
                         <th colspan="2">Time between dates A and B</th>
                     </tr>
@@ -71,12 +68,12 @@
               <div class="row">
   	              <table border="0" cellpadding="5" cellspacing="2" width="100%">
   	              	<tr>
-                        <th>Date A &nbsp;&nbsp;<a align="right" onClick="alert('lock A')"><img src="54-lock.png"></a></th>
-                        <th>Date B &nbsp;&nbsp;<a align="right" onClick="alert('lock B')"><img src="54-lock.png"></a></th>
+                        <th>Date A &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a onClick="alert('lock A')"><img id="lockAImg" src="54-lock.png"></a></th>
+                        <th>Date B &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a onClick="alert('lock B')"><img id="lockBImg" src="54-lock.png"></a></th>
 					</tr>
                     <tr>
-                    	 <td align="center"><a class="button blueButton" href="#dateChooser">27 Dec 2002</a></td>
-						 <td align="center"><a >5 Oct 2012</a></td>
+                    	 <td height="32px" valign="top"><a class="button autoButton" style="left: 32px;" href="#dateChooser">27 Dec 2002</a></td>
+						 <td height="32px" valign="top"><a class="button autoButton" style="left: 62%;" href="#dateChooser">5 Oct 2012</a></td>
                     </tr>
                   </table>
               </div>
@@ -84,15 +81,23 @@
            <a class="redButton" id="deleteButton" onClick="deleteGroup(1);">Delete Entry</a>
         </div>
 
-        <form class="dialog" title="Date" name="dateChooser" id="dateChooser">
+        <form class="dialog" id="dateChooser">
             <fieldset>
-                <h1>Choose Date A</h1>
+                <h1 id="dateChooserTitle">Choose Date A</h1>
                 <a class="button leftButton" type="cancel">Cancel</a>
                 <a class="button blueButton" type="submit">Ok</a>
                 <p>
-                <!-- <label>Date A</label> -->
-                <input id="i" name="i" style="display:none" />
+                <input id="i" name="i" style="display:none" class="scroller"/>
+            </fieldset>
+        </form>    
+
+        <form class="dialog" id="noteDialog">
+            <fieldset>
+                <h1>Note</h1>
+                <a class="button leftButton" type="cancel">Cancel</a>
+                <a class="button blueButton" type="submit">Ok</a>
                 <p>
+                <textarea id="textarea" class="tallTextArea">Some text goes here</textarea>
             </fieldset>
         </form>    
 

@@ -46,6 +46,7 @@ function showGroups()
        }).join("") +
 	   '</li>'; 
 	$("ul#groups").find("li.arrow").replaceWith(newGrHtml);
+	hideNoteButton();
 	showPrefsButton();
 }
 
@@ -61,6 +62,7 @@ function deleteDate(groupIndex, dateIndex)
 
 function showDates(groupIndex)
 {
+	hideNoteButton();
 	hidePrefsButton();
     var newHtml = '<li class="arrow">' + 
        groupedDates[groupIndex].map(function(item, indx){
@@ -78,6 +80,7 @@ function showDate(groupIndex, dateIndex)
     $("div#datePanel").attr("title", title);
 	$("div#datePanel fieldset div input#dateName").attr("value", title);
 	$("div#datePanel a#deleteButton").click(function() {deleteDate(groupIndex, dateIndex)});
+	showNoteButton();
 }
 
 function showPrefsButton()
@@ -88,4 +91,14 @@ function showPrefsButton()
 function hidePrefsButton()
 {
 	$("div.toolbar a#prefsButton").hide();
+}
+
+function showNoteButton()
+{
+	$("div.toolbar a#noteButton").fadeIn();
+}
+
+function hideNoteButton()
+{
+    $("div.toolbar a#noteButton").hide();
 }

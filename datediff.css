@@ -1,0 +1,26 @@
+.autoButton {
+	position: absolute;
+	top: auto;
+    left: auto;
+    right: auto;
+}
+
+.tallTextArea {
+    position: relative;
+	min-height: 350px;
+    margin: 0 0 0 0;
+    font-size: 14px;
+    color: #999999;
+    width:  98%;
+    text-align: left;
+}
+
+
+.ios .dwbg {
+    position: inherit;
+    background: none;
+    width:  72%;
+	margin: 0px 38px 0px 16px;
+	padding: 0 0;
+	border: 0px;
+}

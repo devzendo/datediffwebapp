@@ -31,31 +31,31 @@ function loadData()
     ];
 	groupedDates = [
 	   /* Birthdays */ [ 
-	       "Matt", 
-		   "Angela", 
-		   "Natasha", 
-		   "Hannah", 
-		   "Thomas"
+	       new DateDetail("Matt", "Matt's Note", "22/02/1969", "", false, true), 
+		   new DateDetail("Bob", "Bob's note", "15/03/1986", "", false, true), 
+		   new DateDetail("Steve", "Not born yet", "", "23/11/2015", true, false), 
+		   new DateDetail("Kristin", "Lived in Sweden", "14/01/1987", "23/12/2004", false, false),  
+		   new DateDetail("Today", "This is today", "", "", true, true),
 	   ],
 	   /* CV Durations */ [
-	       "Known C",
-		   "Known C++",
-		   "Known Perl",
-		   "Known UNIX" 
+	       new DateDetail("Known C", "", "01/01/1989", "", false, true),
+		   new DateDetail("Known C++", "", "01/01/1991", "", false, true),
+		   new DateDetail("Known Perl", "", "01/01/1993", "", false, true),
+		   new DateDetail("Known UNIX", "", "01/01/1989", "", false, true), 
 	   ],
 	   /* Accommodation */ [
 	       "Porthill",
 		   "Alsagers Bank",
 		   "Wolstanton",
 		   "Keele",
-		   "Westlands"
+		   "Westlands",
 	   ],
 	   /* Business */ [
 	       "Synchro",
 		   "Keele",
 		   "Enigma",
 		   "Inspired",
-		   "Resilient"
+		   "Resilient",
 	   ],
 	   // etc, etc
 	];	
@@ -150,7 +150,7 @@ function showDates(groupIndex)
 	hidePrefsButton();
     var newHtml = '<li class="arrow">' + 
        groupedDates[groupIndex].map(function(item, indx){
-           return '<a href="#datePanel" onClick="showDate(' + groupIndex + ',' + indx + ')" >' + item + '</a>';
+           return '<a href="#datePanel" onClick="showDate(' + groupIndex + ',' + indx + ')" >' + item.getName() + '</a>';
        }).join("") +
        '</li>'; 
     $("ul#dates").find("li.arrow").replaceWith(newHtml);
@@ -160,9 +160,10 @@ function showDates(groupIndex)
 function showDate(groupIndex, dateIndex)
 {
 	hidePrefsButton();
-	var title = groupedDates[groupIndex][dateIndex]
-    $("div#datePanel").attr("title", title);
-	$("div#datePanel fieldset div input#dateName").attr("value", title);
+	var detail = groupedDates[groupIndex][dateIndex]
+    $("div#datePanel").attr("title", detail.getName());
+	// TODO store the detail as a hidden object in the form?
+	$("div#datePanel fieldset div input#dateName").attr("value", detail.getName());
 	$("div#datePanel a#deleteButton").click(function() {deleteDate(groupIndex, dateIndex)});
 	showNoteButton();
 }

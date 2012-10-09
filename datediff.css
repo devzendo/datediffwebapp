@@ -7,7 +7,7 @@
 
 .tallTextArea {
     position: relative;
-	min-height: 350px;
+	min-height: 95px; /* just high enough to prevent it scrolling up when the keyboard shows up */
     margin: 0 0 0 0;
     font-size: 14px;
     color: #999999;

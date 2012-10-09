@@ -1,3 +1,13 @@
+Note editing:
+  The textarea is grey text, not black.
+  
+Groups page:
+  Delete Group
+  New Group
+
+Date Details page:
+  Edit Group
+    
 Date chooser:
   Initialise the date chooser dialog.
   Set the title correctly, A or B.
@@ -10,6 +20,7 @@ Edit date details page:
   Set A/B date to "Today" if lock toggled; remember original date to switch
     back until date details page exitted.
   Replace table cruft with CSS.
+
   
 Add toolbar at bottom:
   Settings

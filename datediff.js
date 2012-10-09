@@ -58,7 +58,9 @@ function loadData()
 		   "Resilient",
 	   ],
 	   // etc, etc
-	];	
+	];
+	currGroup = 0;
+	currDetail = 0;	
 }
 
 // -----------------------------------------------------------------------------
@@ -146,6 +148,7 @@ function deleteDate(groupIndex, dateIndex)
 
 function showDates(groupIndex)
 {
+	currGroup = groupIndex;
 	hideNoteButton();
 	hidePrefsButton();
     var newHtml = '<li class="arrow">' + 
@@ -157,14 +160,16 @@ function showDates(groupIndex)
     $("ul#dates").attr("title", groups[groupIndex]);
 }
 
-function showDate(groupIndex, dateIndex)
+function showDate(groupIndex, detailIndex)
 {
+	currDetail = detailIndex;
 	hidePrefsButton();
-	var detail = groupedDates[groupIndex][dateIndex]
+	var detail = groupedDates[groupIndex][detailIndex]
     $("div#datePanel").attr("title", detail.getName());
 	// TODO store the detail as a hidden object in the form?
 	$("div#datePanel fieldset div input#dateName").attr("value", detail.getName());
-	$("div#datePanel a#deleteButton").click(function() {deleteDate(groupIndex, dateIndex)});
+	$("div#datePanel a#deleteButton").click(function() {deleteDate(groupIndex, detailIndex)});
+	$("div.toolbar a#noteButton").click(function() {editNote(detail)});
 	showNoteButton();
 }
 
@@ -186,4 +191,11 @@ function showNoteButton()
 function hideNoteButton()
 {
     $("div.toolbar a#noteButton").hide();
+}
+
+function editNote(detail) {
+	//alert("editing note '" + detail.getNote() + "'");
+	$("form#noteDialog fieldset textarea#note").attr("value", detail.getNote());
+	iui.showPageById("noteDialog");
+	// TODO do stuff on ok, cancel
 }

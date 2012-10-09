@@ -30,13 +30,97 @@ function loadData()
 	   "Dates I forget","Embarrassing", "Isn't it?"
     ];
 	groupedDates = [
-	   /* Birthdays */ [ "Matt", "Angela", "Natasha", "Hannah", "Thomas"],
-	   /* CV Durations */ [ "Known C", "Known C++", "Known Perl", "Known UNIX" ],
-	   /* Accommodation */ [ "Porthill", "Alsagers Bank", "Wolstanton", "Keele", "Westlands"],
-	   /* Business */ [ "Synchro", "Keele", "Enigma", "Inspired", "Resilient"],
+	   /* Birthdays */ [ 
+	       "Matt", 
+		   "Angela", 
+		   "Natasha", 
+		   "Hannah", 
+		   "Thomas"
+	   ],
+	   /* CV Durations */ [
+	       "Known C",
+		   "Known C++",
+		   "Known Perl",
+		   "Known UNIX" 
+	   ],
+	   /* Accommodation */ [
+	       "Porthill",
+		   "Alsagers Bank",
+		   "Wolstanton",
+		   "Keele",
+		   "Westlands"
+	   ],
+	   /* Business */ [
+	       "Synchro",
+		   "Keele",
+		   "Enigma",
+		   "Inspired",
+		   "Resilient"
+	   ],
 	   // etc, etc
 	];	
 }
+
+// -----------------------------------------------------------------------------
+
+function DateDetail(name, note, dateA, dateB, dateALocked, dateBLocked) {
+	this.name = name;
+	this.note = note;
+	this.dateA = dateA;
+	this.dateB = dateB;
+	this.dateALocked = dateALocked;
+	this.dateBLocked = dateBLocked;
+}
+
+DateDetail.prototype.setName = function(newName) {
+	this.name = newName;
+}
+
+DateDetail.prototype.getName = function() {
+    return this.name;
+}
+
+DateDetail.prototype.setNote = function(newNote) {
+    this.note = newNote;
+}
+
+DateDetail.prototype.getNote = function() {
+    return this.note;
+}
+
+DateDetail.prototype.setDateA = function(newDate) {
+    this.dateA = newDate;
+}
+
+DateDetail.prototype.getDateA = function() {
+    return this.dateA;
+}
+
+DateDetail.prototype.setDateB = function(newDate) {
+    this.dateB = newDate;
+}
+
+DateDetail.prototype.getDateB = function() {
+    return this.dateB;
+}
+
+DateDetail.prototype.setDateALocked = function(newDateLocked) {
+    this.dateALocked = newDateLocked;
+}
+
+DateDetail.prototype.isDateALocked = function() {
+    return this.dateALocked;
+}
+
+DateDetail.prototype.setDateALocked = function(newDateLocked) {
+    this.dateALocked = newDateLocked;
+}
+
+DateDetail.prototype.isDateBLocked = function() {
+    return this.dateBLocked;
+}
+
+// -----------------------------------------------------------------------------
 
 function showGroups()
 {

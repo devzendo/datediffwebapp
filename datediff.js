@@ -25,9 +25,7 @@ function initMobiscroller()
 function loadData()
 {
     groups = [ 
-	   "Birthdays", "CV Durations", "Accommodation", "Business",
-        "Alive since", "Another", "Yet another", "More", "Endless", 
-	   "Dates I forget","Embarrassing", "Isn't it?"
+	   "Birthdays", "CV Durations"
     ];
 	groupedDates = [
 	   /* Birthdays */ [ 
@@ -42,20 +40,6 @@ function loadData()
 		   new DateDetail("Known C++", "", "01/01/1991", "", false, true),
 		   new DateDetail("Known Perl", "", "01/01/1993", "", false, true),
 		   new DateDetail("Known UNIX", "", "01/01/1989", "", false, true), 
-	   ],
-	   /* Accommodation */ [
-	       "Porthill",
-		   "Alsagers Bank",
-		   "Wolstanton",
-		   "Keele",
-		   "Westlands",
-	   ],
-	   /* Business */ [
-	       "Synchro",
-		   "Keele",
-		   "Enigma",
-		   "Inspired",
-		   "Resilient",
 	   ],
 	   // etc, etc
 	];
@@ -151,26 +135,37 @@ function showDates(groupIndex)
 	currGroup = groupIndex;
 	hideNoteButton();
 	hidePrefsButton();
+	constructDates(groupIndex);
+    $("ul#dates").attr("title", groups[groupIndex]);
+}
+
+function constructDates(groupIndex)
+{
     var newHtml = '<li class="arrow">' + 
        groupedDates[groupIndex].map(function(item, indx){
            return '<a href="#datePanel" onClick="showDate(' + groupIndex + ',' + indx + ')" >' + item.getName() + '</a>';
        }).join("") +
        '</li>'; 
-    $("ul#dates").find("li.arrow").replaceWith(newHtml);
-    $("ul#dates").attr("title", groups[groupIndex]);
+    $("ul#dates").find("li.arrow").replaceWith(newHtml);	
 }
 
 function showDate(groupIndex, detailIndex)
 {
 	currDetail = detailIndex;
 	hidePrefsButton();
-	var detail = groupedDates[groupIndex][detailIndex]
-    $("div#datePanel").attr("title", detail.getName());
+	var detail = getDetail(groupIndex, detailIndex);
+    setNameTitleOnDatePanel(detail.getName());
 	// TODO store the detail as a hidden object in the form?
-	$("div#datePanel fieldset div input#dateName").attr("value", detail.getName());
+    setNameField(detail.getName());
 	$("div#datePanel a#deleteButton").click(function() {deleteDate(groupIndex, detailIndex)});
 	$("div.toolbar a#noteButton").click(function() {editNote(detail)});
+    $("div#datePanel fieldset div input#dateName").change(function() {onEditNameChanged(groupIndex, detailIndex);});
 	showNoteButton();
+}
+
+function getDetail(groupIndex, detailIndex)
+{
+	return groupedDates[groupIndex][detailIndex];
 }
 
 function showPrefsButton()
@@ -193,11 +188,56 @@ function hideNoteButton()
     $("div.toolbar a#noteButton").hide();
 }
 
+function onShowDatePanel()
+{
+	showNoteButton();
+}
+
+function setNameField(name) {
+   $("div#datePanel fieldset div input#dateName").attr("value", name);
+}
+
+function setNameTitleOnDatePanel(name) {
+	$("div#datePanel").attr("title", name);
+}
+
+function onEditNameChanged(groupIndex, detailIndex)
+{
+	var detail = getDetail(groupIndex, detailIndex);
+	var newName = $("div#datePanel fieldset div input#dateName").val();
+	if (newName.length == 0) {
+		alert("The name cannot be empty");
+		//setNameField(detail.getName());
+	} else {
+		var duplicate = false;
+		for (var grIndex = 0; !duplicate && grIndex < groupedDates.length; grIndex++) {
+			var group = groupedDates[grIndex];
+			for (var detailIndex = 0; !duplicate && detailIndex < group.length; detailIndex++) {
+				var thisDetail = group[detailIndex];
+				if (thisDetail != detail) {
+					if (detail.getName() == thisDetail.getName()) {
+						duplicate = true;
+						break;
+					}
+				}
+			}
+		}
+		if (duplicate) {
+			alert("The name cannot be a duplicate of another entry");
+			//setNameField(detail.getName());
+		} else {
+			detail.setName(newName);
+			//setNameTitleOnDatePanel(newName);
+			constructDates(groupIndex); // for when we go back, want to see the new name in the list
+		}
+	}
+}
+
 function editNote(detail) {
 	$("form#noteDialog fieldset textarea#note").attr("value", detail.getNote());
 
 	$("form#noteDialog fieldset a#noteOkButton").click(function() {
-		newNote = $("form#noteDialog fieldset textarea#note").val();
+		var newNote = $("form#noteDialog fieldset textarea#note").val();
 		detail.setNote(newNote);
 	});
 

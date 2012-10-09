@@ -194,8 +194,12 @@ function hideNoteButton()
 }
 
 function editNote(detail) {
-	//alert("editing note '" + detail.getNote() + "'");
 	$("form#noteDialog fieldset textarea#note").attr("value", detail.getNote());
+
+	$("form#noteDialog fieldset a#noteOkButton").click(function() {
+		newNote = $("form#noteDialog fieldset textarea#note").val();
+		detail.setNote(newNote);
+	});
+
 	iui.showPageById("noteDialog");
-	// TODO do stuff on ok, cancel
 }

@@ -225,6 +225,7 @@ function setNameField(name) {
 function setNameTitleOnDatePanel(name) {
 	$("div#datePanel").attr("title", name); // this sets the title of the page when it is not active
 	$("div h1#pageTitle").html(name); // need to explicitly set the toolbar title when page is active
+	$("form#noteDialog h1").html(name) // remind user of name when editing note
 }
 
 function onEditNameChanged(groupIndex, detailIndex)

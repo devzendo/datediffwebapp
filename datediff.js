@@ -162,7 +162,6 @@ function showDate(groupIndex, detailIndex)
 	hidePrefsButton();
 	var detail = getDetail(groupIndex, detailIndex);
     setNameTitleOnDatePanel(detail.getName());
-	// TODO store the detail as a hidden object in the form?
     setNameField(detail.getName());
 	
 	// Wire delete event button
@@ -224,7 +223,8 @@ function setNameField(name) {
 }
 
 function setNameTitleOnDatePanel(name) {
-	$("div#datePanel").attr("title", name);
+	$("div#datePanel").attr("title", name); // this sets the title of the page when it is not active
+	$("div h1#pageTitle").html(name); // need to explicitly set the toolbar title when page is active
 }
 
 function onEditNameChanged(groupIndex, detailIndex)
@@ -258,7 +258,7 @@ function onEditNameChanged(groupIndex, detailIndex)
 			setNameField(detail.getName());
 		} else {
 			detail.setName(newName);
-			//setNameTitleOnDatePanel(newName);
+			setNameTitleOnDatePanel(newName);
 			constructDates(groupIndex); // for when we go back, want to see the new name in the list
 		}
 	}

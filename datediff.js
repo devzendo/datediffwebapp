@@ -50,6 +50,8 @@ function loadData()
 	currEditNoteFunction = null;
 	currChangeNameFunction = null;
 	currNoteEditOkFunction = null;
+	
+	inEditNameChanged = false;
 }
 
 // -----------------------------------------------------------------------------
@@ -227,11 +229,17 @@ function setNameTitleOnDatePanel(name) {
 
 function onEditNameChanged(groupIndex, detailIndex)
 {
+	// This function sets the name field back if it's bad, which triggers a
+	// re-entrant call here - which can be ignored.
+	if (inEditNameChanged) {
+		return;
+	}
+	inEditNameChanged = true;
 	var detail = getDetail(groupIndex, detailIndex);
 	var newName = $("div#datePanel fieldset div input#dateName").val();
 	if (newName.length == 0) {
 		alert("The name cannot be empty");
-		//setNameField(detail.getName());
+		setNameField(detail.getName());
 	} else {
 		var duplicate = false;
 		for (var grIndex = 0; !duplicate && grIndex < groupedDates.length; grIndex++) {
@@ -239,22 +247,22 @@ function onEditNameChanged(groupIndex, detailIndex)
 			for (var deIndex = 0; !duplicate && deIndex < group.length; deIndex++) {
 				var thisDetail = group[deIndex];
 				if (thisDetail != detail) {
-					if (detail.getName() == thisDetail.getName()) {
+					if (newName == thisDetail.getName()) {
 						duplicate = true;
-						break;
 					}
 				}
 			}
 		}
 		if (duplicate) {
 			alert("The name cannot be a duplicate of another entry");
-			//setNameField(detail.getName());
+			setNameField(detail.getName());
 		} else {
 			detail.setName(newName);
 			//setNameTitleOnDatePanel(newName);
 			constructDates(groupIndex); // for when we go back, want to see the new name in the list
 		}
 	}
+	inEditNameChanged = false;
 }
 
 function editNote(detail) {

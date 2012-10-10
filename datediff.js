@@ -12,12 +12,13 @@ function startup()
 function initMobiscroller()
 {
     $(function(){
-        $('#i').scroller({
+        $('#date').scroller({
             preset: 'date',
             theme: 'ios',
             display: 'inline',
             mode: 'scroller',
-            dateOrder: 'mmD ddyy'
+            dateOrder: 'D ddMyy',
+			dateFormat: 'dd/mm/yy'
         }); 
 	});
 }
@@ -50,6 +51,9 @@ function loadData()
 	currEditNoteFunction = null;
 	currChangeNameFunction = null;
 	currNoteEditOkFunction = null;
+	currEditDateAFunction = null;
+	currEditDateBFunction = null;
+	currDateEditOkButtonFunction = null;
 	
 	inEditNameChanged = false;
 }
@@ -184,6 +188,13 @@ function showDate(groupIndex, detailIndex)
 	}
 	currChangeNameFunction = function() {onEditNameChanged(groupIndex, detailIndex)};
     $("div#datePanel fieldset div input#dateName").change(currChangeNameFunction);
+
+    // Wire edit date A button
+    if (currEditDateAFunction != null) {
+        $("div#datePanel fieldset div table tr td a#editDateA").unbind("click", currEditDateAFunction);
+    }
+    currEditDateAFunction = function() {editDateA(detail)};
+    $("div#datePanel fieldset div table tr td a#editDateA").click(currEditDateAFunction);
 	
 	showNoteButton();
 }
@@ -280,4 +291,24 @@ function editNote(detail) {
 	$("form#noteDialog fieldset a#noteOkButton").click(currNoteEditOkFunction);
 
 	iui.showPageById("noteDialog");
+}
+
+function editDateA(detail) {
+	var startDateStr = detail.getDateA();
+	var date = jQuery.scroller.parseDate("dd/mm/yy", startDateStr);
+	
+    $('#date').scroller('setDate', date, false, null);
+
+    // Wire the ok button
+    if (currDateEditOkButtonFunction != null) {
+        $("form#dateDialog fieldset a#dateOkButton").unbind("click", currDateEditOkButtonFunction);
+    }
+    currDateEditOkButtonFunction = function() {
+        var newDate = $('#date').scroller('getDate');
+		var newDateStr = jQuery.scroller.formatDate("dd/mm/yy", newDate);
+        detail.setDateA(newDateStr);
+    };
+    $("form#dateDialog fieldset a#dateOkButton").click(currDateEditOkButtonFunction);
+
+    iui.showPageById("dateDialog");
 }

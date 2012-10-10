@@ -72,8 +72,8 @@
                         <th>Date B &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a onClick="alert('lock B')"><img id="lockBImg" src="54-lock.png"></a></th>
 					</tr>
                     <tr>
-                    	 <td height="32px" valign="top"><a class="button autoButton" style="left: 32px;" href="#dateChooser">27 Dec 2002</a></td>
-						 <td height="32px" valign="top"><a class="button autoButton" style="left: 62%;" href="#dateChooser">5 Oct 2012</a></td>
+                    	 <td height="32px" valign="top"><a class="button autoButton" style="left: 32px;" id="editDateA" href="#dateDialog">27 Dec 2002</a></td>
+						 <td height="32px" valign="top"><a class="button autoButton" style="left: 62%;" id="editDateB" href="#dateDialog">5 Oct 2012</a></td>
                     </tr>
                   </table>
               </div>
@@ -81,13 +81,13 @@
            <a class="redButton" id="deleteButton" onClick="deleteGroup(1);">Delete Entry</a>
         </div>
 
-        <form class="dialog" id="dateChooser">
+        <form class="dialog" id="dateDialog">
             <fieldset>
                 <h1 id="dateChooserTitle">Choose Date A</h1>
                 <a class="button leftButton" type="cancel">Cancel</a>
-                <a class="button blueButton" type="submit">Ok</a>
+                <a class="button blueButton" type="cancel" id="dateOkButton">Ok</a>
                 <p>
-                <input id="i" name="i" style="display:none" class="scroller"/>
+                <input id="date" name="i" style="display:none" class="scroller"/>
             </fieldset>
         </form>    
 
@@ -97,7 +97,7 @@
                 <a class="button leftButton" type="cancel">Cancel</a>
                 <a class="button blueButton" type="cancel" id="noteOkButton">Ok</a>
                 <p>
-                <textarea id="note" class="tallTextArea">Some text goes here</textarea>
+                <textarea id="note" class="tallTextArea"></textarea>
             </fieldset>
         </form>    
 

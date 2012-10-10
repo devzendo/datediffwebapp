@@ -45,6 +45,11 @@ function loadData()
 	];
 	currGroup = 0;
 	currDetail = 0;	
+	
+	currDeleteEventFunction = null;
+	currEditNoteFunction = null;
+	currChangeNameFunction = null;
+	currNoteEditOkFunction = null;
 }
 
 // -----------------------------------------------------------------------------
@@ -157,9 +162,28 @@ function showDate(groupIndex, detailIndex)
     setNameTitleOnDatePanel(detail.getName());
 	// TODO store the detail as a hidden object in the form?
     setNameField(detail.getName());
-	$("div#datePanel a#deleteButton").click(function() {deleteDate(groupIndex, detailIndex)});
-	$("div.toolbar a#noteButton").click(function() {editNote(detail)});
-    $("div#datePanel fieldset div input#dateName").change(function() {onEditNameChanged(groupIndex, detailIndex);});
+	
+	// Wire delete event button
+	if (currDeleteEventFunction != null) {
+		$("div#datePanel a#deleteButton").unbind("click", currDeleteEventFunction);
+	}
+	currDeleteEventFunction = function() {deleteDate(groupIndex, detailIndex)};
+	$("div#datePanel a#deleteButton").click(currDeleteEventFunction);
+	
+	// Wire edit note button
+	if (currEditNoteFunction != null) {
+		$("div.toolbar a#noteButton").unbind("click", currEditNoteFunction);
+	}
+	currEditNoteFunction = function() {editNote(detail)};
+	$("div.toolbar a#noteButton").click(currEditNoteFunction);
+	
+	// Wire edit name input handler
+	if (currChangeNameFunction != null) {
+		$("div#datePanel fieldset div input#dateName").unbind("change", currChangeNameFunction);
+	}
+	currChangeNameFunction = function() {onEditNameChanged(groupIndex, detailIndex)};
+    $("div#datePanel fieldset div input#dateName").change(currChangeNameFunction);
+	
 	showNoteButton();
 }
 
@@ -212,8 +236,8 @@ function onEditNameChanged(groupIndex, detailIndex)
 		var duplicate = false;
 		for (var grIndex = 0; !duplicate && grIndex < groupedDates.length; grIndex++) {
 			var group = groupedDates[grIndex];
-			for (var detailIndex = 0; !duplicate && detailIndex < group.length; detailIndex++) {
-				var thisDetail = group[detailIndex];
+			for (var deIndex = 0; !duplicate && deIndex < group.length; deIndex++) {
+				var thisDetail = group[deIndex];
 				if (thisDetail != detail) {
 					if (detail.getName() == thisDetail.getName()) {
 						duplicate = true;
@@ -236,10 +260,15 @@ function onEditNameChanged(groupIndex, detailIndex)
 function editNote(detail) {
 	$("form#noteDialog fieldset textarea#note").attr("value", detail.getNote());
 
-	$("form#noteDialog fieldset a#noteOkButton").click(function() {
-		var newNote = $("form#noteDialog fieldset textarea#note").val();
-		detail.setNote(newNote);
-	});
+    // Wire the ok button
+    if (currNoteEditOkFunction != null) {
+		$("form#noteDialog fieldset a#noteOkButton").unbind("click", currNoteEditOkFunction);
+	}
+	currNoteEditOkFunction = function() {
+        var newNote = $("form#noteDialog fieldset textarea#note").val();
+        detail.setNote(newNote);
+    };
+	$("form#noteDialog fieldset a#noteOkButton").click(currNoteEditOkFunction);
 
 	iui.showPageById("noteDialog");
 }

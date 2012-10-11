@@ -47,8 +47,6 @@ function loadData()
 	currGroup = 0;
 	currDetail = 0;	
 	
-	currDeleteEventFunction = null;
-	currEditNoteFunction = null;
 	currChangeNameFunction = null;
 	currEditDateAFunction = null;
 	currEditDateBFunction = null;
@@ -169,18 +167,18 @@ function showDate(groupIndex, detailIndex)
 	setDateInButton("#editDateB", "#lockBImg", detail.getDateB(), detail.isDateBLocked());
 	
 	// Wire delete event button
-	if (currDeleteEventFunction != null) {
-		$("div#datePanel a#deleteButton").unbind("click", currDeleteEventFunction);
-	}
-	currDeleteEventFunction = function() {deleteDate(groupIndex, detailIndex)};
-	$("div#datePanel a#deleteButton").click(currDeleteEventFunction);
+	$("div#datePanel a#deleteButton").off("click").on("click", 
+	   function() {
+	       deleteDate(groupIndex, detailIndex)
+	   }
+    );
 	
 	// Wire edit note button
-	if (currEditNoteFunction != null) {
-		$("div.toolbar a#noteButton").unbind("click", currEditNoteFunction);
-	}
-	currEditNoteFunction = function() {editNote(detail)};
-	$("div.toolbar a#noteButton").click(currEditNoteFunction);
+	$("div.toolbar a#noteButton").off("click").on("click",
+	   function() {
+	   	   editNote(detail)
+	   } 
+	);
 	
 	// Wire edit name input handler
 	if (currChangeNameFunction != null) {

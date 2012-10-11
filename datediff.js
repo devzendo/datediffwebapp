@@ -50,7 +50,6 @@ function loadData()
 	currDeleteEventFunction = null;
 	currEditNoteFunction = null;
 	currChangeNameFunction = null;
-	currNoteEditOkFunction = null;
 	currEditDateAFunction = null;
 	currEditDateBFunction = null;
 	
@@ -303,14 +302,12 @@ function editNote(detail) {
 	$("form#noteDialog fieldset textarea#note").attr("value", detail.getNote());
 
     // Wire the ok button
-    if (currNoteEditOkFunction != null) {
-		$("form#noteDialog fieldset a#noteOkButton").unbind("click", currNoteEditOkFunction);
-	}
-	currNoteEditOkFunction = function() {
-        var newNote = $("form#noteDialog fieldset textarea#note").val();
-        detail.setNote(newNote);
-    };
-	$("form#noteDialog fieldset a#noteOkButton").click(currNoteEditOkFunction);
+	$("form#noteDialog fieldset a#noteOkButton").off("click").on("click",
+		function() {
+	        var newNote = $("form#noteDialog fieldset textarea#note").val();
+	        detail.setNote(newNote);
+	    } 
+	);
 
 	iui.showPageById("noteDialog");
 }

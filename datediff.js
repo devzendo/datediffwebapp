@@ -53,7 +53,6 @@ function loadData()
 	currNoteEditOkFunction = null;
 	currEditDateAFunction = null;
 	currEditDateBFunction = null;
-	currDateEditOkButtonFunction = null;
 	
 	inEditNameChanged = false;
 }
@@ -350,17 +349,15 @@ function editDate(aOrB, startDateStr, setDateFn, buttonSelector, lockSelector) {
     $('#date').scroller('setDate', date, false, null);
 
     // Wire the ok button
-    if (currDateEditOkButtonFunction != null) {
-        $("form#dateDialog fieldset a#dateOkButton").unbind("click", currDateEditOkButtonFunction);
-    }
-    currDateEditOkButtonFunction = function() {
-        var newDate = $('#date').scroller('getDate');
-        var newDateStr = jQuery.scroller.formatDate("dd/mm/yy", newDate);
-        setDateFn(newDateStr);
-		setDateInButton(buttonSelector, lockSelector, newDateStr, false);
-		// TODO recompute diff
-    };
-    $("form#dateDialog fieldset a#dateOkButton").click(currDateEditOkButtonFunction);
+    $("form#dateDialog fieldset a#dateOkButton").off("click").on("click", 
+        function() {
+	        var newDate = $('#date').scroller('getDate');
+	        var newDateStr = jQuery.scroller.formatDate("dd/mm/yy", newDate);
+	        setDateFn(newDateStr);
+	        setDateInButton(buttonSelector, lockSelector, newDateStr, false);
+	        // TODO recompute diff
+	    }
+	);
 
     iui.showPageById("dateDialog");
 }

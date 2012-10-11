@@ -47,7 +47,6 @@ function loadData()
 	currGroup = 0;
 	currDetail = 0;	
 	
-	currChangeNameFunction = null;
 	currEditDateAFunction = null;
 	currEditDateBFunction = null;
 	
@@ -181,11 +180,11 @@ function showDate(groupIndex, detailIndex)
 	);
 	
 	// Wire edit name input handler
-	if (currChangeNameFunction != null) {
-		$("div#datePanel fieldset div input#dateName").unbind("change", currChangeNameFunction);
-	}
-	currChangeNameFunction = function() {onEditNameChanged(groupIndex, detailIndex)};
-    $("div#datePanel fieldset div input#dateName").change(currChangeNameFunction);
+	$("div#datePanel fieldset div input#dateName").off("change").on("change",
+	   function() {
+	   	   onEditNameChanged(groupIndex, detailIndex)
+	   } 
+	);
 
     // Wire edit date A button
     if (currEditDateAFunction != null) {

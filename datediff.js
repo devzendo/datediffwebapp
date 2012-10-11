@@ -47,9 +47,6 @@ function loadData()
 	currGroup = 0;
 	currDetail = 0;	
 	
-	currEditDateAFunction = null;
-	currEditDateBFunction = null;
-	
 	inEditNameChanged = false;
 }
 
@@ -168,37 +165,37 @@ function showDate(groupIndex, detailIndex)
 	// Wire delete event button
 	$("div#datePanel a#deleteButton").off("click").on("click", 
 	   function() {
-	       deleteDate(groupIndex, detailIndex)
+	       deleteDate(groupIndex, detailIndex);
 	   }
     );
 	
 	// Wire edit note button
 	$("div.toolbar a#noteButton").off("click").on("click",
 	   function() {
-	   	   editNote(detail)
+	   	   editNote(detail);
 	   } 
 	);
 	
 	// Wire edit name input handler
 	$("div#datePanel fieldset div input#dateName").off("change").on("change",
 	   function() {
-	   	   onEditNameChanged(groupIndex, detailIndex)
+	   	   onEditNameChanged(groupIndex, detailIndex);
 	   } 
 	);
 
     // Wire edit date A button
-    if (currEditDateAFunction != null) {
-        $("div#datePanel fieldset div table tr td a#editDateA").unbind("click", currEditDateAFunction);
-    }
-    currEditDateAFunction = function() {editDateA(detail)};
-    $("div#datePanel fieldset div table tr td a#editDateA").click(currEditDateAFunction);
+    $("div#datePanel fieldset div table tr td a#editDateA").off("click").on("click",
+	   function() {
+	   	   editDateA(detail);
+	   } 
+	);
 
     // Wire edit date B button
-    if (currEditDateBFunction != null) {
-        $("div#datePanel fieldset div table tr td a#editDateB").unbind("click", currEditDateBFunction);
-    }
-    currEditDateBFunction = function() {editDateB(detail)};
-    $("div#datePanel fieldset div table tr td a#editDateB").click(currEditDateBFunction);
+    $("div#datePanel fieldset div table tr td a#editDateB").off("click").on("click",
+	   function() {
+	   	   editDateB(detail);
+	   } 
+	);
 	
 	showNoteButton();
 }

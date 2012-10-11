@@ -167,6 +167,8 @@ function showDate(groupIndex, detailIndex)
 	var detail = getDetail(groupIndex, detailIndex);
     setNameTitleOnDatePanel(detail.getName());
     setNameField(detail.getName());
+    setDateInButton("#editDateA", detail.getDateA(), detail.isDateALocked());
+	setDateInButton("#editDateB", detail.getDateB(), detail.isDateBLocked());
 	
 	// Wire delete event button
 	if (currDeleteEventFunction != null) {
@@ -197,6 +199,16 @@ function showDate(groupIndex, detailIndex)
     $("div#datePanel fieldset div table tr td a#editDateA").click(currEditDateAFunction);
 	
 	showNoteButton();
+}
+
+function setDateInButton(buttonSelector, dateStr, locked) {
+	if (locked) {
+        $(buttonSelector).html("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Today&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+	} else {
+	    var date = jQuery.scroller.parseDate("dd/mm/yy", dateStr);
+	    var newDateLongStr = jQuery.scroller.formatDate("d M yy", date);
+	    $(buttonSelector).html(newDateLongStr);
+	}
 }
 
 function getDetail(groupIndex, detailIndex)
@@ -316,8 +328,9 @@ function editDate(startDateStr, setDateFn, buttonSelector) {
         var newDate = $('#date').scroller('getDate');
         var newDateStr = jQuery.scroller.formatDate("dd/mm/yy", newDate);
         setDateFn(newDateStr);
-		var newDateLongStr = jQuery.scroller.formatDate("d M yy", newDate);
-		$(buttonSelector).html(newDateLongStr);
+		setDateInButton(buttonSelector, newDateStr, false);
+		// TODO disable lock
+		// TODO recompute diff
     };
     $("form#dateDialog fieldset a#dateOkButton").click(currDateEditOkButtonFunction);
 

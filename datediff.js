@@ -109,8 +109,8 @@ DateDetail.prototype.isDateALocked = function() {
     return this.dateALocked;
 }
 
-DateDetail.prototype.setDateALocked = function(newDateLocked) {
-    this.dateALocked = newDateLocked;
+DateDetail.prototype.setDateBLocked = function(newDateLocked) {
+    this.dateBLocked = newDateLocked;
 }
 
 DateDetail.prototype.isDateBLocked = function() {
@@ -167,8 +167,8 @@ function showDate(groupIndex, detailIndex)
 	var detail = getDetail(groupIndex, detailIndex);
     setNameTitleOnDatePanel(detail.getName());
     setNameField(detail.getName());
-    setDateInButton("#editDateA", detail.getDateA(), detail.isDateALocked());
-	setDateInButton("#editDateB", detail.getDateB(), detail.isDateBLocked());
+    setDateInButton("#editDateA", "#lockAImg", detail.getDateA(), detail.isDateALocked());
+	setDateInButton("#editDateB", "#lockBImg", detail.getDateB(), detail.isDateBLocked());
 	
 	// Wire delete event button
 	if (currDeleteEventFunction != null) {
@@ -208,13 +208,17 @@ function showDate(groupIndex, detailIndex)
 	showNoteButton();
 }
 
-function setDateInButton(buttonSelector, dateStr, locked) {
+function setDateInButton(buttonSelector, lockSelector, dateStr, locked) {
 	if (locked) {
         $(buttonSelector).html("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Today&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+		
+		$(lockSelector).attr("src", "54-lock.png");
 	} else {
 	    var date = jQuery.scroller.parseDate("dd/mm/yy", dateStr);
 	    var newDateLongStr = jQuery.scroller.formatDate("d M yy", date);
 	    $(buttonSelector).html(newDateLongStr);
+		
+		$(lockSelector).attr("src", "54-lock-grey.png");
 	}
 }
 
@@ -314,25 +318,33 @@ function editNote(detail) {
 
 function editDateA(detail) {
 	editDate(
+	    "A",
   	    detail.getDateA(),
 	    function(newDateStr) {
 	   	    detail.setDateA(newDateStr);
+			detail.setDateALocked(false);
 	    },
-		"#editDateA"
+		"#editDateA",
+		"#lockAImg"
 	);
 }
 
 function editDateB(detail) {
     editDate(
+	    "B",
         detail.getDateB(),
         function(newDateStr) {
             detail.setDateB(newDateStr);
+			detail.setDateBLocked(false);
         },
-        "#editDateB"
+        "#editDateB",
+		"#lockBImg"
     );
 }
 
-function editDate(startDateStr, setDateFn, buttonSelector) {
+function editDate(aOrB, startDateStr, setDateFn, buttonSelector, lockSelector) {
+	$("form#dateDialog h1").html("Choose Date " + aOrB); 
+	
     var date = jQuery.scroller.parseDate("dd/mm/yy", startDateStr);
     
     $('#date').scroller('setDate', date, false, null);
@@ -345,8 +357,7 @@ function editDate(startDateStr, setDateFn, buttonSelector) {
         var newDate = $('#date').scroller('getDate');
         var newDateStr = jQuery.scroller.formatDate("dd/mm/yy", newDate);
         setDateFn(newDateStr);
-		setDateInButton(buttonSelector, newDateStr, false);
-		// TODO disable lock
+		setDateInButton(buttonSelector, lockSelector, newDateStr, false);
 		// TODO recompute diff
     };
     $("form#dateDialog fieldset a#dateOkButton").click(currDateEditOkButtonFunction);

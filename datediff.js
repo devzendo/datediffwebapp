@@ -294,9 +294,18 @@ function editNote(detail) {
 }
 
 function editDateA(detail) {
-	var startDateStr = detail.getDateA();
-	var date = jQuery.scroller.parseDate("dd/mm/yy", startDateStr);
-	
+	editDate(
+  	    detail.getDateA(),
+	    function(newDateStr) {
+	   	    detail.setDateA(newDateStr);
+	    },
+		"#editDateA"
+	);
+}
+
+function editDate(startDateStr, setDateFn, buttonSelector) {
+    var date = jQuery.scroller.parseDate("dd/mm/yy", startDateStr);
+    
     $('#date').scroller('setDate', date, false, null);
 
     // Wire the ok button
@@ -305,8 +314,10 @@ function editDateA(detail) {
     }
     currDateEditOkButtonFunction = function() {
         var newDate = $('#date').scroller('getDate');
-		var newDateStr = jQuery.scroller.formatDate("dd/mm/yy", newDate);
-        detail.setDateA(newDateStr);
+        var newDateStr = jQuery.scroller.formatDate("dd/mm/yy", newDate);
+        setDateFn(newDateStr);
+		var newDateLongStr = jQuery.scroller.formatDate("d M yy", newDate);
+		$(buttonSelector).html(newDateLongStr);
     };
     $("form#dateDialog fieldset a#dateOkButton").click(currDateEditOkButtonFunction);
 

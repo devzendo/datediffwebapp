@@ -197,6 +197,13 @@ function showDate(groupIndex, detailIndex)
     }
     currEditDateAFunction = function() {editDateA(detail)};
     $("div#datePanel fieldset div table tr td a#editDateA").click(currEditDateAFunction);
+
+    // Wire edit date B button
+    if (currEditDateBFunction != null) {
+        $("div#datePanel fieldset div table tr td a#editDateB").unbind("click", currEditDateBFunction);
+    }
+    currEditDateBFunction = function() {editDateB(detail)};
+    $("div#datePanel fieldset div table tr td a#editDateB").click(currEditDateBFunction);
 	
 	showNoteButton();
 }
@@ -313,6 +320,16 @@ function editDateA(detail) {
 	    },
 		"#editDateA"
 	);
+}
+
+function editDateB(detail) {
+    editDate(
+        detail.getDateB(),
+        function(newDateStr) {
+            detail.setDateB(newDateStr);
+        },
+        "#editDateB"
+    );
 }
 
 function editDate(startDateStr, setDateFn, buttonSelector) {

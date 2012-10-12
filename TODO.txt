@@ -1,7 +1,7 @@
 Note editing:
   The textarea is grey text, not black.
 
-Panels with arrows instead of li a's.
+Date editing - only dates until 2013 are allowed. Why?
 
 Home page?
   

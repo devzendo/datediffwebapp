@@ -22,11 +22,22 @@
         <div class="toolbar"">
             <h1 id="pageTitle"></h1>
             <a id="backButton" class="button" href="#"></a>
-            <a class="button" id="prefsButton" href="#prefsPanel">Prefs</a>
 			<a class="button" id="noteButton">Edit Note</a>
         </div>
-		
-        <div class="panel" title="Groups" selected="true" id="groups" onfocus="showPrefsButton();">
+				
+        <div class="panel" title="DateDiff" selected="true" id="home">
+            <ul>
+                <li><a href="#groups">Groups</a></li>
+                <li><a>(favourites go here)</a></li>
+            </ul>
+            <ul>
+                <li><a href="#prefs">Settings</a></li>
+                <li><a href="#storage">Backup / Restore</a></li>
+                <li><a href="#about">About</a></li>
+            </ul>
+        </div>
+
+        <div class="panel" title="Groups" id="groups">
             <ul>
             </ul>
         </div>
@@ -101,20 +112,7 @@
             </fieldset>
         </form>    
 
-        <div class="panel" title="Birthdays" id="grp_0">
-          <ul id="entries_scroller" class="list scroller">
-<!--            <li class="img"><a href="#image-caption"><img src="medias/images/calendar_home.jpg" width="100%"></a></li> -->
-            <li class="arrow"><a href="#today">Today at MoMA</a><br><h3>foo</h3></li>
-            <li><a href="#empty-page">Pick a Day</a></li>
-            <li><a href="#exhibitions">Exhibitions</a></li>
-            <li><a href="#empty-page">Film Exhibitions</a></li>
-            <li><a href="#film-schedule">Film Schedule</a></li>
-            <li><a href="#programs">Programs</a></li>
-            <li class="infos"><strong>The museum of modern art</strong><br>Today's Hours: 10:30 am.-5:30 p.m.</li>
-          </ul>
-        </div>
-		
-        <div class="panel" title="Preferences" id="prefsPanel" onfocus="hidePrefsButton();">
+        <div class="panel" title="Preferences" id="prefs">
  	       <h2>Playback</h2>
            <fieldset>
               <div class="row">
@@ -144,22 +142,28 @@
             </fieldset>
 
             <li class="infos"><strong>Some strong text</strong><br>Some normal text</li>
+        </div>
 
-            <li class="arrow">
-                <a href="#exportWebDAV">Export to WebDAV</a>
-            </li>
-            <li class="arrow">
-                <a href="#exportEmail">Export via Email</a>
-            </li>
-            <li class="arrow">
-                <a href="#setupWebDAV">Set up export to WebDAV</a>
-            </li>
-            <li class="arrow">
-                <a href="#importWebDAV">Import from WebDAV</a>
-            </li>
-            <li class="arrow">
-                <a href="#importEmail">Import from an Email</a>
-            </li>
+        <div class="panel" title="About" id="about">
+            <fieldset>
+                <div class="row">
+                	Here's a row of text.
+				</div>
+                <li><a href="#exportEmail">Export via Email</a></li>
+                <li><a href="#setupWebDAV">Set up export to WebDAV</a></li>
+                <li><a href="#importWebDAV">Import from WebDAV</a></li>
+                <li><a href="#importEmail">Import from an Email</a></li>
+            </fieldset>
+        </div>
+		
+        <div class="panel" title="Backup / Restore" id="storage">
+            <ul>
+	            <li><a href="#exportWebDAV">Export to WebDAV</a></li>
+	            <li><a href="#exportEmail">Export via Email</a></li>
+	            <li><a href="#setupWebDAV">Set up export to WebDAV</a></li>
+	            <li><a href="#importWebDAV">Import from WebDAV</a></li>
+	            <li><a href="#importEmail">Import from an Email</a></li>
+            </ul>
         </div>
 		
         <div class="panel" title="Export" id="exportWebDAV">

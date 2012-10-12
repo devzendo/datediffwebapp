@@ -120,7 +120,6 @@ function showGroups()
 	   '</ul>'; 
 	$("div#groups").find("ul").replaceWith(newGrHtml);
 	hideNoteButton();
-	showPrefsButton();
 }
 
 function deleteGroup(groupIndex)
@@ -137,7 +136,6 @@ function showDates(groupIndex)
 {
 	currGroup = groupIndex;
 	hideNoteButton();
-	hidePrefsButton();
 	constructDates(groupIndex);
     $("ul#dates").attr("title", groups[groupIndex]);
 }
@@ -155,7 +153,6 @@ function constructDates(groupIndex)
 function showDate(groupIndex, detailIndex)
 {
 	currDetail = detailIndex;
-	hidePrefsButton();
 	var detail = getDetail(groupIndex, detailIndex);
     setNameTitleOnDatePanel(detail.getName());
     setNameField(detail.getName());
@@ -231,16 +228,6 @@ function setDateInButton(buttonSelector, lockSelector, dateStr, locked) {
 function getDetail(groupIndex, detailIndex)
 {
 	return groupedDates[groupIndex][detailIndex];
-}
-
-function showPrefsButton()
-{
-    $("div.toolbar a#prefsButton").fadeIn();
-}
-
-function hidePrefsButton()
-{
-	$("div.toolbar a#prefsButton").hide();
 }
 
 function showNoteButton()

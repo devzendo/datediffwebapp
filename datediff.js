@@ -113,12 +113,12 @@ DateDetail.prototype.isDateBLocked = function() {
 
 function showGroups()
 {
-   	var newGrHtml = '<li class="arrow">' + 
+   	var newGrHtml = '<ul>' + 
 	   groups.map(function(item, indx){
-           return '<a href="#dates" onClick="showDates(' + indx + ')" >' + item + '</a>';
+           return '<li><a href="#dates" onClick="showDates(' + indx + ')" >' + item + '</a></li>';
        }).join("") +
-	   '</li>'; 
-	$("ul#groups").find("li.arrow").replaceWith(newGrHtml);
+	   '</ul>'; 
+	$("div#groups").find("ul").replaceWith(newGrHtml);
 	hideNoteButton();
 	showPrefsButton();
 }

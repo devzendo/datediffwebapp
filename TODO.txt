@@ -1,23 +1,26 @@
 Note editing:
   The textarea is grey text, not black.
+
+Panels with arrows instead of li a's.
+
+Home page?
   
 Groups page:
   Delete Group
   New Group
 
-Date Details page:
+Details list page:
+  New Detail
   Edit Group
 
 Edit date details page:
-  Set A/B date to "Today" if lock toggled; remember original date to switch
-    back until date details page exitted.
   Replace table cruft with CSS.
-
+  Compute diff
+  Display diff
   
 Add toolbar at bottom:
   Settings
   Info
-Add delete swipe button to each Group
     
 Settings brings up Settings dialog
 Info brings up Info page

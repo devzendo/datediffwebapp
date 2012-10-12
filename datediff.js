@@ -144,12 +144,12 @@ function showDates(groupIndex)
 
 function constructDates(groupIndex)
 {
-    var newHtml = '<li class="arrow">' + 
+    var newHtml = '<ul>' + 
        groupedDates[groupIndex].map(function(item, indx){
-           return '<a href="#datePanel" onClick="showDate(' + groupIndex + ',' + indx + ')" >' + item.getName() + '</a>';
+           return '<li><a href="#datePanel" onClick="showDate(' + groupIndex + ',' + indx + ')" >' + item.getName() + '</a></li>';
        }).join("") +
-       '</li>'; 
-    $("ul#dates").find("li.arrow").replaceWith(newHtml);	
+       '</ul>'; 
+    $("div#dates").find("ul").replaceWith(newHtml);	
 }
 
 function showDate(groupIndex, detailIndex)

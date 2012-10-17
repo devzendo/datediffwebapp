@@ -25,6 +25,6 @@ Add toolbar at bottom:
 Settings brings up Settings dialog
 Info brings up Info page
 
-Attributions for Info page:
-  Icons from Glyphish http://glyphish.com
+Limitations:
+  Cannot move events between groups.
   

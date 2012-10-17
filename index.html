@@ -150,18 +150,19 @@
                 <div class="row">
 					<p align="center">
                 	    <strong>DateDiff v0.1</strong><br>
+						<font size="-2">"Your days are numbered"</font>
 					    <a target="_new" href="http://devzendo.org"><img src="Banner.png"></a><br>
 					    <em>&copy; 2012 Matt Gumbley</em><br>
 					</p>
 				</div>
             </fieldset>
-            <p align="center">...freedom protected by the...</p>
+            <p align="center"><font size="-2">...freedom protected by the...</font></p>
             <fieldset>
                 <div class="row">
                     <a target="_new" href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache License v2.0</a>
                 </div>
         	</fieldset>
-        	<p align="center">...made with...</p>
+        	<p align="center"><font size="-2">...made with...</font></p>
             <fieldset>
                 <div class="row">
                     <a target="_new" href="http://www.iui-js.org/">iUI iPhone Web Framework</a>
@@ -178,66 +179,143 @@
 				<li><a href="#helpOverview">What DateDiff does</a></li>
                 <li><a href="#helpGroups">Help on Groups</a></li>
                 <li><a href="#helpFav">Help on Favourites</a></li>
-                <li><a href="#helpEvents">Help with Events</a></li>
+                <li><a href="#helpEvents">Naming Events</a></li>
+                <li><a href="#helpEventsNotes">Adding Notes to Events</a></li>
+                <li><a href="#helpEventsDates">Dates and Locking</a></li>
                 <li><a href="#helpSettings">Help with Settings</a></li>
 				<li><a href="#helpStorage">Help with Storage</a></li>
             </ul>
         </div>
 		
 		<div class="panel" title="Important" id="helpFirst">
-			blah
+			<font size="-1">
+				DateDiff stores its information in your browser's local data store.
+				It's not stored in the cloud, nor is it backed up when you sync with iTunes.
+				<br><br>
+				No Internet connection is needed for DateDiff - the 'app' is now
+				stored in your browser cache, but if you clear this out, it will 
+				need to be downloaded again.
+				<br><br>
+				<strong>So, it's important that you back up your DateDiff data.</strong>
+				There are several ways this can be done:
+				<ul>
+					<li>By sending it to yourself as an email. This can then be
+					pasted back into DateDiff.</li>
+					<li>By storing it on a WebDAV server.</li>
+					<li>By storing it in your DropBox account.</li>
+				</ul>
+				Please read the help pages on storage for more information on 
+	            backing up your DateDiff data.
+			</font>
         </div>
 
         <div class="panel" title="Overview" id="helpOverview">
-            <div class="row">
+            <font size="-1">
                 DateDiff stores important dates and calculates durations
                 between pairs of dates (either or both of which can be
-                locked to 'today'.
-				<br>
-				<br>
+                locked to 'today').
+				<br><br>
                 Durations are shown in years, months and days, and total
-                number of days. They can show a duration in the past by
-                locking Date B to 'today'; they can show a duration in the
-                future by locking Date A to 'today'. 
-            </div>
+                number of days.
+				<br><br>
+				<strong>Past:</strong> You can show a duration in the past by
+				setting Date A to the date in the past, then locking Date B to
+				'today'. e.g. How long have I been working at this company?
+				<br><br>
+				<strong>Future:</strong> You can show a duration in the future
+				by locking Date A to 'today' and setting Date B to the date in
+				the future. e.g. How long will it be until I retire?
+				<br><br>
+				<strong>Duration:</strong> You can calculate the duration
+				between two dates by setting both, without locking. e.g. How
+				long was Margaret Thatcher prime minister of the UK?
+            </font>
         </div>
 
         <div class="panel" title="Groups" id="helpGroups">
-            blah
+            <font size="-1">
+            	The date events you store can be put into groups, e.g.
+				Birthdays, Projects, Residences, etc.,
+				<br><br>
+				Groups can be added by choosing <em>Groups</em> from the home
+				screen, then <em>Add Group</em>.
+				<br><br>
+				A group can be deleted by choosing it from the groups screen,
+				then, <em>Delete Group</em>. You will be asked to confirm that
+				you really want to delete the group.
+				<br><br>
+				Currently, you cannot move events between groups.
+        	</font>
         </div>
  		
         <div class="panel" title="Favourites" id="helpFav">
-            blah
+            <font size="-1">
+                Date events can be marked as a favourite by choosing them from
+				their group list, then tapping the star:
+				<table border="0" cellpadding="5" cellspacing="2" width="100%">
+					<tr>
+						<td><img src="28-star.png"></td>
+						<td>Not a favourite</td>
+					</tr>
+                    <tr>
+                        <td><img src="28-star-yellow.png"></td>
+                        <td>It's a favourite</td>
+                    </tr>
+				</table>
+				Favourite events are shown on the home screen, in addition to
+				showing them in their group list. Events that are not favourites
+				are only shown in their group list.
+            </font>
         </div>
 
-        <div class="panel" title="Events" id="helpEvents">
-            <ul>
-                <li><a href="#helpEventsNaming">Naming Events</a></li>
-                <li><a href="#helpEventsNotes">Adding Notes to Events</a></li>
-                <li><a href="#helpEventsDates">Choosing Dates A and B</a></li>
-                <li><a href="#helpEventsLocking">Locking Dates A and/or B</a></li>
-                <li><a href="#helpEventsFav">Making Favourites</a></li>
-            </ul>
-        </div>
-
-        <div class="panel" title="Naming" id="helpEventsNaming">
-            blah
+        <div class="panel" title="Naming" id="helpEvents">
+            <font size="-1">
+            	Each event has a name, and this cannot be a duplicate of any other
+				event name (in any group). It cannot be empty (how will you
+				know what the event is about?).
+				<br><br>
+				To change an event's name, tap it, from the event page to show
+				the name edit dialog.
+				If you choose <em>Ok</em>, the changed name is saved and is
+				shown in the event page and the event's group list. 
+            </font>
         </div>
 
         <div class="panel" title="Notes" id="helpEventsNotes">
-            blah
+            <font size="-1">
+            	Events can have a note stored with them. This isn't shown in the
+				event page, but you can see that a note is set by looking at the
+				note icon. Tap the note icon to change the note.
+                <table border="0" cellpadding="5" cellspacing="2" width="100%">
+                    <tr>
+                        <td><img src="14-tag.png"></td>
+                        <td>No note for this event</td>
+                    </tr>
+                    <tr>
+                        <td><img src="14-tag-blue.png"></td>
+                        <td>There's a note for this event</td>
+                    </tr>
+                </table>
+            </font>
         </div>
 
-        <div class="panel" title="Dates" id="helpEventsDates">
-            blah
-        </div>
-
-        <div class="panel" title="Dates" id="helpEventsLocking">
-            blah
-        </div>
-
-        <div class="panel" title="Dates" id="helpEventsFav">
-            blah
+        <div class="panel" title="Dates/Locks" id="helpEventsDates">
+            <font size="-1">
+                You can set either or both of Date A and B, or lock them to 
+				'today'. The lock for either Date A or B can be toggled by
+				tapping the lock icon. Unlocking a date reverts it to the 
+				last-chosen date.
+                <table border="0" cellpadding="5" cellspacing="2" width="100%">
+                    <tr>
+                        <td><img src="54-lock-grey.png"></td>
+                        <td>Not locked, tap the date button to choose the date</td>
+                    </tr>
+                    <tr>
+                        <td><img src="54-lock.png"></td>
+                        <td>Locked to today</td>
+                    </tr>
+                </table>
+            </font>
         </div>
 
         <div class="panel" title="Settings" id="helpSettings">

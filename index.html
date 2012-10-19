@@ -40,6 +40,8 @@
         <div class="panel" title="Groups" id="groups">
             <ul>
             </ul>
+
+            <a class="whiteButton" id="newGroupButton" onClick="newGroup();">New Group</a>
         </div>
 
         <div class="panel" title="Dates" id="dates">
@@ -111,6 +113,16 @@
                 <a class="button blueButton" type="cancel" id="noteOkButton">Ok</a>
                 <p>
                 <textarea id="note" class="tallTextArea"></textarea>
+            </fieldset>
+        </form>    
+
+        <form class="dialog" id="groupNameDialog">
+            <fieldset>
+                <h1>Group Name</h1>
+                <a class="button leftButton" type="cancel">Cancel</a>
+                <a class="button blueButton" type="cancel" id="groupNameOkButton">Ok</a>
+                <p>
+                <textarea id="name" class="tallTextArea"></textarea>
             </fieldset>
         </form>    
 

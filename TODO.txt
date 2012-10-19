@@ -3,20 +3,18 @@ Note editing:
 
 Date editing - only dates until 2013 are allowed. Why?
 
-Home page?
-  
+Create a better model where dates are elements of groups rather than two
+independent arrays.
+
 Groups page:
-  Delete Group
-  New Group
+  Upon creating a New Group, sort the groups alphabetically.
 
 Details list page:
   New Detail
+  Delete Group
   Edit Group
 
 Edit date details page:
-  Show the note's presence with the tag icon.
-  Edit the note by the tag icon.
-  Remove the edit note button.
   Replace table cruft with CSS.
   Compute diff
   Display diff
@@ -27,6 +25,9 @@ Add toolbar at bottom:
     
 Settings brings up Settings dialog
 Info brings up Info page
+
+Persist the data to local storage upon change.
+Load the data from local storage on startup.
 
 Limitations:
   Cannot move events between groups.

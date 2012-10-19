@@ -25,6 +25,8 @@ function initMobiscroller()
 
 function loadData()
 {
+	// TODO define a better model with groupedDates being members of groups
+	// rather than two separate arrays
     groups = [ 
 	   "Birthdays", "CV Durations"
     ];
@@ -119,6 +121,46 @@ function showGroups()
        }).join("") +
 	   '</ul>'; 
 	$("div#groups").find("ul").replaceWith(newGrHtml);
+}
+
+function newGroup()
+{
+   $("form#groupNameDialog fieldset textarea#name").attr("value", "");
+
+    // Wire the ok button
+    $("form#groupNameDialog fieldset a#groupNameOkButton").off("click").on("click",
+        function() {
+            var newName = $("form#groupNameDialog fieldset textarea#name").val();
+		    if (newName.length == 0) {
+		        alert("The name cannot be empty");
+		    } else {
+		        var duplicate = false;
+		        for (var grIndex = 0; !duplicate && grIndex < groups.length; grIndex++) {
+                    if (newName == groups[grIndex]) {
+                        duplicate = true;
+		            }
+		        }
+		        if (duplicate) {
+		            alert("The name cannot be a duplicate of another group");
+		        } else {
+					createGroup(newName);
+					showGroups();
+					iui.showPageById("groups");
+		        }
+		    }
+        } 
+    );
+
+    iui.showPageById("groupNameDialog");
+}
+
+function createGroup(newName) 
+{
+    groups.push(newName);
+	groupedDates.push([]);
+	// TODO a better model where dates are elements of their group, then I can
+	// do...
+	// groups.sort()	
 }
 
 function deleteGroup(groupIndex)

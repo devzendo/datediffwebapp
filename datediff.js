@@ -32,21 +32,21 @@ function loadData()
     ];
 	groupedDates = [
 	   /* Birthdays */ [ 
-	       new DateDetail("Matt", "Matt's Note", "22/02/1969", "", false, true), 
-		   new DateDetail("Bob", "Bob's note", "15/03/1986", "", false, true), 
-		   new DateDetail("Steve", "Not born yet", "", "23/11/2015", true, false), 
-		   new DateDetail("Kristin", "Lived in Sweden", "14/01/1987", "23/12/2004", false, false),  
-		   new DateDetail("Today", "This is today", "", "", true, true),
+	       new DateDetail("Matt", "Matt's Note", "22/02/1969", "", false, true, true), 
+		   new DateDetail("Bob", "Bob's note", "15/03/1986", "", false, true, false), 
+		   new DateDetail("Steve", "Not born yet", "", "23/11/2015", true, false, true), 
+		   new DateDetail("Kristin", "Lived in Sweden", "14/01/1987", "23/12/2004", false, false, false),  
+		   new DateDetail("Today", "This is today", "", "", true, true, false),
 	   ],
 	   /* CV Durations */ [
-	       new DateDetail("Known C", "", "01/01/1989", "", false, true),
-		   new DateDetail("Known C++", "", "01/01/1991", "", false, true),
-		   new DateDetail("Known Perl", "", "01/01/1993", "", false, true),
-		   new DateDetail("Known UNIX", "", "01/01/1989", "", false, true), 
+	       new DateDetail("Known C", "", "01/01/1989", "", false, true, false),
+		   new DateDetail("Known C++", "", "01/01/1991", "", false, true, true),
+		   new DateDetail("Known Perl", "", "01/01/1993", "", false, true, true),
+		   new DateDetail("Known UNIX", "", "01/01/1989", "", false, true, false), 
 	   ],
 	   // etc, etc
 	];
-	currGroup = 0;
+	currGroup = 0; // TODO these can go
 	currDetail = 0;	
 	
 	inEditNameChanged = false;
@@ -54,13 +54,14 @@ function loadData()
 
 // -----------------------------------------------------------------------------
 
-function DateDetail(name, note, dateA, dateB, dateALocked, dateBLocked) {
+function DateDetail(name, note, dateA, dateB, dateALocked, dateBLocked, isFavourite) {
 	this.name = name;
 	this.note = note;
 	this.dateA = dateA;
 	this.dateB = dateB;
 	this.dateALocked = dateALocked;
 	this.dateBLocked = dateBLocked;
+	this.isFav = isFavourite;
 }
 
 DateDetail.prototype.setName = function(newName) {
@@ -109,6 +110,14 @@ DateDetail.prototype.setDateBLocked = function(newDateLocked) {
 
 DateDetail.prototype.isDateBLocked = function() {
     return this.dateBLocked;
+}
+
+DateDetail.prototype.setIsFavourite = function(newIsFavourite) {
+    this.isFav = newIsFavourite;
+}
+
+DateDetail.prototype.isFavourite = function() {
+    return this.isFav;
 }
 
 // -----------------------------------------------------------------------------
@@ -200,6 +209,7 @@ function showDate(groupIndex, detailIndex)
     setDateInButton("#editDateA", "#lockAImg", detail.getDateA(), detail.isDateALocked());
 	setDateInButton("#editDateB", "#lockBImg", detail.getDateB(), detail.isDateBLocked());
 	setNoteIcon(detail.getNote());
+	setFavIcon(detail.isFavourite());
 	
 	// Wire delete event button
 	$("div#datePanel a#deleteButton").off("click").on("click", 
@@ -257,6 +267,14 @@ function setNoteIcon(note) {
 	} else {
 		$("img#noteImg").attr("src", "14-tag-blue.png");
 	}
+}
+
+function setFavIcon(isFavourite) {
+    if (isFavourite) {
+        $("img#favImg").attr("src", "28-star-yellow.png");
+    } else {
+        $("img#favImg").attr("src", "28-star.png");
+    }
 }
 
 function setDateInButton(buttonSelector, lockSelector, dateStr, locked) {

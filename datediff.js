@@ -119,7 +119,6 @@ function showGroups()
        }).join("") +
 	   '</ul>'; 
 	$("div#groups").find("ul").replaceWith(newGrHtml);
-	hideNoteButton();
 }
 
 function deleteGroup(groupIndex)
@@ -135,7 +134,6 @@ function deleteDate(groupIndex, dateIndex)
 function showDates(groupIndex)
 {
 	currGroup = groupIndex;
-	hideNoteButton();
 	constructDates(groupIndex);
     $("ul#dates").attr("title", groups[groupIndex]);
 }
@@ -158,6 +156,7 @@ function showDate(groupIndex, detailIndex)
     setNameField(detail.getName());
     setDateInButton("#editDateA", "#lockAImg", detail.getDateA(), detail.isDateALocked());
 	setDateInButton("#editDateB", "#lockBImg", detail.getDateB(), detail.isDateBLocked());
+	setNoteIcon(detail.getNote());
 	
 	// Wire delete event button
 	$("div#datePanel a#deleteButton").off("click").on("click", 
@@ -166,12 +165,12 @@ function showDate(groupIndex, detailIndex)
 	   }
     );
 	
-	// Wire edit note button
-	$("div.toolbar a#noteButton").off("click").on("click",
-	   function() {
-	   	   editNote(detail);
-	   } 
-	);
+	// Wire edit note icon
+    $("a#editNoteIcon").off("click").on("click",
+       function() {
+           editNote(detail);
+       } 
+    );
 	
 	// Wire edit name input handler
 	$("div#datePanel fieldset div input#dateName").off("change").on("change",
@@ -207,8 +206,14 @@ function showDate(groupIndex, detailIndex)
            toggleLockB(detail); // inline this
        } 
     );
-	
-	showNoteButton();
+}
+
+function setNoteIcon(note) {
+	if (note == "") {
+		$("img#noteImg").attr("src", "14-tag.png");
+	} else {
+		$("img#noteImg").attr("src", "14-tag-blue.png");
+	}
 }
 
 function setDateInButton(buttonSelector, lockSelector, dateStr, locked) {
@@ -230,19 +235,8 @@ function getDetail(groupIndex, detailIndex)
 	return groupedDates[groupIndex][detailIndex];
 }
 
-function showNoteButton()
-{
-	$("div.toolbar a#noteButton").fadeIn();
-}
-
-function hideNoteButton()
-{
-    $("div.toolbar a#noteButton").hide();
-}
-
 function onShowDatePanel()
 {
-	showNoteButton();
 }
 
 function setNameField(name) {
@@ -301,6 +295,7 @@ function editNote(detail) {
 		function() {
 	        var newNote = $("form#noteDialog fieldset textarea#note").val();
 	        detail.setNote(newNote);
+			setNoteIcon(newNote);
 	    } 
 	);
 

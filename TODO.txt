@@ -6,29 +6,43 @@ Date editing - only dates until 2013 are allowed. Why?
 Create a better model where dates are elements of groups rather than two
 independent arrays.
 
+Home page:
+  Show favourites.
+  Show text and duration of details in the favourites list.
+  
 Groups page:
   Upon creating a New Group, sort the groups alphabetically.
 
 Details list page:
+  Show text and duration of details in the details list.
   New Detail
   Delete Group
   Edit Group
 
 Edit date details page:
   Replace table cruft with CSS.
-  Compute diff
+  *** Compute diff ***
   Display diff
-  
-Add toolbar at bottom:
-  Settings
-  Info
+  Toggle favourite icon adds/removes the detail to the home page.
     
 Settings brings up Settings dialog
-Info brings up Info page
+  Storage:
+    Email import
+    Email export
+    WebDAV import
+    WebDAV export
+    Dropbox import
+    Dropbox export
 
 Persist the data to local storage upon change.
 Load the data from local storage on startup.
 
+How do I get a pretty alert with a user-defined title rather than the hostname?
+
+Known bugs:
+  Creating a group with a duplicate name alerts, but closes the name editing
+  dialog. How to prevent it cancelling the dialog?
+  
 Limitations:
   Cannot move events between groups.
   

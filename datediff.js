@@ -142,6 +142,7 @@ function newGroup()
 		        }
 		        if (duplicate) {
 		            alert("The name cannot be a duplicate of another group");
+					// TODO: BUG: need to stop the dialog going away
 		        } else {
 					createGroup(newName);
 					showGroups();

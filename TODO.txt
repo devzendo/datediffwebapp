@@ -9,13 +9,14 @@ independent arrays.
 Remove the currGroup/detail stores.
 
 Home page:
-  Show favourites.
   Show text and duration of details in the favourites list.
+  Show (favourites go here) in the favourites list if none.
   
 Groups page:
   Upon creating a New Group, sort the groups alphabetically. (Needs better model)
 
 Details list page:
+  sort
   Show text and duration of details in the details list.
   New Detail
   Delete Group
@@ -24,7 +25,6 @@ Details list page:
 Edit date details page:
   *** Compute diff ***
   Display diff
-  Toggle favourite icon adds/removes the detail to the home page.
     
 Settings brings up Settings dialog
   Storage:

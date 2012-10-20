@@ -6,7 +6,7 @@ function startup()
 	initMobiscroller();
 	loadData();
 	showGroups();
-	
+	computeFavourites();
 }
 
 function initMobiscroller()
@@ -122,14 +122,28 @@ DateDetail.prototype.isFavourite = function() {
 
 // -----------------------------------------------------------------------------
 
+function computeFavourites() {
+    var favs = [];
+    groupedDates.forEach(function(group, groupIndex){
+        group.forEach(function(detail, detailIndex){
+            if (detail.isFavourite()) {
+                favs.push('<li><a href="#datePanel" onClick="showDate(' + groupIndex + ',' + detailIndex + ')" >' + detail.getName() + '</a></li>');
+            }
+        });
+    });
+
+    var newGrFavHtml = "<li id=\"groupsLi\"><a href=\"#groups\">Groups</a></li>" + favs.join("");
+    $("div#home ul#groupsAndFavs").empty().append(newGrFavHtml);
+}
+
 function showGroups()
 {
-   	var newGrHtml = '<ul>' + 
-	   groups.map(function(item, indx){
+    var newGrHtml = '<ul>' + 
+       groups.map(function(item, indx){
            return '<li><a href="#dates" onClick="showDates(' + indx + ')" >' + item + '</a></li>';
        }).join("") +
-	   '</ul>'; 
-	$("div#groups").find("ul").replaceWith(newGrHtml);
+       '</ul>'; 
+    $("div#groups").find("ul").replaceWith(newGrHtml);
 }
 
 function newGroup()
@@ -225,6 +239,13 @@ function showDate(groupIndex, detailIndex)
        } 
     );
 	
+    // Wire toggle favourite icon
+    $("a#toggleFavIcon").off("click").on("click",
+       function() {
+           toggleFavourite(detail);
+       } 
+    );
+
 	// Wire edit name input handler
 	$("div#datePanel fieldset div input#dateName").off("change").on("change",
 	   function() {
@@ -362,6 +383,13 @@ function editNote(detail) {
 
 	iui.showPageById("noteDialog");
 }
+
+function toggleFavourite(detail) {
+	detail.setIsFavourite(!detail.isFavourite());
+	setFavIcon(detail.isFavourite());
+	computeFavourites();
+}
+
 
 function computeDiff(detail) {
 //    alert("compute diff");	

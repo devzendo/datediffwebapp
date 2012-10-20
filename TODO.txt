@@ -10,7 +10,6 @@ Remove the currGroup/detail stores.
 
 Home page:
   Show text and duration of details in the favourites list.
-  Show (favourites go here) in the favourites list if none.
   
 Groups page:
   Upon creating a New Group, sort the groups alphabetically. (Needs better model)

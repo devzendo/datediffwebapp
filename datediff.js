@@ -131,6 +131,10 @@ function computeFavourites() {
             }
         });
     });
+	
+	if (favs.length == 0) {
+		favs.push("<li><a href=\"#helpFav\">(No Favourites)</a></li>");
+	}
 
     var newGrFavHtml = "<li id=\"groupsLi\"><a href=\"#groups\">Groups</a></li>" + favs.join("");
     $("div#home ul#groupsAndFavs").empty().append(newGrFavHtml);

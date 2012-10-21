@@ -1,36 +1,40 @@
 Note editing:
-  The textarea is grey text, not black.
+  3 The textarea is grey text, not black.
 
-Date editing - only dates until 2013 are allowed. Why?
+1 Date editing - only dates until 2013 are allowed. Why?
 
 Home page:
-  Show text and duration of details in the favourites list.
+  2 Show text and duration of details in the favourites list.
   
 Details list page:
-  show the group title on the detail list page
-  sort
-  Show text and duration of details in the details list.
-  New Detail
-  Delete Group
-  Edit Group
+  3 show the group title on the detail list page
+  2 sort
+  2 Show text and duration of details in the details list.
+  0 New Detail
+  1 Delete Group
+  1 Edit Group
 
 Edit date details page:
-  *** Compute diff ***
-  Display diff
+  0 *** Compute diff ***
+  0 Display diff
     
 Settings brings up Settings dialog
   Storage:
-    Email import
-    Email export
-    WebDAV import
-    WebDAV export
-    Dropbox import
-    Dropbox export
+    2 Email import
+    2 Email export
+    3 WebDAV import
+    3 WebDAV export
+    3 Dropbox import
+    3 Dropbox export
 
-Persist the data to local storage upon change.
-Load the data from local storage on startup.
+1 Persist the data to local storage upon change.
+1 Load the data from local storage on startup.
 
-How do I get a pretty alert with a user-defined title rather than the hostname?
+3 How do I get a pretty alert with a user-defined title rather than the hostname?
+3 Help on how to add to home screen
+
+Packaging, manifest.
+Website.
 
 Known bugs:
   Creating a group with a duplicate name alerts, but closes the name editing

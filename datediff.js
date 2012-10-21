@@ -46,8 +46,6 @@ function loadData()
 	   ],
 	   // etc, etc
 	];
-	currGroup = 0; // TODO these can go
-	currDetail = 0;	
 	
 	inEditNameChanged = false;
 }
@@ -203,7 +201,6 @@ function deleteDate(groupIndex, dateIndex)
 
 function showDates(groupIndex)
 {
-	currGroup = groupIndex;
 	constructDates(groupIndex);
     $("ul#dates").attr("title", groups[groupIndex]);
 }
@@ -220,7 +217,6 @@ function constructDates(groupIndex)
 
 function showDate(groupIndex, detailIndex)
 {
-	currDetail = detailIndex;
 	var detail = getDetail(groupIndex, detailIndex);
     setNameTitleOnDatePanel(detail.getName());
     setNameField(detail.getName());

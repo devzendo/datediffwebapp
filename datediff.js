@@ -155,15 +155,6 @@ function computeFavourites() {
         });
     });
     
-// TODO: bin	
-//    groupedDates.forEach(function(group, groupIndex){
-//        group.forEach(function(detail, detailIndex){
-//            if (detail.isFavourite()) {
-//                favs.push('<li><a href="#datePanel" onClick="showDate(' + groupIndex + ',' + detailIndex + ')" >' + detail.getName() + '</a></li>');
-//            }
-//        });
-//    });
-	
 	if (favs.length == 0) {
 		favs.push("<li><a href=\"#helpFav\">(No Favourites)</a></li>");
 	}
@@ -205,7 +196,6 @@ function newGroup()
 		        } else {
 					createGroup(newName);
 					showGroups();
-					iui.showPageById("groups");
 		        }
 		    }
         } 
@@ -214,12 +204,14 @@ function newGroup()
     iui.showPageById("groupNameDialog");
 }
 
+function orderByName(a,b) {
+	return a.getName().localeCompare(b.getName());
+}
+
 function createGroup(newName) 
 {
     groups.push(new Group(newName));
-	// TODO a better model where dates are elements of their group, then I can
-	// do...
-	// groups.sort()	
+	groups.sort(orderByName);
 }
 
 function deleteGroup(groupIndex)

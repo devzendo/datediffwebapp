@@ -6,10 +6,8 @@ Date editing - only dates until 2013 are allowed. Why?
 Home page:
   Show text and duration of details in the favourites list.
   
-Groups page:
-  Upon creating a New Group, sort the groups alphabetically. (Needs better model)
-
 Details list page:
+  show the group title on the detail list page
   sort
   Show text and duration of details in the details list.
   New Detail

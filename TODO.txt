@@ -3,9 +3,6 @@ Note editing:
 
 Date editing - only dates until 2013 are allowed. Why?
 
-Create a better model where dates are elements of groups rather than two
-independent arrays.
-
 Home page:
   Show text and duration of details in the favourites list.
   

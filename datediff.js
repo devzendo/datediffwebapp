@@ -25,32 +25,56 @@ function initMobiscroller()
 
 function loadData()
 {
-	// TODO define a better model with groupedDates being members of groups
-	// rather than two separate arrays
+	var grBday = new Group("Birthdays");
+	grBday.addDetails([ 
+           new DateDetail("Matt", "Matt's Note", "22/02/1969", "", false, true, true), 
+           new DateDetail("Bob", "Bob's note", "15/03/1986", "", false, true, false), 
+           new DateDetail("Steve", "Not born yet", "", "23/11/2015", true, false, true), 
+           new DateDetail("Kristin", "Lived in Sweden", "14/01/1987", "23/12/2004", false, false, false),  
+           new DateDetail("Today", "This is today", "", "", true, true, false),
+       ]);
+	var grCv = new Group("CV Durations");
+	grCv.addDetails([
+           new DateDetail("Known C", "", "01/01/1989", "", false, true, false),
+           new DateDetail("Known C++", "", "01/01/1991", "", false, true, true),
+           new DateDetail("Known Perl", "", "01/01/1993", "", false, true, true),
+           new DateDetail("Known UNIX", "", "01/01/1989", "", false, true, false), 
+       ]);
     groups = [ 
-	   "Birthdays", "CV Durations"
+	   grBday, grCv
     ];
-	groupedDates = [
-	   /* Birthdays */ [ 
-	       new DateDetail("Matt", "Matt's Note", "22/02/1969", "", false, true, true), 
-		   new DateDetail("Bob", "Bob's note", "15/03/1986", "", false, true, false), 
-		   new DateDetail("Steve", "Not born yet", "", "23/11/2015", true, false, true), 
-		   new DateDetail("Kristin", "Lived in Sweden", "14/01/1987", "23/12/2004", false, false, false),  
-		   new DateDetail("Today", "This is today", "", "", true, true, false),
-	   ],
-	   /* CV Durations */ [
-	       new DateDetail("Known C", "", "01/01/1989", "", false, true, false),
-		   new DateDetail("Known C++", "", "01/01/1991", "", false, true, true),
-		   new DateDetail("Known Perl", "", "01/01/1993", "", false, true, true),
-		   new DateDetail("Known UNIX", "", "01/01/1989", "", false, true, false), 
-	   ],
-	   // etc, etc
-	];
 	
 	inEditNameChanged = false;
 }
 
 // -----------------------------------------------------------------------------
+function Group(name) {
+	this.name = name;
+	this.details = [];
+}
+
+Group.prototype.getName = function() {
+	return this.name;
+}
+
+Group.prototype.setName = function(newName) {
+    this.name = newName;
+}
+
+Group.prototype.getDetails = function() {
+    return this.details;
+}
+
+Group.prototype.addDetail = function(newDetail) {
+    this.details.push(newDetail);
+}
+
+Group.prototype.addDetails = function(newDetails) {
+	var groupDetails = this.details;
+	newDetails.forEach(function(detail, index) {
+	    groupDetails.push(detail);
+	});
+}
 
 function DateDetail(name, note, dateA, dateB, dateALocked, dateBLocked, isFavourite) {
 	this.name = name;
@@ -122,13 +146,23 @@ DateDetail.prototype.isFavourite = function() {
 
 function computeFavourites() {
     var favs = [];
-    groupedDates.forEach(function(group, groupIndex){
-        group.forEach(function(detail, detailIndex){
+
+    groups.forEach(function(group, groupIndex){
+        group.getDetails().forEach(function(detail, detailIndex){
             if (detail.isFavourite()) {
                 favs.push('<li><a href="#datePanel" onClick="showDate(' + groupIndex + ',' + detailIndex + ')" >' + detail.getName() + '</a></li>');
             }
         });
     });
+    
+// TODO: bin	
+//    groupedDates.forEach(function(group, groupIndex){
+//        group.forEach(function(detail, detailIndex){
+//            if (detail.isFavourite()) {
+//                favs.push('<li><a href="#datePanel" onClick="showDate(' + groupIndex + ',' + detailIndex + ')" >' + detail.getName() + '</a></li>');
+//            }
+//        });
+//    });
 	
 	if (favs.length == 0) {
 		favs.push("<li><a href=\"#helpFav\">(No Favourites)</a></li>");
@@ -141,8 +175,8 @@ function computeFavourites() {
 function showGroups()
 {
     var newGrHtml = '<ul>' + 
-       groups.map(function(item, indx){
-           return '<li><a href="#dates" onClick="showDates(' + indx + ')" >' + item + '</a></li>';
+       groups.map(function(group, indx){
+           return '<li><a href="#dates" onClick="showDates(' + indx + ')" >' + group.getName() + '</a></li>';
        }).join("") +
        '</ul>'; 
     $("div#groups").find("ul").replaceWith(newGrHtml);
@@ -161,7 +195,7 @@ function newGroup()
 		    } else {
 		        var duplicate = false;
 		        for (var grIndex = 0; !duplicate && grIndex < groups.length; grIndex++) {
-                    if (newName == groups[grIndex]) {
+                    if (newName == groups[grIndex].getName()) {
                         duplicate = true;
 		            }
 		        }
@@ -182,8 +216,7 @@ function newGroup()
 
 function createGroup(newName) 
 {
-    groups.push(newName);
-	groupedDates.push([]);
+    groups.push(new Group(newName));
 	// TODO a better model where dates are elements of their group, then I can
 	// do...
 	// groups.sort()	
@@ -202,14 +235,14 @@ function deleteDate(groupIndex, dateIndex)
 function showDates(groupIndex)
 {
 	constructDates(groupIndex);
-    $("ul#dates").attr("title", groups[groupIndex]);
+    $("ul#dates").attr("title", groups[groupIndex].getName());
 }
 
 function constructDates(groupIndex)
 {
     var newHtml = '<ul>' + 
-       groupedDates[groupIndex].map(function(item, indx){
-           return '<li><a href="#datePanel" onClick="showDate(' + groupIndex + ',' + indx + ')" >' + item.getName() + '</a></li>';
+       groups[groupIndex].getDetails().map(function(detail, indx){
+           return '<li><a href="#datePanel" onClick="showDate(' + groupIndex + ',' + indx + ')" >' + detail.getName() + '</a></li>';
        }).join("") +
        '</ul>'; 
     $("div#dates").find("ul").replaceWith(newHtml);	
@@ -314,7 +347,7 @@ function setDateInButton(buttonSelector, lockSelector, dateStr, locked) {
 
 function getDetail(groupIndex, detailIndex)
 {
-	return groupedDates[groupIndex][detailIndex];
+	return groups[groupIndex].getDetails()[detailIndex];
 }
 
 function onShowDatePanel()
@@ -346,10 +379,10 @@ function onEditNameChanged(groupIndex, detailIndex)
 		setNameField(detail.getName());
 	} else {
 		var duplicate = false;
-		for (var grIndex = 0; !duplicate && grIndex < groupedDates.length; grIndex++) {
-			var group = groupedDates[grIndex];
-			for (var deIndex = 0; !duplicate && deIndex < group.length; deIndex++) {
-				var thisDetail = group[deIndex];
+		for (var grIndex = 0; !duplicate && grIndex < groups.length; grIndex++) {
+			var details = groups[grIndex].getDetails();
+			for (var deIndex = 0; !duplicate && deIndex < details.length; deIndex++) {
+				var thisDetail = details[deIndex];
 				if (thisDetail != detail) {
 					if (newName == thisDetail.getName()) {
 						duplicate = true;

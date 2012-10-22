@@ -5,8 +5,8 @@ function startup()
 {
 	initMobiscroller();
 	loadData();
-	showGroups();
-	computeFavourites();
+	drawGroups();
+	drawFavourites();
 }
 
 function initMobiscroller()
@@ -144,7 +144,7 @@ DateDetail.prototype.isFavourite = function() {
 
 // -----------------------------------------------------------------------------
 
-function computeFavourites() {
+function drawFavourites() {
     var favs = [];
 
     groups.forEach(function(group, groupIndex){
@@ -163,7 +163,7 @@ function computeFavourites() {
     $("div#home ul#groupsAndFavs").empty().append(newGrFavHtml);
 }
 
-function showGroups()
+function drawGroups()
 {
     var newGrHtml = '<ul>' + 
        groups.map(function(group, indx){
@@ -195,7 +195,7 @@ function newGroup()
 					// TODO: BUG: need to stop the dialog going away
 		        } else {
 					createGroup(newName);
-					showGroups();
+					drawGroups();
 		        }
 		    }
         } 
@@ -412,7 +412,7 @@ function editNote(detail) {
 function toggleFavourite(detail) {
 	detail.setIsFavourite(!detail.isFavourite());
 	setFavIcon(detail.isFavourite());
-	computeFavourites();
+	drawFavourites();
 }
 
 

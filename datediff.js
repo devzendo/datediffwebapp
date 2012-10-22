@@ -226,11 +226,11 @@ function deleteDate(groupIndex, dateIndex)
 
 function showDates(groupIndex)
 {
-	constructDates(groupIndex);
+	drawDates(groupIndex);
     $("ul#dates").attr("title", groups[groupIndex].getName());
 }
 
-function constructDates(groupIndex)
+function drawDates(groupIndex)
 {
     var newHtml = '<ul>' + 
        groups[groupIndex].getDetails().map(function(detail, indx){
@@ -388,7 +388,7 @@ function onEditNameChanged(groupIndex, detailIndex)
 		} else {
 			detail.setName(newName);
 			setNameTitleOnDatePanel(newName);
-			constructDates(groupIndex); // for when we go back, want to see the new name in the list
+			drawDates(groupIndex); // for when we go back, want to see the new name in the list
 		}
 	}
 	inEditNameChanged = false;

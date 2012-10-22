@@ -144,6 +144,36 @@ DateDetail.prototype.isFavourite = function() {
     return this.isFav;
 }
 
+function DiffComputer(dateA, dateALocked, dateB, dateBLocked) {
+	this.today = jQuery.scroller.formatDate("dd/mm/yy", new Date());
+    this.dateA = this._dateStrToDate(dateALocked ? this._today : dateA);
+    this.dateB = this._dateStrToDate(dateBLocked ? this._today : dateB);
+}
+
+DiffComputer.prototype._dateStrToDate = function(dateStr) {
+    return jQuery.scroller.parseDate("dd/mm/yy", dateStr);
+}
+
+DiffComputer.prototype._getToday = function() {
+	return this.today;
+}
+
+DiffComputer.prototype.getYears = function() {
+	return 27;
+}
+
+DiffComputer.prototype.getMonths = function() {
+    return 3;
+}
+
+DiffComputer.prototype.getDays = function() {
+    return 12;
+}
+
+DiffComputer.prototype.getTotalDays = function() {
+    return 1248;
+}
+
 // -----------------------------------------------------------------------------
 
 function drawFavourites() {
@@ -435,7 +465,15 @@ function toggleFavourite(detail) {
 
 
 function computeDiff(detail) {
-//    alert("compute diff");	
+    var comp = new DiffComputer(detail.getDateA(), detail.isDateALocked(), detail.getDateB(), detail.isDateBLocked());
+    var y = comp.getYears();
+	var m = comp.getMonths();
+	var d = comp.getDays();
+	var td = comp.getTotalDays();
+	$("td#numYears").attr("value", y);
+	$("td#numMonths").attr("value", m);
+	$("td#numDays").attr("value", d);
+	$("td#numTotalDays").attr("value", td);	
 }
 
 function editDateA(detail) {

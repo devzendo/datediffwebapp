@@ -1,0 +1,72 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" 
+                    "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <link rel="stylesheet" href="lib/qunit/qunit.css" type="text/css" media="screen">
+	<script type="text/javascript" src="lib/jquery/jquery-1.8.2.js"></script>
+    <script type="text/javascript" src="lib/qunit/qunit.js"></script>
+    <script type="application/x-javascript" src="lib/mobiscroll/js/mobiscroll-2.0.3.full.min.js"></script>
+
+    <script type="text/javascript" src="datediff.js"></script>
+
+    <script type="text/javascript">
+function runTests()
+{
+    module("datediff");
+    
+    test("test true value", function() {
+        ok( true, "true should be true by default." );
+    });  
+
+    test("today looks right", function() {
+        var comp = new DiffComputer("", true, "", true);
+		var today = comp._getToday(); // 22/10/2012
+		equals(today.length, 10, "Today has a 10 chars");
+		var dateR = new RegExp("^(\\d{2})/(\\d{2})/(\\d{4})$");
+		ok(dateR.test(today), "Date '" + today + "' matches the date regex");
+    });  
+
+    test("date conversion looks right", function() {
+        var comp = new DiffComputer("", true, "", true);
+        var today = comp._getToday(); // 22/10/2012
+        var todayDate = comp._dateStrToDate(today);
+		var todayDateStr = todayDate.toUTCString();
+        var dateR = new RegExp("^(\\d{2})/(\\d{2})/(\\d{4})$");
+        ok(dateR.test(todayDateStr), "Date '" + todayDateStr + "' matches the date regex");
+    });  
+
+    test("both locked, no difference", function() {
+		var comp = new DiffComputer("", true, "", true);
+		equals(0, comp.getYears());
+        equals(0, comp.getMonths());
+		equals(0, comp.getDays());
+		equals(0, comp.getTotalDays());
+    });  
+
+    test("neither locked, one day difference A>B", function() {
+        var comp = new DiffComputer("22/10/2012", false, "21/10/2012", false);
+        equals(0, comp.getYears());
+        equals(0, comp.getMonths());
+        equals(1, comp.getDays());
+        equals(1, comp.getTotalDays());
+    });  
+
+    test("neither locked, one day difference A<B", function() {
+        var comp = new DiffComputer("21/10/2012", false, "22/10/2012", false);
+        equals(0, comp.getYears());
+        equals(0, comp.getMonths());
+        equals(1, comp.getDays());
+        equals(1, comp.getTotalDays());
+    });  
+
+}
+    </script>
+</head>
+<body onload="runTests()">
+ <h1 id="qunit-header">DateDiff QUnit Tests</h1>
+ <h2 id="qunit-banner"></h2>
+ <div id="qunit-testrunner-toolbar"></div>
+ <h2 id="qunit-userAgent"></h2>
+ <ol id="qunit-tests"></ol>
+</body>
+</html>

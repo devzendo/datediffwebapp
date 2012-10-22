@@ -67,6 +67,8 @@ Group.prototype.getDetails = function() {
 
 Group.prototype.addDetail = function(newDetail) {
     this.details.push(newDetail);
+	// TODO sort?
+	return this.details.length - 1;
 }
 
 Group.prototype.addDetails = function(newDetails) {
@@ -166,16 +168,16 @@ function drawFavourites() {
 function drawGroups()
 {
     var newGrHtml = '<ul>' + 
-       groups.map(function(group, indx){
-           return '<li><a href="#dates" onClick="showDates(' + indx + ')" >' + group.getName() + '</a></li>';
-       }).join("") +
-       '</ul>'; 
+        groups.map(function(group, indx){
+            return '<li><a href="#dates" onClick="showDates(' + indx + ')" >' + group.getName() + '</a></li>';
+        }).join("") +
+        '</ul>'; 
     $("div#groups").find("ul").replaceWith(newGrHtml);
 }
 
 function newGroup()
 {
-   $("form#groupNameDialog fieldset textarea#name").attr("value", "");
+    $("form#groupNameDialog fieldset textarea#name").attr("value", "");
 
     // Wire the ok button
     $("form#groupNameDialog fieldset a#groupNameOkButton").off("click").on("click",
@@ -204,10 +206,21 @@ function newGroup()
     iui.showPageById("groupNameDialog");
 }
 
+function newDate(groupIndex)
+{
+	var newDate = new DateDetail("", "", "", "", true, true, false);
+	var newDateIndex = groups[groupIndex].addDetail(newDate);
+	
+	showDate(groupIndex, newDateIndex);
+	
+	iui.showPageById("datePanel");
+}
+
 function orderByName(a,b) {
 	return a.getName().localeCompare(b.getName());
 }
 
+// TODO should be in the model?
 function createGroup(newName) 
 {
     groups.push(new Group(newName));
@@ -228,6 +241,13 @@ function showDates(groupIndex)
 {
 	drawDates(groupIndex);
     $("ul#dates").attr("title", groups[groupIndex].getName());
+	
+    // Wire new event button
+    $("div#dates a#newDateButton").off("click").on("click", 
+       function() {
+          newDate(groupIndex);
+       }
+    );
 }
 
 function drawDates(groupIndex)

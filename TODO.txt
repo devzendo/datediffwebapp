@@ -15,6 +15,7 @@ Details list page:
   1 Edit Group
 
 Edit date details page:
+
   0 *** Compute diff ***
   0 Display diff
     
@@ -39,7 +40,9 @@ Website.
 Known bugs:
   Creating a group with a duplicate name alerts, but closes the name editing
   dialog. How to prevent it cancelling the dialog?
-  
+
+  1 New event can be gone back from without setting a name
+     
 Limitations:
   Cannot move events between groups.
   

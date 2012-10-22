@@ -15,7 +15,7 @@ Details list page:
   1 Edit Group
 
 Edit date details page:
-
+  2 new date should focus caret on name field
   0 *** Compute diff ***
   0 Display diff
     

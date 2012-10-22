@@ -213,6 +213,8 @@ function newDate(groupIndex)
 	
 	showDate(groupIndex, newDateIndex);
 	
+	// TODO: BUG should focus on name field, disable back until entered.
+	
 	iui.showPageById("datePanel");
 }
 
@@ -360,10 +362,6 @@ function setDateInButton(buttonSelector, lockSelector, dateStr, locked) {
 function getDetail(groupIndex, detailIndex)
 {
 	return groups[groupIndex].getDetails()[detailIndex];
-}
-
-function onShowDatePanel()
-{
 }
 
 function setNameField(name) {

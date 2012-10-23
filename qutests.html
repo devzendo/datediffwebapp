@@ -10,15 +10,19 @@
     <script type="text/javascript" src="datediff.js"></script>
 
     <script type="text/javascript">
+    	
+function equalDiff(comp, d, m, y, td) {
+    equals(comp.getYears(), y, "Years of " + comp.getYears() + " should be " + y);
+    equals(comp.getMonths(), m, "Months of " + comp.getMonths() + " should be " + m);
+    equals(comp.getDays(), d, "Days of " + comp.getDays() + " should be " + d);
+    equals(comp.getTotalDays(), td, "Total days of " + comp.getTotalDays() + " should be " + td);
+}
+
 function runTests()
 {
     module("datediff");
     
-    test("test true value", function() {
-        ok( true, "true should be true by default." );
-    });  
-
-    test("today looks right", function() {
+    test("today looks like a date string", function() {
         var comp = new DiffComputer("", true, "", true);
 		var today = comp._getToday(); // 22/10/2012
 		equals(today.length, 10, "Today has a 10 chars");
@@ -26,37 +30,72 @@ function runTests()
 		ok(dateR.test(today), "Date '" + today + "' matches the date regex");
     });  
 
-    test("date conversion looks right", function() {
+    test("dateStrToDate conversion gives a date with no time", function() {
         var comp = new DiffComputer("", true, "", true);
-        var today = comp._getToday(); // 22/10/2012
-        var todayDate = comp._dateStrToDate(today);
+        var todayDate = comp._dateStrToDate("22/10/2012");
 		var todayDateStr = todayDate.toUTCString();
-        var dateR = new RegExp("^(\\d{2})/(\\d{2})/(\\d{4})$");
-        ok(dateR.test(todayDateStr), "Date '" + todayDateStr + "' matches the date regex");
+        var dateR = new RegExp("^Mon, 22 Oct 2012 00:00:00 \\S+$");
+        ok(dateR.test(todayDateStr), "Date '" + todayDateStr + "' matches the date regex with empty time");
+    });  
+
+    test("dateStrToComponents conversion gives the right date", function() {
+        var comp = new DiffComputer("", true, "", true);
+        var todayDateComponents = comp._dateStrToComponents("22/10/2012");
+		equals(todayDateComponents[0], 22);
+		equals(todayDateComponents[1], 10);
+		equals(todayDateComponents[2], 2012);
+    });  
+
+    test("can handle dates before the epoch", function() {
+        var comp = new DiffComputer("", true, "", true);
+        var earlyDate = comp._dateStrToDate("22/02/1969");
+        var earlyDateStr = earlyDate.toUTCString();
+        var dateR = new RegExp("^Sat, 22 Feb 1969 00:00:00 \\S+$");
+        ok(dateR.test(earlyDateStr), "Date before epoch '" + earlyDateStr + "' matches the date regex with empty time");
+    });  
+
+    test("ms before the epoch", function() {
+        var comp = new DiffComputer("31/12/1969", false, "", true);
+        equals(comp.dateAInDaysSinceEpoch, -1);
+    });  
+
+    test("days in month", function() {
+        var comp = new DiffComputer("", true, "", true);
+        equals(comp._daysInMonth(7, 2009), 31);
+		equals(comp._daysInMonth(2, 2009), 28);
+		equals(comp._daysInMonth(2, 2008), 29);
+		equals(comp._daysInMonth(2, 2000), 29);
+        equals(comp._daysInMonth(2, 2100), 28);
     });  
 
     test("both locked, no difference", function() {
 		var comp = new DiffComputer("", true, "", true);
-		equals(0, comp.getYears());
-        equals(0, comp.getMonths());
-		equals(0, comp.getDays());
-		equals(0, comp.getTotalDays());
+        equals(0, comp._getDiffMs());
+        equalDiff(comp, 0, 0, 0, 0);
     });  
 
     test("neither locked, one day difference A>B", function() {
         var comp = new DiffComputer("22/10/2012", false, "21/10/2012", false);
-        equals(0, comp.getYears());
-        equals(0, comp.getMonths());
-        equals(1, comp.getDays());
-        equals(1, comp.getTotalDays());
+        equals((1000 * 60 * 60 * 24), comp._getDiffMs());
+		equalDiff(comp, 1, 0, 0, 1);
     });  
 
     test("neither locked, one day difference A<B", function() {
         var comp = new DiffComputer("21/10/2012", false, "22/10/2012", false);
-        equals(0, comp.getYears());
-        equals(0, comp.getMonths());
-        equals(1, comp.getDays());
-        equals(1, comp.getTotalDays());
+        equals(-(1000 * 60 * 60 * 24), comp._getDiffMs());
+        equalDiff(comp, 1, 0, 0, -1);
+    });  
+
+    test("Sample dates", function() {
+		var mjg = new DiffComputer("22/02/1969", false, "23/10/2012", false);
+		alert("ms " + mjg.diffMs  + " total days " + mjg.diffTotalDays);
+        equalDiff(mjg, 1, 8, 43, -15949);
+        equalDiff(new DiffComputer("13/11/2000", false, "23/10/2012", false), 10, 11, 11, -4362);
+        equalDiff(new DiffComputer("04/11/1928", false, "17/04/2000", false), 13, 5, 71, -26097);
+//		equalDiff(new DiffComputer("02/04/2008", false, "", true), 21, 6, 4, -1665);
+        var xmas = new DiffComputer("", true, "25/12/2012", false);
+		alert("ms " + xmas.diffMs  + " total days " + xmas.diffTotalDays);
+        equalDiff(xmas, 2, 2, 0, 63);
     });  
 
 }

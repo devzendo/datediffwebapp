@@ -144,34 +144,91 @@ DateDetail.prototype.isFavourite = function() {
     return this.isFav;
 }
 
-function DiffComputer(dateA, dateALocked, dateB, dateBLocked) {
-	this.today = jQuery.scroller.formatDate("dd/mm/yy", new Date());
-    this.dateA = this._dateStrToDate(dateALocked ? this._today : dateA);
-    this.dateB = this._dateStrToDate(dateBLocked ? this._today : dateB);
+function DiffComputer(dateStrA, dateALocked, dateStrB, dateBLocked) {
+	// TODO inject this
+	this.todayDateStr = jQuery.scroller.formatDate("dd/mm/yy", new Date());
+	var usedDateAStr = dateALocked || dateStrA.length == 0 ? this.todayDateStr : dateStrA;
+	var usedDateBStr = dateBLocked || dateStrB.length == 0 ? this.todayDateStr : dateStrB;
+	var dateAComponents = this._dateStrToComponents(usedDateAStr);
+	var dateBComponents = this._dateStrToComponents(usedDateBStr);
+	
+    this.dateA = this._dateStrToDate(usedDateAStr);
+	this.dateAInDaysSinceEpoch = this._msToDays(this.dateA.getTime());
+    this.dateB = this._dateStrToDate(usedDateBStr);
+	this.dateBInDaysSinceEpoch = this._msToDays(this.dateB.getTime());
+
+    var daysInMonth = 0;
+    if (this.dateAInDaysSinceEpoch > this.dateBInDaysSinceEpoch) {
+		this.diffDays = dateAComponents[0] - dateBComponents[0];
+		this.diffMonths = dateAComponents[1] - dateBComponents[1];
+		this.diffYears = dateAComponents[2] - dateBComponents[2];
+		daysInMonth = this._daysInMonth(dateBComponents[1], dateBComponents[2]);
+	} else {
+        this.diffDays = dateBComponents[0] - dateAComponents[0];
+        this.diffMonths = dateBComponents[1] - dateAComponents[1];
+		this.diffYears = dateBComponents[2] - dateAComponents[2];
+		daysInMonth = this._daysInMonth(dateAComponents[1], dateAComponents[2]);
+	}
+	// ensure all differences are positive
+	if (this.diffDays < 0) {
+		this.diffMonths --;
+		this.diffDays += daysInMonth;
+	}
+	if (this.diffMonths < 0) {
+		this.diffYears --;
+		this.diffMonths += 12;
+	}	
+	
+	this.diffMs = this.dateA - this.dateB;
+	this.diffTotalDays = this._msToDays(this.diffMs);
+}
+
+DiffComputer.prototype._msToDays = function(ms) {
+    var diffS = ms / 1000;
+    var diffM = diffS / 60;
+    var diffH = diffM / 60;
+    return diffH / 24;
+}
+
+DiffComputer.prototype._daysInMonth = function(month, year) {
+    return new Date(year, month, 0).getDate();
+}
+
+DiffComputer.prototype._dateStrToComponents = function(dateStr) {
+    var dateR = new RegExp("^(\\d{2})/(\\d{2})/(\\d{4})$");
+    var dateParts = dateR.exec(dateStr);
+	return new Array(parseInt(dateParts[1], 10), parseInt(dateParts[2], 10), parseInt(dateParts[3], 10));
 }
 
 DiffComputer.prototype._dateStrToDate = function(dateStr) {
-    return jQuery.scroller.parseDate("dd/mm/yy", dateStr);
+	var dateComponents = this._dateStrToComponents(dateStr);
+    return new Date(Date.UTC(dateComponents[2], dateComponents[1] - 1, dateComponents[0], 0, 0, 0));
 }
 
+// today as a dateStr dd/mm/yyyy
 DiffComputer.prototype._getToday = function() {
-	return this.today;
+	return this.todayDateStr;
+}
+
+// difference in dates in ms
+DiffComputer.prototype._getDiffMs = function() {
+    return this.diffMs;
 }
 
 DiffComputer.prototype.getYears = function() {
-	return 27;
+	return this.diffYears;
 }
 
 DiffComputer.prototype.getMonths = function() {
-    return 3;
+    return this.diffMonths;
 }
 
 DiffComputer.prototype.getDays = function() {
-    return 12;
+    return this.diffDays;
 }
 
 DiffComputer.prototype.getTotalDays = function() {
-    return 1248;
+    return this.diffTotalDays;
 }
 
 // -----------------------------------------------------------------------------

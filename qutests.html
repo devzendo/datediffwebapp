@@ -78,19 +78,16 @@ function runTests()
 
     test("both locked, no difference", function() {
 		var comp = new DiffComputer("", true, "", true);
-        equals(0, comp._getDiffMs());
         equalDiff(comp, 0, 0, 0, 0);
     });  
 
     test("neither locked, one day difference A>B", function() {
         var comp = new DiffComputer("22/10/2012", false, "21/10/2012", false);
-        equals((1000 * 60 * 60 * 24), comp._getDiffMs());
 		equalDiff(comp, 1, 0, 0, 1);
     });  
 
     test("neither locked, one day difference A<B", function() {
         var comp = new DiffComputer("21/10/2012", false, "22/10/2012", false);
-        equals((1000 * 60 * 60 * 24), comp._getDiffMs());
         equalDiff(comp, 1, 0, 0, 1);
     });  
 

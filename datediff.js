@@ -180,8 +180,8 @@ function DiffComputer(dateStrA, dateALocked, dateStrB, dateBLocked, todayFullDat
 		this.diffMonths += 12;
 	}	
 	
-	this.diffMs = Math.abs(dateATime - dateBTime);
-	this.diffTotalDays = this._msToDays(this.diffMs);
+	var diffMs = Math.abs(dateATime - dateBTime);
+	this.diffTotalDays = this._msToDays(diffMs);
 	
 	if (dateATime == todayDateTime && dateBTime == todayDateTime) {
 		this.indicator = '-';
@@ -219,11 +219,6 @@ DiffComputer.prototype._dateStrToDate = function(dateStr) {
 // today as a dateStr dd/mm/yyyy
 DiffComputer.prototype._getToday = function() {
 	return this.todayDateStr;
-}
-
-// difference in dates in ms
-DiffComputer.prototype._getDiffMs = function() {
-    return this.diffMs;
 }
 
 DiffComputer.prototype.getYears = function() {

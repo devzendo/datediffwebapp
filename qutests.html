@@ -18,6 +18,14 @@ function equalDiff(comp, d, m, y, td) {
     equals(comp.getTotalDays(), td, "Total days of " + comp.getTotalDays() + " should be " + td);
 }
 
+function equalIndicator(comp, ind) {
+	equals(comp.getIndicator(), ind);
+}
+
+function todayFullDate() {
+    return new Date(Date.UTC(2012, 9 /* i.e. 10, Oct */, 23, 0, 0, 0));
+}
+
 function runTests()
 {
     module("datediff");
@@ -82,20 +90,27 @@ function runTests()
 
     test("neither locked, one day difference A<B", function() {
         var comp = new DiffComputer("21/10/2012", false, "22/10/2012", false);
-        equals(-(1000 * 60 * 60 * 24), comp._getDiffMs());
-        equalDiff(comp, 1, 0, 0, -1);
+        equals((1000 * 60 * 60 * 24), comp._getDiffMs());
+        equalDiff(comp, 1, 0, 0, 1);
     });  
 
     test("Sample dates", function() {
-		var mjg = new DiffComputer("22/02/1969", false, "23/10/2012", false);
-		alert("ms " + mjg.diffMs  + " total days " + mjg.diffTotalDays);
-        equalDiff(mjg, 1, 8, 43, -15949);
-        equalDiff(new DiffComputer("13/11/2000", false, "23/10/2012", false), 10, 11, 11, -4362);
-        equalDiff(new DiffComputer("04/11/1928", false, "17/04/2000", false), 13, 5, 71, -26097);
-//		equalDiff(new DiffComputer("02/04/2008", false, "", true), 21, 6, 4, -1665);
+		var mjg = new DiffComputer("22/02/1969", false, "23/10/2012", false, todayFullDate());
+        equalDiff(mjg, 1, 8, 43, 15949);
+        equalDiff(new DiffComputer("13/11/2000", false, "23/10/2012", false), 10, 11, 11, 4362);
+        equalDiff(new DiffComputer("04/11/1928", false, "17/04/2000", false), 13, 5, 71, 26097);
+		equalDiff(new DiffComputer("02/04/2008", false, "", true), 22, 6, 4, 1666); // should fail tomorrow
         var xmas = new DiffComputer("", true, "25/12/2012", false);
-		alert("ms " + xmas.diffMs  + " total days " + xmas.diffTotalDays);
-        equalDiff(xmas, 2, 2, 0, 63);
+        equalDiff(xmas, 1, 2, 0, 62); // should fail tomorrow
+    });  
+
+    test("indicators", function() { // today is injected as 23/10/2012
+        equalIndicator(new DiffComputer("13/11/2000", false, "20/10/2012", false, todayFullDate()), '<'); // both <
+        equalIndicator(new DiffComputer("04/11/1928", false, "23/10/2012", false, todayFullDate()), '<'); // both <=
+        equalIndicator(new DiffComputer("23/10/2012", false, "23/10/2012", false, todayFullDate()), '-'); // both =
+        equalIndicator(new DiffComputer("20/10/2012", false, "28/10/2012", false, todayFullDate()), '-'); // spanning
+		equalIndicator(new DiffComputer("23/10/2012", false, "26/10/2012", false, todayFullDate()), '>'); // both =>
+		equalIndicator(new DiffComputer("24/10/2012", false, "28/10/2012", false, todayFullDate()), '>'); // both >
     });  
 
 }

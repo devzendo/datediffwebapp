@@ -144,13 +144,14 @@ DateDetail.prototype.isFavourite = function() {
     return this.isFav;
 }
 
-function DiffComputer(dateStrA, dateALocked, dateStrB, dateBLocked) {
-	// TODO inject this
-	this.todayDateStr = jQuery.scroller.formatDate("dd/mm/yy", new Date());
+function DiffComputer(dateStrA, dateALocked, dateStrB, dateBLocked, todayFullDate) {
+	this.todayDateStr = jQuery.scroller.formatDate("dd/mm/yy", todayFullDate || new Date());
 	var usedDateAStr = dateALocked || dateStrA.length == 0 ? this.todayDateStr : dateStrA;
 	var usedDateBStr = dateBLocked || dateStrB.length == 0 ? this.todayDateStr : dateStrB;
 	var dateAComponents = this._dateStrToComponents(usedDateAStr);
 	var dateBComponents = this._dateStrToComponents(usedDateBStr);
+	
+	var todayDate = this._dateStrToDate(this.todayDateStr);
 	
     this.dateA = this._dateStrToDate(usedDateAStr);
 	this.dateAInDaysSinceEpoch = this._msToDays(this.dateA.getTime());
@@ -179,8 +180,18 @@ function DiffComputer(dateStrA, dateALocked, dateStrB, dateBLocked) {
 		this.diffMonths += 12;
 	}	
 	
-	this.diffMs = this.dateA - this.dateB;
+	this.diffMs = Math.abs(this.dateA - this.dateB);
 	this.diffTotalDays = this._msToDays(this.diffMs);
+	
+	if (this.dateA.getTime() == todayDate.getTime() && this.dateB.getTime() == todayDate.getTime()) {
+		this.indicator = '-';
+	} else if (this.dateA.getTime() <= todayDate.getTime() && this.dateB.getTime() <= todayDate.getTime()) {
+		this.indicator = '<';
+	} else if (this.dateA.getTime() >= todayDate.getTime() && this.dateB.getTime() >= todayDate.getTime()) {
+		this.indicator = '>';
+	} else {
+		this.indicator = '-';
+	}
 }
 
 DiffComputer.prototype._msToDays = function(ms) {
@@ -229,6 +240,10 @@ DiffComputer.prototype.getDays = function() {
 
 DiffComputer.prototype.getTotalDays = function() {
     return this.diffTotalDays;
+}
+
+DiffComputer.prototype.getIndicator = function() {
+    return this.indicator;
 }
 
 // -----------------------------------------------------------------------------

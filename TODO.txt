@@ -16,8 +16,6 @@ Details list page:
 
 Edit date details page:
   2 new date should focus caret on name field
-  0 *** Compute diff ***
-  0 Display diff
     
 Settings brings up Settings dialog
   Storage:

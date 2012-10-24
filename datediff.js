@@ -31,17 +31,17 @@ function loadData()
            new DateDetail("Bob", "Bob's note", "15/03/1986", "", false, true, false), 
            new DateDetail("Steve", "Not born yet", "", "23/11/2015", true, false, true), 
            new DateDetail("Kristin", "Lived in Sweden", "14/01/1987", "23/12/2004", false, false, false),  
-           new DateDetail("Today", "This is today", "", "", true, true, false),
+           new DateDetail("Today", "This is today", "", "", true, true, false)
        ]);
 	var grCv = new Group("CV Durations");
 	grCv.addDetails([
            new DateDetail("Known C", "", "01/01/1989", "", false, true, false),
            new DateDetail("Known C++", "", "01/01/1991", "", false, true, true),
            new DateDetail("Known Perl", "", "01/01/1993", "", false, true, true),
-           new DateDetail("Known UNIX", "", "01/01/1989", "", false, true, false), 
+           new DateDetail("Known UNIX", "", "01/01/1989", "", false, true, false) 
        ]);
     groups = [ 
-	   grBday, grCv
+       grBday, grCv
     ];
 	
 	inEditNameChanged = false;
@@ -55,28 +55,28 @@ function Group(name) {
 
 Group.prototype.getName = function() {
 	return this.name;
-}
+};
 
 Group.prototype.setName = function(newName) {
     this.name = newName;
-}
+};
 
 Group.prototype.getDetails = function() {
     return this.details;
-}
+};
 
 Group.prototype.addDetail = function(newDetail) {
     this.details.push(newDetail);
 	// TODO sort?
 	return this.details.length - 1;
-}
+};
 
 Group.prototype.addDetails = function(newDetails) {
 	var groupDetails = this.details;
 	newDetails.forEach(function(detail, index) {
-	    groupDetails.push(detail);
+        groupDetails.push(detail);
 	});
-}
+};
 
 function DateDetail(name, note, dateA, dateB, dateALocked, dateBLocked, isFavourite) {
 	this.name = name;
@@ -90,59 +90,59 @@ function DateDetail(name, note, dateA, dateB, dateALocked, dateBLocked, isFavour
 
 DateDetail.prototype.setName = function(newName) {
 	this.name = newName;
-}
+};
 
 DateDetail.prototype.getName = function() {
     return this.name;
-}
+};
 
 DateDetail.prototype.setNote = function(newNote) {
     this.note = newNote;
-}
+};
 
 DateDetail.prototype.getNote = function() {
     return this.note;
-}
+};
 
 DateDetail.prototype.setDateA = function(newDate) {
     this.dateA = newDate;
-}
+};
 
 DateDetail.prototype.getDateA = function() {
     return this.dateA;
-}
+};
 
 DateDetail.prototype.setDateB = function(newDate) {
     this.dateB = newDate;
-}
+};
 
 DateDetail.prototype.getDateB = function() {
     return this.dateB;
-}
+};
 
 DateDetail.prototype.setDateALocked = function(newDateLocked) {
     this.dateALocked = newDateLocked;
-}
+};
 
 DateDetail.prototype.isDateALocked = function() {
     return this.dateALocked;
-}
+};
 
 DateDetail.prototype.setDateBLocked = function(newDateLocked) {
     this.dateBLocked = newDateLocked;
-}
+};
 
 DateDetail.prototype.isDateBLocked = function() {
     return this.dateBLocked;
-}
+};
 
 DateDetail.prototype.setIsFavourite = function(newIsFavourite) {
     this.isFav = newIsFavourite;
-}
+};
 
 DateDetail.prototype.isFavourite = function() {
     return this.isFav;
-}
+};
 
 function DiffComputer(dateStrA, dateALocked, dateStrB, dateBLocked, todayFullDate) {
 	this.todayDateStr = jQuery.scroller.formatDate("dd/mm/yy", todayFullDate || new Date());
@@ -199,47 +199,47 @@ DiffComputer.prototype._msToDays = function(ms) {
     var diffM = diffS / 60;
     var diffH = diffM / 60;
     return diffH / 24;
-}
+};
 
 DiffComputer.prototype._daysInMonth = function(month, year) {
     return new Date(year, month, 0).getDate();
-}
+};
 
 DiffComputer.prototype._dateStrToComponents = function(dateStr) {
     var dateR = new RegExp("^(\\d{2})/(\\d{2})/(\\d{4})$");
     var dateParts = dateR.exec(dateStr);
 	return new Array(parseInt(dateParts[1], 10), parseInt(dateParts[2], 10), parseInt(dateParts[3], 10));
-}
+};
 
 DiffComputer.prototype._dateStrToDate = function(dateStr) {
 	var dateComponents = this._dateStrToComponents(dateStr);
     return new Date(Date.UTC(dateComponents[2], dateComponents[1] - 1, dateComponents[0], 0, 0, 0));
-}
+};
 
 // today as a dateStr dd/mm/yyyy
 DiffComputer.prototype._getToday = function() {
 	return this.todayDateStr;
-}
+};
 
 DiffComputer.prototype.getYears = function() {
 	return this.diffYears;
-}
+};
 
 DiffComputer.prototype.getMonths = function() {
     return this.diffMonths;
-}
+};
 
 DiffComputer.prototype.getDays = function() {
     return this.diffDays;
-}
+};
 
 DiffComputer.prototype.getTotalDays = function() {
     return this.diffTotalDays;
-}
+};
 
 DiffComputer.prototype.getIndicator = function() {
     return this.indicator;
-}
+};
 
 // -----------------------------------------------------------------------------
 
@@ -280,23 +280,23 @@ function newGroup()
     $("form#groupNameDialog fieldset a#groupNameOkButton").off("click").on("click",
         function() {
             var newName = $("form#groupNameDialog fieldset textarea#name").val();
-		    if (newName.length == 0) {
-		        alert("The name cannot be empty");
-		    } else {
-		        var duplicate = false;
-		        for (var grIndex = 0; !duplicate && grIndex < groups.length; grIndex++) {
+            if (newName.length == 0) {
+                alert("The name cannot be empty");
+            } else {
+                var duplicate = false;
+                for (var grIndex = 0; !duplicate && grIndex < groups.length; grIndex++) {
                     if (newName == groups[grIndex].getName()) {
                         duplicate = true;
-		            }
-		        }
-		        if (duplicate) {
-		            alert("The name cannot be a duplicate of another group");
+                    }
+                }
+                if (duplicate) {
+                    alert("The name cannot be a duplicate of another group");
 					// TODO: BUG: need to stop the dialog going away
-		        } else {
+                } else {
 					createGroup(newName);
 					drawGroups();
-		        }
-		    }
+                }
+            }
         } 
     );
 
@@ -305,8 +305,8 @@ function newGroup()
 
 function newDate(groupIndex)
 {
-	var newDate = new DateDetail("", "", "", "", true, true, false);
-	var newDateIndex = groups[groupIndex].addDetail(newDate);
+	var newDateDetail = new DateDetail("", "", "", "", true, true, false);
+	var newDateIndex = groups[groupIndex].addDetail(newDateDetail);
 	
 	showDate(groupIndex, newDateIndex);
 	
@@ -372,58 +372,58 @@ function showDate(groupIndex, detailIndex)
 	
 	// Wire delete event button
 	$("div#datePanel a#deleteButton").off("click").on("click", 
-	   function() {
-	       deleteDate(groupIndex, detailIndex);
-	   }
+        function() {
+            deleteDate(groupIndex, detailIndex);
+        }
     );
 	
 	// Wire edit note icon
     $("a#editNoteIcon").off("click").on("click",
-       function() {
-           editNote(detail);
-       } 
+        function() {
+            editNote(detail);
+        } 
     );
 	
     // Wire toggle favourite icon
     $("a#toggleFavIcon").off("click").on("click",
-       function() {
-           toggleFavourite(detail);
-       } 
+        function() {
+            toggleFavourite(detail);
+        } 
     );
 
 	// Wire edit name input handler
 	$("div#datePanel fieldset div input#dateName").off("change").on("change",
-	   function() {
-	   	   onEditNameChanged(groupIndex, detailIndex);
-	   } 
+        function() {
+            onEditNameChanged(groupIndex, detailIndex);
+        } 
 	);
 
     // Wire edit date A button
     $("div#datePanel fieldset div table tr td a#editDateA").off("click").on("click",
-	   function() {
-	   	   editDateA(detail); // inline this
-	   } 
+        function() {
+            editDateA(detail); // inline this
+        } 
 	);
 
     // Wire edit date B button
     $("div#datePanel fieldset div table tr td a#editDateB").off("click").on("click",
-	   function() {
-	   	   editDateB(detail); // inline this
-	   } 
+        function() {
+            editDateB(detail); // inline this
+        } 
 	);
 
     // Wire lock date A button
     $("div#datePanel a#toggleLockA").off("click").on("click",
-       function() {
-           toggleLockA(detail); // inline this
-       } 
+        function() {
+            toggleLockA(detail); // inline this
+        } 
     );
 
     // Wire lock date B button
     $("div#datePanel a#toggleLockB").off("click").on("click",
-       function() {
-           toggleLockB(detail); // inline this
-       } 
+        function() {
+            toggleLockB(detail); // inline this
+        } 
     );
 }
 
@@ -449,9 +449,9 @@ function setDateInButton(buttonSelector, lockSelector, dateStr, locked) {
 		
         $(lockSelector).attr("src", "54-lock.png");
 	} else {
-	    var date = jQuery.scroller.parseDate("dd/mm/yy", dateStr);
-	    var newDateLongStr = jQuery.scroller.formatDate("d M yy", date);
-	    $(buttonSelector).html(newDateLongStr);
+        var date = jQuery.scroller.parseDate("dd/mm/yy", dateStr);
+        var newDateLongStr = jQuery.scroller.formatDate("d M yy", date);
+        $(buttonSelector).html(newDateLongStr);
 
         $(lockSelector).attr("src", "54-lock-grey.png");
 	}
@@ -469,7 +469,7 @@ function setNameField(name) {
 function setNameTitleOnDatePanel(name) {
 	$("div#datePanel").attr("title", name); // this sets the title of the page when it is not active
 	$("div h1#pageTitle").html(name); // need to explicitly set the toolbar title when page is active
-	$("form#noteDialog h1").html(name) // remind user of name when editing note
+	$("form#noteDialog h1").html(name); // remind user of name when editing note
 }
 
 function onEditNameChanged(groupIndex, detailIndex)
@@ -516,10 +516,10 @@ function editNote(detail) {
     // Wire the ok button
 	$("form#noteDialog fieldset a#noteOkButton").off("click").on("click",
 		function() {
-	        var newNote = $("form#noteDialog fieldset textarea#note").val();
-	        detail.setNote(newNote);
+            var newNote = $("form#noteDialog fieldset textarea#note").val();
+            detail.setNote(newNote);
 			setNoteIcon(newNote);
-	    } 
+        } 
 	);
 
 	iui.showPageById("noteDialog");
@@ -546,13 +546,13 @@ function computeDiff(detail) {
 
 function editDateA(detail) {
 	editDate(
-	    "A",
+        "A",
 		detail,
-  	    detail.getDateA(),
-	    function(newDateStr) {
-	   	    detail.setDateA(newDateStr);
+        detail.getDateA(),
+        function(newDateStr) {
+            detail.setDateA(newDateStr);
 			detail.setDateALocked(false);
-	    },
+        },
 		"#editDateA",
 		"#lockAImg"
 	);
@@ -560,7 +560,7 @@ function editDateA(detail) {
 
 function editDateB(detail) {
     editDate(
-	    "B",
+        "B",
 		detail,
         detail.getDateB(),
         function(newDateStr) {
@@ -582,13 +582,13 @@ function editDate(aOrB, detail, startDateStr, setDateFn, buttonSelector, lockSel
     // Wire the ok button
     $("form#dateDialog fieldset a#dateOkButton").off("click").on("click", 
         function() {
-	        var newDate = $('#date').scroller('getDate');
-	        var newDateStr = jQuery.scroller.formatDate("dd/mm/yy", newDate);
-	        setDateFn(newDateStr);
-	        setDateInButton(buttonSelector, lockSelector, newDateStr, false);
-	        
+            var newDate = $('#date').scroller('getDate');
+            var newDateStr = jQuery.scroller.formatDate("dd/mm/yy", newDate);
+            setDateFn(newDateStr);
+            setDateInButton(buttonSelector, lockSelector, newDateStr, false);
+
             computeDiff(detail);
-	    }
+        }
 	);
 
     iui.showPageById("dateDialog");
@@ -596,7 +596,7 @@ function editDate(aOrB, detail, startDateStr, setDateFn, buttonSelector, lockSel
 
 function toggleLockA(detail) {
     toggleLock(
-	    detail,
+        detail,
 		detail.getDateA(),
         detail.isDateALocked(),
         function(newLockState) {
@@ -609,7 +609,7 @@ function toggleLockA(detail) {
 
 function toggleLockB(detail) {
     toggleLock(
-	    detail,
+        detail,
 		detail.getDateB(),
         detail.isDateBLocked(),
         function(newLockState) {

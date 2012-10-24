@@ -153,10 +153,10 @@ function DiffComputer(dateStrA, dateALocked, dateStrB, dateBLocked, todayFullDat
 	
 	var todayDate = this._dateStrToDate(this.todayDateStr);
 	
-    this.dateA = this._dateStrToDate(usedDateAStr);
-	this.dateAInDaysSinceEpoch = this._msToDays(this.dateA.getTime());
-    this.dateB = this._dateStrToDate(usedDateBStr);
-	this.dateBInDaysSinceEpoch = this._msToDays(this.dateB.getTime());
+    var dateA = this._dateStrToDate(usedDateAStr);
+	this.dateAInDaysSinceEpoch = this._msToDays(dateA.getTime());
+    var dateB = this._dateStrToDate(usedDateBStr);
+	this.dateBInDaysSinceEpoch = this._msToDays(dateB.getTime());
 
     var daysInMonth = 0;
     if (this.dateAInDaysSinceEpoch > this.dateBInDaysSinceEpoch) {
@@ -180,14 +180,14 @@ function DiffComputer(dateStrA, dateALocked, dateStrB, dateBLocked, todayFullDat
 		this.diffMonths += 12;
 	}	
 	
-	this.diffMs = Math.abs(this.dateA - this.dateB);
+	this.diffMs = Math.abs(dateA - dateB);
 	this.diffTotalDays = this._msToDays(this.diffMs);
 	
-	if (this.dateA.getTime() == todayDate.getTime() && this.dateB.getTime() == todayDate.getTime()) {
+	if (dateA.getTime() == todayDate.getTime() && dateB.getTime() == todayDate.getTime()) {
 		this.indicator = '-';
-	} else if (this.dateA.getTime() <= todayDate.getTime() && this.dateB.getTime() <= todayDate.getTime()) {
+	} else if (dateA.getTime() <= todayDate.getTime() && dateB.getTime() <= todayDate.getTime()) {
 		this.indicator = '<';
-	} else if (this.dateA.getTime() >= todayDate.getTime() && this.dateB.getTime() >= todayDate.getTime()) {
+	} else if (dateA.getTime() >= todayDate.getTime() && dateB.getTime() >= todayDate.getTime()) {
 		this.indicator = '>';
 	} else {
 		this.indicator = '-';

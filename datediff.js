@@ -364,6 +364,7 @@ function showDate(groupIndex, detailIndex)
 	var detail = getDetail(groupIndex, detailIndex);
     setNameTitleOnDatePanel(detail.getName());
     setNameField(detail.getName());
+	computeDiff(detail);
     setDateInButton("#editDateA", "#lockAImg", detail.getDateA(), detail.isDateALocked());
 	setDateInButton("#editDateB", "#lockBImg", detail.getDateB(), detail.isDateBLocked());
 	setNoteIcon(detail.getNote());
@@ -537,10 +538,10 @@ function computeDiff(detail) {
 	var m = comp.getMonths();
 	var d = comp.getDays();
 	var td = comp.getTotalDays();
-	$("td#numYears").attr("value", y);
-	$("td#numMonths").attr("value", m);
-	$("td#numDays").attr("value", d);
-	$("td#numTotalDays").attr("value", td);	
+	$("td#numYears").html(y);
+	$("td#numMonths").html(m);
+	$("td#numDays").html(d);
+	$("th#numTotalDays").html(td);	
 }
 
 function editDateA(detail) {

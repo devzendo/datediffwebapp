@@ -364,7 +364,13 @@ function deleteGroup(groupIndex)
 
 function deleteDate(groupIndex, dateIndex)
 {
-    alert("deleting group " + groupIndex + " date " + dateIndex);
+    if (confirm("Are you sure you want to delete this event?")) {
+        // TODO should be in the model?
+		groups[groupIndex].getDetails().splice(dateIndex, 1);
+		showDates(groupIndex);
+		drawFavourites();
+        iui.showPageById("dates");
+	} 
 }
 
 function showDates(groupIndex)
@@ -408,7 +414,7 @@ function showDate(groupIndex, detailIndex)
 	setFavIcon(detail.isFavourite());
 	
 	// Wire delete event button
-	$("div#datePanel a#deleteButton").off("click").on("click", 
+	$("div#datePanel a#deleteEventButton").off("click").on("click", 
         function() {
             deleteDate(groupIndex, detailIndex);
         }

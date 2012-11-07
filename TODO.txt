@@ -10,7 +10,6 @@ Details list page:
   3 show the group title on the detail list page
   2 sort
   2 Show text and duration of details in the details list.
-  1 Delete Event
   1 Edit Group
 
 Edit date details page:

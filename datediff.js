@@ -78,6 +78,10 @@ Group.prototype.addDetails = function(newDetails) {
 	});
 };
 
+Group.prototype.numDetails = function() {
+	return this.details.length;
+};
+
 function DateDetail(name, note, dateA, dateB, dateALocked, dateBLocked, isFavourite) {
 	this.name = name;
 	this.note = note;
@@ -264,12 +268,17 @@ function drawFavourites() {
 
 function drawGroups()
 {
-    var newGrHtml = '<ul>' + 
-        groups.map(function(group, indx){
+    var newGrHtml = "";
+
+    if (groups.length == 0) {
+        newGrHtml = "<li><a href=\"#helpGroups\">(No Groups)</a></li>";
+    } else {
+        newGrHtml = groups.map(function(group, indx){
             return '<li><a href="#dates" onClick="showDates(' + indx + ')" >' + group.getName() + '</a></li>';
-        }).join("") +
-        '</ul>'; 
-    $("div#groups").find("ul").replaceWith(newGrHtml);
+        }).join(""); 
+	}
+	
+    $("div#groups").find("ul").replaceWith("<ul>" + newGrHtml + "</ul>");
 }
 
 function newGroup()
@@ -328,7 +337,21 @@ function createGroup(newName)
 
 function deleteGroup(groupIndex)
 {
-	alert("deleting group " + groupIndex);
+	var prompt = "";
+	var num = groups[groupIndex].numDetails();
+	if (num > 0) {
+		prompt = (num == 1 ? "There is 1 event" : "There are " + num + " events") +
+            " in the group '" + groups[groupIndex].getName() + "'. "; 
+	}
+	prompt += "Are you sure you want to delete this group?";
+	if (confirm(prompt)) {
+        // TODO should be in the model?
+		groups.splice(groupIndex, 1)
+		//
+		drawGroups();
+		drawFavourites();
+		iui.showPageById("groups");
+	}
 }
 
 function deleteDate(groupIndex, dateIndex)
@@ -345,6 +368,12 @@ function showDates(groupIndex)
     $("div#dates a#newDateButton").off("click").on("click", 
        function() {
           newDate(groupIndex);
+       }
+    );
+    // Wire delete group button
+    $("div#dates a#deleteGroupButton").off("click").on("click", 
+       function() {
+          deleteGroup(groupIndex);
        }
     );
 }

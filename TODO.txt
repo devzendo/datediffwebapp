@@ -10,11 +10,11 @@ Details list page:
   3 show the group title on the detail list page
   2 sort
   2 Show text and duration of details in the details list.
-  0 New Detail
+  1 Delete Event
   1 Edit Group
 
 Edit date details page:
-  2 new date should focus caret on name field
+  3 new date should focus caret on name field
     
 Settings brings up Settings dialog
   Storage:

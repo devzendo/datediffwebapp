@@ -38,8 +38,6 @@ Known bugs:
   Creating a group with a duplicate name alerts, but closes the name editing
   dialog. How to prevent it cancelling the dialog?
 
-  1 New event can be gone back from without setting a name
-     
 Limitations:
   Cannot move events between groups.
   

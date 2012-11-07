@@ -318,10 +318,18 @@ function newDate(groupIndex)
 	var newDateIndex = groups[groupIndex].addDetail(newDateDetail);
 	
 	showDate(groupIndex, newDateIndex);
-	
-	// TODO: BUG should focus on name field, disable back until entered.
+	// TODO: BUG should focus on name field
 	
 	iui.showPageById("datePanel");
+	disableBack();
+}
+
+function disableBack() {
+	$("a#backButton").hide("slow");
+}
+
+function enableBack() {
+	$("a#backButton").show("slow");
 }
 
 function orderByName(a,b) {
@@ -454,6 +462,8 @@ function showDate(groupIndex, detailIndex)
             toggleLockB(detail); // inline this
         } 
     );
+	
+	enableBack();
 }
 
 function setNoteIcon(note) {
@@ -534,6 +544,7 @@ function onEditNameChanged(groupIndex, detailIndex)
 			detail.setName(newName);
 			setNameTitleOnDatePanel(newName);
 			drawDates(groupIndex); // for when we go back, want to see the new name in the list
+            enableBack();
 		}
 	}
 	inEditNameChanged = false;

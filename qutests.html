@@ -96,9 +96,10 @@ function runTests()
         equalDiff(mjg, 1, 8, 43, 15949);
         equalDiff(new DiffComputer("13/11/2000", false, "23/10/2012", false), 10, 11, 11, 4362);
         equalDiff(new DiffComputer("04/11/1928", false, "17/04/2000", false), 13, 5, 71, 26097);
-		equalDiff(new DiffComputer("02/04/2008", false, "", true), 22, 6, 4, 1666); // should fail tomorrow
-        var xmas = new DiffComputer("", true, "25/12/2012", false);
-        equalDiff(xmas, 1, 2, 0, 62); // should fail tomorrow
+		// today is injected as 23/10/2012
+		equalDiff(new DiffComputer("02/04/2008", false, "", true, todayFullDate()), 21, 6, 4, 1665);
+        var xmas = new DiffComputer("", true, "25/12/2012", false, todayFullDate());
+        equalDiff(xmas, 2, 2, 0, 63);
     });  
 
     test("indicators", function() { // today is injected as 23/10/2012

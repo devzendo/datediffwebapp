@@ -7,12 +7,17 @@ Home page:
   2 Show text and duration of details in the favourites list.
   
 Details list page:
-  3 show the group title on the detail list page
   2 sort
   2 Show text and duration of details in the details list.
 
 Edit date details page:
   3 new date should focus caret on name field
+
+Edit group name dialog:
+  3 should focus caret on text field
+
+Edit note dialog:
+  3 should focus caret on text field
     
 Settings brings up Settings dialog
   Storage:

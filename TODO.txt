@@ -1,13 +1,15 @@
 Note editing:
   3 The textarea is grey text, not black.
 
-1 Date editing - only dates until 2013 are allowed. Why?
 
 Home page:
   2 Show text and duration of details in the favourites list.
+  3 Show a favourite (& note) icon on favourites
   
 Details list page:
   2 Show text and duration of details in the details list.
+  3 Show a note on details with notes.
+  3 Show a favourite icon on favourites
 
 Edit date details page:
   3 new date should focus caret on name field

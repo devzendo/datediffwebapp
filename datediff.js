@@ -18,7 +18,8 @@ function initMobiscroller()
             display: 'inline',
             mode: 'scroller',
             dateOrder: 'D ddMyy',
-			dateFormat: 'dd/mm/yy'
+			dateFormat: 'dd/mm/yy',
+			endYear: new Date().getFullYear() + 100
         }); 
 	});
 }

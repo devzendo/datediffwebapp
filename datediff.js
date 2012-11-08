@@ -394,12 +394,17 @@ function showDates(groupIndex)
 
 function drawDates(groupIndex)
 {
-    var newHtml = '<ul>' + 
-       groups[groupIndex].getDetails().map(function(detail, indx){
-           return '<li><a href="#datePanel" onClick="showDate(' + groupIndex + ',' + indx + ')" >' + detail.getName() + '</a></li>';
-       }).join("") +
-       '</ul>'; 
-    $("div#dates").find("ul").replaceWith(newHtml);	
+    var groupDetails = groups[groupIndex].getDetails();
+    var newHtml = "";
+    if (groupDetails.length == 0) {
+		newHtml = "<li><a href=\"#helpEvents\">(No Events)</a></li>";
+	}
+	else {
+		newHtml = groupDetails.map(function(detail, indx){
+			return '<li><a href="#datePanel" onClick="showDate(' + groupIndex + ',' + indx + ')" >' + detail.getName() + '</a></li>';
+		}).join("");
+	}
+    $("div#dates").find("ul").replaceWith("<ul>" + newHtml + "</ul>");	
 }
 
 function showDate(groupIndex, detailIndex)

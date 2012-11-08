@@ -247,6 +247,10 @@ DiffComputer.prototype.getIndicator = function() {
 
 // -----------------------------------------------------------------------------
 
+function setTitle(text) {
+	$("h1#pageTitle").empty().append(text);
+}
+
 function drawFavourites() {
     var favs = [];
 
@@ -268,8 +272,7 @@ function drawFavourites() {
 
 // -----------------------------------------------------------------------------
 
-function drawGroups()
-{
+function drawGroups() {
     var newGrHtml = "";
 
     if (groups.length == 0) {
@@ -287,8 +290,7 @@ function setGroupNameField(name) {
 	$("form#groupNameDialog fieldset textarea#name").attr("value", name);
 } 
 
-function newGroup()
-{
+function newGroup() {
     setGroupNameField("");
 
     // Wire the ok button
@@ -318,8 +320,7 @@ function newGroup()
     iui.showPageById("groupNameDialog");
 }
 
-function renameGroup(groupIndex)
-{
+function renameGroup(groupIndex) {
 	var origName = groups[groupIndex].getName();
     setGroupNameField(origName);
 
@@ -355,8 +356,7 @@ function renameGroup(groupIndex)
     iui.showPageById("groupNameDialog");
 }
 
-function newDate(groupIndex)
-{
+function newDate(groupIndex) {
 	var newDateDetail = new DateDetail("", "", "", "", true, true, false);
 	var newDateIndex = groups[groupIndex].addDetail(newDateDetail);
 	
@@ -364,6 +364,7 @@ function newDate(groupIndex)
 	// TODO: BUG should focus on name field
 	
 	iui.showPageById("datePanel");
+    setTitle("Name?");
 	disableBack();
 }
 
@@ -380,14 +381,12 @@ function orderByName(a,b) {
 }
 
 // TODO should be in the model?
-function createGroup(newName) 
-{
+function createGroup(newName) {
     groups.push(new Group(newName));
 	groups.sort(orderByName);
 }
 
-function deleteGroup(groupIndex)
-{
+function deleteGroup(groupIndex) {
 	var prompt = "";
 	var num = groups[groupIndex].numDetails();
 	if (num > 0) {
@@ -405,8 +404,7 @@ function deleteGroup(groupIndex)
 	}
 }
 
-function deleteDate(groupIndex, dateIndex)
-{
+function deleteDate(groupIndex, dateIndex) {
     if (confirm("Are you sure you want to delete this event?")) {
         // TODO should be in the model?
 		groups[groupIndex].getDetails().splice(dateIndex, 1);
@@ -416,17 +414,15 @@ function deleteDate(groupIndex, dateIndex)
 	} 
 }
 
-function drawGroupNameInDatesPage(groupIndex)
-{
+function drawGroupNameInDatesPage(groupIndex) {
 	var name = groups[groupIndex].getName();
     $("div#dates").attr("title", name);
 	// if the dates page is shown already, the pageTitle has been set, and
 	// I don't know how to refresh it other than...
-	$("h1#pageTitle").empty().append(name);
+	setTitle(name);
 }
 
-function showDates(groupIndex)
-{
+function showDates(groupIndex) {
 	drawDates(groupIndex);
 	drawGroupNameInDatesPage(groupIndex);
 	
@@ -450,8 +446,7 @@ function showDates(groupIndex)
     );
 }
 
-function drawDates(groupIndex)
-{
+function drawDates(groupIndex) {
     var groupDetails = groups[groupIndex].getDetails();
     var newHtml = "";
     if (groupDetails.length == 0) {
@@ -465,8 +460,7 @@ function drawDates(groupIndex)
     $("div#dates").find("ul").replaceWith("<ul>" + newHtml + "</ul>");	
 }
 
-function showDate(groupIndex, detailIndex)
-{
+function showDate(groupIndex, detailIndex) {
 	var detail = getDetail(groupIndex, detailIndex);
     setNameTitleOnDatePanel(detail.getName());
     setNameField(detail.getName());
@@ -565,8 +559,7 @@ function setDateInButton(buttonSelector, lockSelector, dateStr, locked) {
 	}
 }
 
-function getDetail(groupIndex, detailIndex)
-{
+function getDetail(groupIndex, detailIndex) {
 	return groups[groupIndex].getDetails()[detailIndex];
 }
 
@@ -580,8 +573,7 @@ function setNameTitleOnDatePanel(name) {
 	$("form#noteDialog h1").html(name); // remind user of name when editing note
 }
 
-function onEditNameChanged(groupIndex, detailIndex)
-{
+function onEditNameChanged(groupIndex, detailIndex) {
 	// This function sets the name field back if it's bad, which triggers a
 	// re-entrant call here - which can be ignored.
 	if (inEditNameChanged) {

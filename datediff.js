@@ -612,6 +612,7 @@ function onEditNameChanged(groupIndex, detailIndex)
 		} else {
 			detail.setName(newName);
 			setNameTitleOnDatePanel(newName);
+			groups[groupIndex].getDetails().sort(orderByName);
 			drawDates(groupIndex); // for when we go back, want to see the new name in the list
             enableBack();
 		}

@@ -7,10 +7,10 @@ Home page:
   2 Show text and duration of details in the favourites list.
   
 Details list page:
-  2 sort
   2 Show text and duration of details in the details list.
 
 Edit date details page:
+  2 new date should show (Change Name) in name field.
   3 new date should focus caret on name field
 
 Edit group name dialog:

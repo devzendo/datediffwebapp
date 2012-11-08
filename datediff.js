@@ -266,6 +266,8 @@ function drawFavourites() {
     $("div#home ul#groupsAndFavs").empty().append(newGrFavHtml);
 }
 
+// -----------------------------------------------------------------------------
+
 function drawGroups()
 {
     var newGrHtml = "";
@@ -281,9 +283,13 @@ function drawGroups()
     $("div#groups").find("ul").replaceWith("<ul>" + newGrHtml + "</ul>");
 }
 
+function setGroupNameField(name) {
+	$("form#groupNameDialog fieldset textarea#name").attr("value", name);
+} 
+
 function newGroup()
 {
-    $("form#groupNameDialog fieldset textarea#name").attr("value", "");
+    setGroupNameField("");
 
     // Wire the ok button
     $("form#groupNameDialog fieldset a#groupNameOkButton").off("click").on("click",
@@ -304,6 +310,43 @@ function newGroup()
                 } else {
 					createGroup(newName);
 					drawGroups();
+                }
+            }
+        } 
+    );
+
+    iui.showPageById("groupNameDialog");
+}
+
+function renameGroup(groupIndex)
+{
+	var origName = groups[groupIndex].getName();
+    setGroupNameField(origName);
+
+    // Wire the ok button
+    $("form#groupNameDialog fieldset a#groupNameOkButton").off("click").on("click",
+        function() {
+            var newName = $("form#groupNameDialog fieldset textarea#name").val();
+            if (newName.length == 0) {
+                alert("The name cannot be empty");
+				setGroupNameField(origName);
+            } else {
+                var duplicate = false;
+                for (var grIndex = 0; !duplicate && grIndex < groups.length; grIndex++) {
+                    if (newName == groups[grIndex].getName()) {
+                        duplicate = true;
+                    }
+                }
+                if (duplicate) {
+                    alert("The name cannot be a duplicate of another group");
+					setGroupNameField(origName);
+                    // TODO: BUG: need to stop the dialog going away
+                } else {
+					// TODO should be in the model?
+					groups[groupIndex].setName(newName);
+					drawGroupNameInDatesPage(groupIndex);
+                    groups.sort(orderByName);
+                    drawGroups();
                 }
             }
         } 
@@ -354,7 +397,7 @@ function deleteGroup(groupIndex)
 	prompt += "Are you sure you want to delete this group?";
 	if (confirm(prompt)) {
         // TODO should be in the model?
-		groups.splice(groupIndex, 1)
+		groups.splice(groupIndex, 1);
 		//
 		drawGroups();
 		drawFavourites();
@@ -373,10 +416,19 @@ function deleteDate(groupIndex, dateIndex)
 	} 
 }
 
+function drawGroupNameInDatesPage(groupIndex)
+{
+	var name = groups[groupIndex].getName();
+    $("div#dates").attr("title", name);
+	// if the dates page is shown already, the pageTitle has been set, and
+	// I don't know how to refresh it other than...
+	$("h1#pageTitle").empty().append(name);
+}
+
 function showDates(groupIndex)
 {
 	drawDates(groupIndex);
-    $("ul#dates").attr("title", groups[groupIndex].getName());
+	drawGroupNameInDatesPage(groupIndex);
 	
     // Wire new event button
     $("div#dates a#newDateButton").off("click").on("click", 
@@ -388,6 +440,12 @@ function showDates(groupIndex)
     $("div#dates a#deleteGroupButton").off("click").on("click", 
        function() {
           deleteGroup(groupIndex);
+       }
+    );
+    // Wire rename group button
+    $("div#dates a#renameGroupButton").off("click").on("click", 
+       function() {
+          renameGroup(groupIndex);
        }
     );
 }

@@ -4,12 +4,9 @@ Note editing:
 
 Home page:
   2 Show text and duration of details in the favourites list.
-  3 Show a favourite (& note) icon on favourites
   
 Details list page:
   2 Show text and duration of details in the details list.
-  3 Show a note on details with notes.
-  3 Show a favourite icon on favourites
 
 Edit date details page:
   3 new date should focus caret on name field
@@ -44,4 +41,5 @@ Known bugs:
 
 Limitations:
   Cannot move events between groups.
+  Dates cannot be entered that are more than +/- 100 years from today. 
   

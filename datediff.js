@@ -109,6 +109,10 @@ DateDetail.prototype.getNote = function() {
     return this.note;
 };
 
+DateDetail.prototype.hasNote = function() {
+    return this.note != "";
+};
+
 DateDetail.prototype.setDateA = function(newDate) {
     this.dateA = newDate;
 };
@@ -252,13 +256,23 @@ function setTitle(text) {
 	$("h1#pageTitle").empty().append(text);
 }
 
+function inlineFavIcon(detail) {
+    return detail.isFavourite() ? ' &nbsp;&nbsp; <img style="position: relative; top: -2px;" src="28-star-yellow.png">' : ''; 
+}
+
+function inlineNoteIcon(detail) {
+    return detail.hasNote() ? ' &nbsp;&nbsp; <img src="14-tag-blue.png">' : ''; 
+}
+
 function drawFavourites() {
     var favs = [];
 
     groups.forEach(function(group, groupIndex){
         group.getDetails().forEach(function(detail, detailIndex){
             if (detail.isFavourite()) {
-                favs.push('<li><a href="#datePanel" onClick="showDate(' + groupIndex + ',' + detailIndex + ')" >' + detail.getName() + '</a></li>');
+	            var noteIcon = inlineNoteIcon(detail); 
+                var favIcon = inlineFavIcon(detail); 
+                favs.push('<li><a href="#datePanel" onClick="showDate(' + groupIndex + ',' + detailIndex + ')" >' + detail.getName() + favIcon + noteIcon + '</a></li>');
             }
         });
     });
@@ -455,7 +469,9 @@ function drawDates(groupIndex) {
 	}
 	else {
 		newHtml = groupDetails.map(function(detail, indx){
-			return '<li><a href="#datePanel" onClick="showDate(' + groupIndex + ',' + indx + ')" >' + detail.getName() + '</a></li>';
+            var noteIcon = inlineNoteIcon(detail); 
+            var favIcon = inlineFavIcon(detail); 
+			return '<li><a href="#datePanel" onClick="showDate(' + groupIndex + ',' + indx + ')" >' + detail.getName() + favIcon + noteIcon + '</a></li>';
 		}).join("");
 	}
     $("div#dates").find("ul").replaceWith("<ul>" + newHtml + "</ul>");	

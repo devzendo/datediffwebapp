@@ -1,13 +1,6 @@
 Note editing:
   3 The textarea is grey text, not black.
 
-
-Home page:
-  2 Show text and duration of details in the favourites list.
-  
-Details list page:
-  2 Show text and duration of details in the details list.
-
 Edit date details page:
   3 new date should focus caret on name field
 

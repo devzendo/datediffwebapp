@@ -272,7 +272,9 @@ function drawFavourites() {
             if (detail.isFavourite()) {
 	            var noteIcon = inlineNoteIcon(detail); 
                 var favIcon = inlineFavIcon(detail); 
-                favs.push('<li><a href="#datePanel" onClick="showDate(' + groupIndex + ',' + detailIndex + ')" >' + detail.getName() + favIcon + noteIcon + '</a></li>');
+	            var detailString = detailSummary(detail);
+                var txt = "</br><h5>" + detailString + "</h5>"; 
+                favs.push('<li><a href="#datePanel" onClick="showDate(' + groupIndex + ',' + detailIndex + ')" >' + detail.getName() + favIcon + noteIcon + txt + '</a></li>');
             }
         });
     });
@@ -470,8 +472,10 @@ function drawDates(groupIndex) {
 	else {
 		newHtml = groupDetails.map(function(detail, indx){
             var noteIcon = inlineNoteIcon(detail); 
-            var favIcon = inlineFavIcon(detail); 
-			return '<li><a href="#datePanel" onClick="showDate(' + groupIndex + ',' + indx + ')" >' + detail.getName() + favIcon + noteIcon + '</a></li>';
+            var favIcon = inlineFavIcon(detail);
+			var detailString = detailSummary(detail);
+			var txt = "</br><h5>" + detailString + "</h5>"; 
+			return '<li><a href="#datePanel" onClick="showDate(' + groupIndex + ',' + indx + ')" >' + detail.getName() + favIcon + noteIcon + txt + '</a></li>';
 		}).join("");
 	}
     $("div#dates").find("ul").replaceWith("<ul>" + newHtml + "</ul>");	
@@ -650,6 +654,27 @@ function toggleFavourite(detail) {
 	drawFavourites();
 }
 
+function detailSummary(detail) {
+	var comp = new DiffComputer(detail.getDateA(), detail.isDateALocked(), detail.getDateB(), detail.isDateBLocked());
+    var y = comp.getYears();
+    var m = comp.getMonths();
+    var d = comp.getDays();
+    var td = comp.getTotalDays();
+    var details = [pluralise(y, "year"), pluralise(m, "month"), pluralise(d, "day"), pluralise(td, "total day")];
+    return jQuery.grep(details, function(elem, indx) { return elem !== ""; }).join(", ");
+}
+
+function pluralise(num, noun) {
+    if (num === 0) {
+        return "";
+    } else {
+        if (num == 1) {
+            return "" + num + " " + noun;
+        } else {
+            return "" + num + " " + noun + "s";
+        }
+    }
+}
 
 function computeDiff(detail) {
     var comp = new DiffComputer(detail.getDateA(), detail.isDateALocked(), detail.getDateB(), detail.isDateBLocked());

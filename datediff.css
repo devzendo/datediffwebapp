@@ -35,3 +35,12 @@
 .panel > ul > li:last-child a { -webkit-border-bottom-right-radius:10px; -webkit-border-bottom-left-radius:10px; border-bottom-width:1px !important; }
 .panel > ul > li a img { vertical-align:middle; margin-left:-4px; }
 
+
+.panel > ul > li > a > h5 {
+    display: block;
+    margin: -8px 0 -8px -10px;
+    padding: 8px 32px 8px 10px;
+    text-decoration: none;
+    color:#4D4D4D;
+	font-size: 10px;
+}

@@ -49,6 +49,16 @@ function loadData()
 }
 
 // -----------------------------------------------------------------------------
+
+function getDetail(groupIndex, detailIndex) {
+    return groups[groupIndex].getDetails()[detailIndex];
+}
+
+function getGroup(groupIndex) {
+	return groups[groupIndex];
+}
+
+
 function Group(name) {
 	this.name = name;
 	this.details = [];
@@ -319,7 +329,7 @@ function newGroup() {
             } else {
                 var duplicate = false;
                 for (var grIndex = 0; !duplicate && grIndex < groups.length; grIndex++) {
-                    if (newName == groups[grIndex].getName()) {
+                    if (newName == getGroup(grIndex).getName()) {
                         duplicate = true;
                     }
                 }
@@ -338,7 +348,7 @@ function newGroup() {
 }
 
 function renameGroup(groupIndex) {
-	var origName = groups[groupIndex].getName();
+	var origName = getGroup(groupIndex).getName();
     setGroupNameField(origName);
 
     // Wire the ok button
@@ -351,7 +361,7 @@ function renameGroup(groupIndex) {
             } else {
                 var duplicate = false;
                 for (var grIndex = 0; !duplicate && grIndex < groups.length; grIndex++) {
-                    if (newName == groups[grIndex].getName()) {
+                    if (newName == getGroup(grIndex).getName()) {
                         duplicate = true;
                     }
                 }
@@ -361,7 +371,7 @@ function renameGroup(groupIndex) {
                     // TODO: BUG: need to stop the dialog going away
                 } else {
 					// TODO should be in the model?
-					groups[groupIndex].setName(newName);
+					getGroup(groupIndex).setName(newName);
 					drawGroupNameInDatesPage(groupIndex);
                     groups.sort(orderByName);
                     drawGroups();
@@ -375,7 +385,7 @@ function renameGroup(groupIndex) {
 
 function newDate(groupIndex) {
 	var newDateDetail = new DateDetail("", "", "", "", true, true, false);
-	var newDateIndex = groups[groupIndex].addDetail(newDateDetail);
+	var newDateIndex = getGroup(groupIndex).addDetail(newDateDetail);
 	
 	showDate(groupIndex, newDateIndex);
 	// TODO: BUG should focus on name field
@@ -405,10 +415,10 @@ function createGroup(newName) {
 
 function deleteGroup(groupIndex) {
 	var prompt = "";
-	var num = groups[groupIndex].numDetails();
+	var num = getGroup(groupIndex).numDetails();
 	if (num > 0) {
 		prompt = (num == 1 ? "There is 1 event" : "There are " + num + " events") +
-            " in the group '" + groups[groupIndex].getName() + "'. "; 
+            " in the group '" + getGroup(groupIndex).getName() + "'. "; 
 	}
 	prompt += "Are you sure you want to delete this group?";
 	if (confirm(prompt)) {
@@ -424,7 +434,7 @@ function deleteGroup(groupIndex) {
 function deleteDate(groupIndex, dateIndex) {
     if (confirm("Are you sure you want to delete this event?")) {
         // TODO should be in the model?
-		groups[groupIndex].getDetails().splice(dateIndex, 1);
+		getGroup(groupIndex).getDetails().splice(dateIndex, 1);
 		showDates(groupIndex);
 		drawFavourites();
         iui.showPageById("dates");
@@ -432,7 +442,7 @@ function deleteDate(groupIndex, dateIndex) {
 }
 
 function drawGroupNameInDatesPage(groupIndex) {
-	var name = groups[groupIndex].getName();
+	var name = getGroup(groupIndex).getName();
     $("div#dates").attr("title", name);
 	// if the dates page is shown already, the pageTitle has been set, and
 	// I don't know how to refresh it other than...
@@ -464,7 +474,7 @@ function showDates(groupIndex) {
 }
 
 function drawDates(groupIndex) {
-    var groupDetails = groups[groupIndex].getDetails();
+    var groupDetails = getGroup(groupIndex).getDetails();
     var newHtml = "";
     if (groupDetails.length == 0) {
 		newHtml = "<li><a href=\"#helpEvents\">(No Events)</a></li>";
@@ -580,10 +590,6 @@ function setDateInButton(buttonSelector, lockSelector, dateStr, locked) {
 	}
 }
 
-function getDetail(groupIndex, detailIndex) {
-	return groups[groupIndex].getDetails()[detailIndex];
-}
-
 function setNameField(name) {
    $("div#datePanel fieldset div input#dateName").attr("value", name);
 }
@@ -609,7 +615,7 @@ function onEditNameChanged(groupIndex, detailIndex) {
 	} else {
 		var duplicate = false;
 		for (var grIndex = 0; !duplicate && grIndex < groups.length; grIndex++) {
-			var details = groups[grIndex].getDetails();
+			var details = getGroup(grIndex).getDetails();
 			for (var deIndex = 0; !duplicate && deIndex < details.length; deIndex++) {
 				var thisDetail = details[deIndex];
 				if (thisDetail != detail) {
@@ -623,9 +629,10 @@ function onEditNameChanged(groupIndex, detailIndex) {
 			alert("The name cannot be a duplicate of another entry");
 			setNameField(detail.getName());
 		} else {
+			// TODO should be in the model
 			detail.setName(newName);
 			setNameTitleOnDatePanel(newName);
-			groups[groupIndex].getDetails().sort(orderByName);
+			getGroup(groupIndex).getDetails().sort(orderByName);
 			drawDates(groupIndex); // for when we go back, want to see the new name in the list
             enableBack();
 		}

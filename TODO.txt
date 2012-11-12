@@ -32,6 +32,10 @@ Known bugs:
   Creating a group with a duplicate name alerts, but closes the name editing
   dialog. How to prevent it cancelling the dialog?
 
+  Creating a new entry setting date a to a date, leaving b locked sets both
+  dates to locked, 0 total days. Subsequent re-editing of date is ok, date
+  has a duration.
+  
 Limitations:
   Cannot move events between groups.
   Dates cannot be entered that are more than +/- 100 years from today. 

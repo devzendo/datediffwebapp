@@ -532,28 +532,28 @@ function showDate(groupIndex, detailIndex) {
     // Wire edit date A button
     $("div#datePanel fieldset div table tr td a#editDateA").off("click").on("click",
         function() {
-            editDateA(detail); // inline this
+            editDateA(groupIndex, detailIndex); // inline this
         } 
 	);
 
     // Wire edit date B button
     $("div#datePanel fieldset div table tr td a#editDateB").off("click").on("click",
         function() {
-            editDateB(detail); // inline this
+            editDateB(groupIndex, detailIndex); // inline this
         } 
 	);
 
     // Wire lock date A button
     $("div#datePanel a#toggleLockA").off("click").on("click",
         function() {
-            toggleLockA(detail); // inline this
+            toggleLockA(groupIndex, detailIndex); // inline this
         } 
     );
 
     // Wire lock date B button
     $("div#datePanel a#toggleLockB").off("click").on("click",
         function() {
-            toggleLockB(detail); // inline this
+            toggleLockB(groupIndex, detailIndex); // inline this
         } 
     );
 	
@@ -695,7 +695,8 @@ function computeDiff(detail) {
 	$("th#numTotalDays").html(td);	
 }
 
-function editDateA(detail) {
+function editDateA(groupIndex, detailIndex) {
+	var detail = getDetail(groupIndex, detailIndex);
 	editDate(
         "A",
 		detail,
@@ -704,12 +705,16 @@ function editDateA(detail) {
             detail.setDateA(newDateStr);
 			detail.setDateALocked(false);
         },
+		function() {
+			drawDates(groupIndex);
+		},
 		"#editDateA",
 		"#lockAImg"
 	);
 }
 
-function editDateB(detail) {
+function editDateB(groupIndex, detailIndex) {
+    var detail = getDetail(groupIndex, detailIndex);
     editDate(
         "B",
 		detail,
@@ -718,12 +723,15 @@ function editDateB(detail) {
             detail.setDateB(newDateStr);
 			detail.setDateBLocked(false);
         },
+        function() {
+            drawDates(groupIndex);
+        },
         "#editDateB",
 		"#lockBImg"
     );
 }
 
-function editDate(aOrB, detail, startDateStr, setDateFn, buttonSelector, lockSelector) {
+function editDate(aOrB, detail, startDateStr, setDateFn, drawGroupFn, buttonSelector, lockSelector) {
 	$("form#dateDialog h1").html("Choose Date " + aOrB); 
 	
     var date = jQuery.scroller.parseDate("dd/mm/yy", startDateStr);
@@ -736,6 +744,8 @@ function editDate(aOrB, detail, startDateStr, setDateFn, buttonSelector, lockSel
             var newDate = $('#date').scroller('getDate');
             var newDateStr = jQuery.scroller.formatDate("dd/mm/yy", newDate);
             setDateFn(newDateStr);
+			drawFavourites();
+			drawGroupFn();
             setDateInButton(buttonSelector, lockSelector, newDateStr, false);
 
             computeDiff(detail);
@@ -745,7 +755,8 @@ function editDate(aOrB, detail, startDateStr, setDateFn, buttonSelector, lockSel
     iui.showPageById("dateDialog");
 }
 
-function toggleLockA(detail) {
+function toggleLockA(groupIndex, detailIndex) {
+	var detail = getDetail(groupIndex, detailIndex);
     toggleLock(
         detail,
 		detail.getDateA(),
@@ -753,12 +764,16 @@ function toggleLockA(detail) {
         function(newLockState) {
             detail.setDateALocked(newLockState);
         },
+        function() {
+            drawDates(groupIndex);
+        },
 		"#editDateA",
         "#lockAImg"
     );
 }
 
-function toggleLockB(detail) {
+function toggleLockB(groupIndex, detailIndex) {
+	var detail = getDetail(groupIndex, detailIndex);
     toggleLock(
         detail,
 		detail.getDateB(),
@@ -766,15 +781,19 @@ function toggleLockB(detail) {
         function(newLockState) {
             detail.setDateBLocked(newLockState);
         },
+        function() {
+            drawDates(groupIndex);
+        },
         "#editDateB",
         "#lockBImg"
     );
 }
 
-function toggleLock(detail, startDateStr, startLockState, setLockStateFn, buttonSelector, lockSelector) {
+function toggleLock(detail, startDateStr, startLockState, setLockStateFn, drawGroupFn, buttonSelector, lockSelector) {
     var todayDateStr = startDateStr == "" ? jQuery.scroller.formatDate("dd/mm/yy", new Date()) : startDateStr;
 	setDateInButton(buttonSelector, lockSelector, todayDateStr, !startLockState);
 	setLockStateFn(!startLockState);
+	drawGroupFn();
 
     computeDiff(detail);
 }

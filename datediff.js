@@ -521,14 +521,24 @@ function showDate(groupIndex, detailIndex) {
 	// Wire edit note icon
     $("a#editNoteIcon").off("click").on("click",
         function() {
-            editNote(detail);
+            editNote(detail, 
+                function(){
+                    drawDates(groupIndex);
+                    drawFavourites();
+                }
+			);
         } 
     );
 	
     // Wire toggle favourite icon
     $("a#toggleFavIcon").off("click").on("click",
         function() {
-            toggleFavourite(detail);
+            toggleFavourite(detail,
+                function(){
+                    drawDates(groupIndex);
+                    drawFavourites();
+                }
+			);
         } 
     );
 
@@ -552,6 +562,7 @@ function showDate(groupIndex, detailIndex) {
                 detail.setDateALocked(false);
             }, function(){
                 drawDates(groupIndex);
+                drawFavourites();
             }, "#editDateA", "#lockAImg");
         } 
 	);
@@ -564,6 +575,7 @@ function showDate(groupIndex, detailIndex) {
                 detail.setDateBLocked(false);
             }, function(){
                 drawDates(groupIndex);
+                drawFavourites();
             }, "#editDateB", "#lockBImg");
 		}
 	);
@@ -575,6 +587,7 @@ function showDate(groupIndex, detailIndex) {
                 detail.setDateALocked(newLockState);
             }, function(){
                 drawDates(groupIndex);
+				drawFavourites();
             }, "#editDateA", "#lockAImg");
         } 
     );
@@ -586,6 +599,7 @@ function showDate(groupIndex, detailIndex) {
                 detail.setDateBLocked(newLockState);
             }, function(){
                 drawDates(groupIndex);
+                drawFavourites();
             }, "#editDateB", "#lockBImg");
         } 
     );
@@ -670,7 +684,7 @@ function onEditNameChanged(groupIndex, detailIndex, doneFn) {
 	inEditNameChanged = false;
 }
 
-function editNote(detail) {
+function editNote(detail, doneFn) {
 	$("form#noteDialog fieldset textarea#note").attr("value", detail.getNote());
 
     // Wire the ok button
@@ -679,16 +693,17 @@ function editNote(detail) {
             var newNote = $("form#noteDialog fieldset textarea#note").val();
             detail.setNote(newNote);
 			setNoteIcon(newNote);
+			doneFn();
         } 
 	);
 
 	iui.showPageById("noteDialog");
 }
 
-function toggleFavourite(detail) {
+function toggleFavourite(detail, doneFn) {
 	detail.setIsFavourite(!detail.isFavourite());
 	setFavIcon(detail.isFavourite());
-	drawFavourites();
+	doneFn();
 }
 
 function detailSummary(detail) {

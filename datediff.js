@@ -54,6 +54,10 @@ function getDetail(groupIndex, detailIndex) {
     return groups[groupIndex].getDetails()[detailIndex];
 }
 
+function deleteDetail(groupIndex, detailIndex) {
+	getGroup(groupIndex).getDetails().splice(detailIndex, 1);
+}
+
 function getGroup(groupIndex) {
 	return groups[groupIndex];
 }
@@ -433,10 +437,9 @@ function confirmDeleteGroup(groupIndex) {
 	}
 }
 
-function deleteDate(groupIndex, dateIndex) {
+function confirmDeleteDate(groupIndex, dateIndex) {
     if (confirm("Are you sure you want to delete this event?")) {
-        // TODO should be in the model?
-		getGroup(groupIndex).getDetails().splice(dateIndex, 1);
+		deleteDetail(groupIndex, dateIndex);
 		showDates(groupIndex);
 		drawFavourites();
         iui.showPageById("dates");
@@ -511,7 +514,7 @@ function showDate(groupIndex, detailIndex) {
 	// Wire delete event button
 	$("div#datePanel a#deleteEventButton").off("click").on("click", 
         function() {
-            deleteDate(groupIndex, detailIndex);
+            confirmDeleteDate(groupIndex, detailIndex);
         }
     );
 	

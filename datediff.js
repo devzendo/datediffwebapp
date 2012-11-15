@@ -58,6 +58,15 @@ function getGroup(groupIndex) {
 	return groups[groupIndex];
 }
 
+function createGroup(newName) {
+    groups.push(new Group(newName));
+    groups.sort(orderByName);
+}
+
+function deleteGroup(groupIndex) {
+    groups.splice(groupIndex, 1);
+}
+
 
 function Group(name) {
 	this.name = name;
@@ -407,13 +416,7 @@ function orderByName(a,b) {
 	return a.getName().localeCompare(b.getName());
 }
 
-// TODO should be in the model?
-function createGroup(newName) {
-    groups.push(new Group(newName));
-	groups.sort(orderByName);
-}
-
-function deleteGroup(groupIndex) {
+function confirmDeleteGroup(groupIndex) {
 	var prompt = "";
 	var num = getGroup(groupIndex).numDetails();
 	if (num > 0) {
@@ -422,8 +425,7 @@ function deleteGroup(groupIndex) {
 	}
 	prompt += "Are you sure you want to delete this group?";
 	if (confirm(prompt)) {
-        // TODO should be in the model?
-		groups.splice(groupIndex, 1);
+		deleteGroup(groupIndex);
 		//
 		drawGroups();
 		drawFavourites();
@@ -462,7 +464,7 @@ function showDates(groupIndex) {
     // Wire delete group button
     $("div#dates a#deleteGroupButton").off("click").on("click", 
        function() {
-          deleteGroup(groupIndex);
+          confirmDeleteGroup(groupIndex);
        }
     );
     // Wire rename group button

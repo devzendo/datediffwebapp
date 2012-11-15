@@ -133,7 +133,7 @@ DateDetail.prototype.getNote = function() {
 };
 
 DateDetail.prototype.hasNote = function() {
-    return this.note != "";
+    return this.note !== "";
 };
 
 DateDetail.prototype.setDateA = function(newDate) {
@@ -178,8 +178,8 @@ DateDetail.prototype.isFavourite = function() {
 
 function DiffComputer(dateStrA, dateALocked, dateStrB, dateBLocked, todayFullDate) {
 	this.todayDateStr = jQuery.scroller.formatDate("dd/mm/yy", todayFullDate || new Date());
-	var usedDateAStr = dateALocked || dateStrA.length == 0 ? this.todayDateStr : dateStrA;
-	var usedDateBStr = dateBLocked || dateStrB.length == 0 ? this.todayDateStr : dateStrB;
+	var usedDateAStr = dateALocked || dateStrA.length === 0 ? this.todayDateStr : dateStrA;
+	var usedDateBStr = dateBLocked || dateStrB.length === 0 ? this.todayDateStr : dateStrB;
 	var dateAComponents = this._dateStrToComponents(usedDateAStr);
 	var dateBComponents = this._dateStrToComponents(usedDateBStr);
 	
@@ -303,16 +303,16 @@ function drawFavourites() {
     groups.forEach(function(group, groupIndex){
         group.getDetails().forEach(function(detail, detailIndex){
             if (detail.isFavourite()) {
-	            var noteIcon = inlineNoteIcon(detail); 
+                var noteIcon = inlineNoteIcon(detail); 
                 var favIcon = inlineFavIcon(detail); 
-	            var detailString = detailSummary(detail);
+                var detailString = detailSummary(detail);
                 var txt = "</br><h5>" + detailString + "</h5>"; 
                 favs.push('<li><a href="#datePanel" onClick="showDate(' + groupIndex + ',' + detailIndex + ')" >' + detail.getName() + favIcon + noteIcon + txt + '</a></li>');
             }
         });
     });
     
-	if (favs.length == 0) {
+	if (favs.length === 0) {
 		favs.push("<li><a href=\"#helpFav\">(No Favourites)</a></li>");
 	}
 
@@ -325,7 +325,7 @@ function drawFavourites() {
 function drawGroups() {
     var newGrHtml = "";
 
-    if (groups.length == 0) {
+    if (groups.length === 0) {
         newGrHtml = "<li><a href=\"#helpGroups\">(No Groups)</a></li>";
     } else {
         newGrHtml = groups.map(function(group, indx){
@@ -347,7 +347,7 @@ function newGroup() {
     $("form#groupNameDialog fieldset a#groupNameOkButton").off("click").on("click",
         function() {
             var newName = $("form#groupNameDialog fieldset textarea#name").val();
-            if (newName.length == 0) {
+            if (newName.length === 0) {
                 alert("The name cannot be empty");
             } else {
                 var duplicate = false;
@@ -378,7 +378,7 @@ function renameGroup(groupIndex, doneFn) {
     $("form#groupNameDialog fieldset a#groupNameOkButton").off("click").on("click",
         function() {
             var newName = $("form#groupNameDialog fieldset textarea#name").val();
-            if (newName.length == 0) {
+            if (newName.length === 0) {
                 alert("The name cannot be empty");
 				setGroupNameField(origName);
             } else {
@@ -474,11 +474,11 @@ function showDates(groupIndex) {
     $("div#dates a#renameGroupButton").off("click").on("click", 
        function() {
           renameGroup(groupIndex, 
-    		  function() {
+              function() {
                   groups.sort(orderByName);
                   drawGroups();
-		      }
-		  );
+              }
+          );
        }
     );
 }
@@ -486,7 +486,7 @@ function showDates(groupIndex) {
 function drawDates(groupIndex) {
     var groupDetails = getGroup(groupIndex).getDetails();
     var newHtml = "";
-    if (groupDetails.length == 0) {
+    if (groupDetails.length === 0) {
 		newHtml = "<li><a href=\"#helpEvents\">(No Events)</a></li>";
 	}
 	else {
@@ -594,7 +594,7 @@ function showDate(groupIndex, detailIndex) {
 }
 
 function setNoteIcon(note) {
-	if (note == "") {
+	if (note === "") {
 		$("img#noteImg").attr("src", "14-tag.png");
 	} else {
 		$("img#noteImg").attr("src", "14-tag-blue.png");
@@ -642,7 +642,7 @@ function onEditNameChanged(groupIndex, detailIndex, doneFn) {
 	inEditNameChanged = true;
 	var detail = getDetail(groupIndex, detailIndex);
 	var newName = $("div#datePanel fieldset div input#dateName").val();
-	if (newName.length == 0) {
+	if (newName.length === 0) {
 		alert("The name cannot be empty");
 		setNameField(detail.getName());
 	} else {
@@ -751,7 +751,7 @@ function editDate(aOrB, detail, startDateStr, setDateFn, drawGroupFn, buttonSele
 }
 
 function toggleLock(detail, startDateStr, startLockState, setLockStateFn, drawGroupFn, buttonSelector, lockSelector) {
-    var todayDateStr = startDateStr == "" ? jQuery.scroller.formatDate("dd/mm/yy", new Date()) : startDateStr;
+    var todayDateStr = startDateStr === "" ? jQuery.scroller.formatDate("dd/mm/yy", new Date()) : startDateStr;
 	setDateInButton(buttonSelector, lockSelector, todayDateStr, !startLockState);
 	setLockStateFn(!startLockState);
 	drawGroupFn();

@@ -36,6 +36,7 @@ Known bugs:
   new event button. The event editor is shown, but scrolled down. How to show
   the event editor but scrolled to the top?
   
+  Taking a note off an event doesn't refresh its icon on favs or detail list.
 Limitations:
   Cannot move events between groups.
   Dates cannot be entered that are more than +/- 100 years from today. 

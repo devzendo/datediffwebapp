@@ -266,6 +266,16 @@ function setTitle(text) {
 	$("h1#pageTitle").empty().append(text);
 }
 
+function disableBack() {
+    $("a#backButton").hide("slow");
+}
+
+function enableBack() {
+    $("a#backButton").show("slow");
+}
+
+// -----------------------------------------------------------------------------
+
 function inlineFavIcon(detail) {
     return detail.isFavourite() ? ' &nbsp;&nbsp; <img style="position: relative; top: -2px;" src="28-star-yellow.png">' : ''; 
 }
@@ -393,14 +403,6 @@ function newDate(groupIndex) {
 	iui.showPageById("datePanel");
     setTitle("Name?");
 	disableBack();
-}
-
-function disableBack() {
-	$("a#backButton").hide("slow");
-}
-
-function enableBack() {
-	$("a#backButton").show("slow");
 }
 
 function orderByName(a,b) {

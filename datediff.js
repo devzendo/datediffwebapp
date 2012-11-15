@@ -532,78 +532,46 @@ function showDate(groupIndex, detailIndex) {
     // Wire edit date A button
     $("div#datePanel fieldset div table tr td a#editDateA").off("click").on("click",
         function() {
-		    editDate(
-		        "A",
-		        detail,
-		        detail.getDateA(),
-		        function(newDateStr) {
-		            detail.setDateA(newDateStr);
-		            detail.setDateALocked(false);
-		        },
-		        function() {
-		            drawDates(groupIndex);
-		        },
-		        "#editDateA",
-		        "#lockAImg"
-		    );
+            editDate("A", detail, detail.getDateA(), function(newDateStr){
+                detail.setDateA(newDateStr);
+                detail.setDateALocked(false);
+            }, function(){
+                drawDates(groupIndex);
+            }, "#editDateA", "#lockAImg");
         } 
 	);
 
     // Wire edit date B button
     $("div#datePanel fieldset div table tr td a#editDateB").off("click").on("click",
         function() {
-		    editDate(
-		        "B",
-		        detail,
-		        detail.getDateB(),
-		        function(newDateStr) {
-		            detail.setDateB(newDateStr);
-		            detail.setDateBLocked(false);
-		        },
-		        function() {
-		            drawDates(groupIndex);
-		        },
-		        "#editDateB",
-		        "#lockBImg"
-		    );
+            editDate("B", detail, detail.getDateB(), function(newDateStr){
+                detail.setDateB(newDateStr);
+                detail.setDateBLocked(false);
+            }, function(){
+                drawDates(groupIndex);
+            }, "#editDateB", "#lockBImg");
 		}
 	);
 
     // Wire lock date A button
     $("div#datePanel a#toggleLockA").off("click").on("click",
         function() {
-		    toggleLock(
-		        detail,
-		        detail.getDateA(),
-		        detail.isDateALocked(),
-		        function(newLockState) {
-		            detail.setDateALocked(newLockState);
-		        },
-		        function() {
-		            drawDates(groupIndex);
-		        },
-		        "#editDateA",
-		        "#lockAImg"
-		    );
+            toggleLock(detail, detail.getDateA(), detail.isDateALocked(), function(newLockState){
+                detail.setDateALocked(newLockState);
+            }, function(){
+                drawDates(groupIndex);
+            }, "#editDateA", "#lockAImg");
         } 
     );
 
     // Wire lock date B button
     $("div#datePanel a#toggleLockB").off("click").on("click",
         function() {
-		    toggleLock(
-		        detail,
-		        detail.getDateB(),
-		        detail.isDateBLocked(),
-		        function(newLockState) {
-		            detail.setDateBLocked(newLockState);
-		        },
-		        function() {
-		            drawDates(groupIndex);
-		        },
-		        "#editDateB",
-		        "#lockBImg"
-		    );
+            toggleLock(detail, detail.getDateB(), detail.isDateBLocked(), function(newLockState){
+                detail.setDateBLocked(newLockState);
+            }, function(){
+                drawDates(groupIndex);
+            }, "#editDateB", "#lockBImg");
         } 
     );
 	

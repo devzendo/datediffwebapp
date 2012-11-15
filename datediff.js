@@ -527,7 +527,12 @@ function showDate(groupIndex, detailIndex) {
 	// Wire edit name input handler
 	$("div#datePanel fieldset div input#dateName").off("change").on("change",
         function() {
-            onEditNameChanged(groupIndex, detailIndex);
+            onEditNameChanged(groupIndex, detailIndex, 
+				function(newName) {
+                    getGroup(groupIndex).getDetails().sort(orderByName);
+                    drawDates(groupIndex); // for when we go back, want to see the new name in the list
+                    enableBack();
+				});
         } 
 	);
 
@@ -620,7 +625,7 @@ function setNameTitleOnDatePanel(name) {
 	$("form#noteDialog h1").html(name); // remind user of name when editing note
 }
 
-function onEditNameChanged(groupIndex, detailIndex) {
+function onEditNameChanged(groupIndex, detailIndex, doneFn) {
 	// This function sets the name field back if it's bad, which triggers a
 	// re-entrant call here - which can be ignored.
 	if (inEditNameChanged) {
@@ -651,10 +656,8 @@ function onEditNameChanged(groupIndex, detailIndex) {
 		} else {
 			// TODO should be in the model
 			detail.setName(newName);
-			setNameTitleOnDatePanel(newName);
-			getGroup(groupIndex).getDetails().sort(orderByName);
-			drawDates(groupIndex); // for when we go back, want to see the new name in the list
-            enableBack();
+            setNameTitleOnDatePanel(newName);
+			doneFn();
 		}
 	}
 	inEditNameChanged = false;

@@ -357,7 +357,7 @@ function newGroup() {
     iui.showPageById("groupNameDialog");
 }
 
-function renameGroup(groupIndex) {
+function renameGroup(groupIndex, doneFn) {
 	var origName = getGroup(groupIndex).getName();
     setGroupNameField(origName);
 
@@ -380,11 +380,9 @@ function renameGroup(groupIndex) {
 					setGroupNameField(origName);
                     // TODO: BUG: need to stop the dialog going away
                 } else {
-					// TODO should be in the model?
 					getGroup(groupIndex).setName(newName);
 					drawGroupNameInDatesPage(groupIndex);
-                    groups.sort(orderByName);
-                    drawGroups();
+					doneFn();
                 }
             }
         } 
@@ -470,7 +468,12 @@ function showDates(groupIndex) {
     // Wire rename group button
     $("div#dates a#renameGroupButton").off("click").on("click", 
        function() {
-          renameGroup(groupIndex);
+          renameGroup(groupIndex, 
+    		  function() {
+                  groups.sort(orderByName);
+                  drawGroups();
+		      }
+		  );
        }
     );
 }
@@ -654,7 +657,6 @@ function onEditNameChanged(groupIndex, detailIndex, doneFn) {
 			alert("The name cannot be a duplicate of another entry");
 			setNameField(detail.getName());
 		} else {
-			// TODO should be in the model
 			detail.setName(newName);
             setNameTitleOnDatePanel(newName);
 			doneFn();

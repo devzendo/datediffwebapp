@@ -509,6 +509,11 @@ function showDate(groupIndex, detailIndex) {
 	setNoteIcon(detail.getNote());
 	setFavIcon(detail.isFavourite());
 	
+	var refreshFn = function() {
+        drawDates(groupIndex);
+        drawFavourites();
+    }
+
 	// Wire delete event button
 	$("div#datePanel a#deleteEventButton").off("click").on("click", 
         function() {
@@ -519,24 +524,14 @@ function showDate(groupIndex, detailIndex) {
 	// Wire edit note icon
     $("a#editNoteIcon").off("click").on("click",
         function() {
-            editNote(detail, 
-                function(){
-                    drawDates(groupIndex);
-                    drawFavourites();
-                }
-			);
+            editNote(detail, refreshFn);
         } 
     );
 	
     // Wire toggle favourite icon
     $("a#toggleFavIcon").off("click").on("click",
         function() {
-            toggleFavourite(detail,
-                function(){
-                    drawDates(groupIndex);
-                    drawFavourites();
-                }
-			);
+            toggleFavourite(detail, refreshFn);
         } 
     );
 
@@ -558,10 +553,7 @@ function showDate(groupIndex, detailIndex) {
             editDate("A", detail, detail.getDateA(), function(newDateStr){
                 detail.setDateA(newDateStr);
                 detail.setDateALocked(false);
-            }, function(){
-                drawDates(groupIndex);
-                drawFavourites();
-            }, "#editDateA", "#lockAImg");
+            }, refreshFn, "#editDateA", "#lockAImg");
         } 
 	);
 
@@ -571,10 +563,7 @@ function showDate(groupIndex, detailIndex) {
             editDate("B", detail, detail.getDateB(), function(newDateStr){
                 detail.setDateB(newDateStr);
                 detail.setDateBLocked(false);
-            }, function(){
-                drawDates(groupIndex);
-                drawFavourites();
-            }, "#editDateB", "#lockBImg");
+            }, refreshFn, "#editDateB", "#lockBImg");
 		}
 	);
 
@@ -583,10 +572,7 @@ function showDate(groupIndex, detailIndex) {
         function() {
             toggleLock(detail, detail.getDateA(), detail.isDateALocked(), function(newLockState){
                 detail.setDateALocked(newLockState);
-            }, function(){
-                drawDates(groupIndex);
-				drawFavourites();
-            }, "#editDateA", "#lockAImg");
+            }, refreshFn, "#editDateA", "#lockAImg");
         } 
     );
 
@@ -595,10 +581,7 @@ function showDate(groupIndex, detailIndex) {
         function() {
             toggleLock(detail, detail.getDateB(), detail.isDateBLocked(), function(newLockState){
                 detail.setDateBLocked(newLockState);
-            }, function(){
-                drawDates(groupIndex);
-                drawFavourites();
-            }, "#editDateB", "#lockBImg");
+            }, refreshFn, "#editDateB", "#lockBImg");
         } 
     );
 	

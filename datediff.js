@@ -512,7 +512,7 @@ function showDate(groupIndex, detailIndex) {
 	var refreshFn = function() {
         drawDates(groupIndex);
         drawFavourites();
-    }
+    };
 
 	// Wire delete event button
 	$("div#datePanel a#deleteEventButton").off("click").on("click", 

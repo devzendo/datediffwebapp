@@ -91,7 +91,6 @@ Group.prototype.getDetails = function() {
 
 Group.prototype.addDetail = function(newDetail) {
     this.details.push(newDetail);
-	// TODO sort?
 	return this.details.length - 1;
 };
 
@@ -409,8 +408,7 @@ function newDate(groupIndex) {
 	var newDateIndex = getGroup(groupIndex).addDetail(newDateDetail);
 	
 	showDate(groupIndex, newDateIndex);
-	// TODO: BUG should focus on name field
-	
+
 	iui.showPageById("datePanel");
     setTitle("Name?");
 	disableBack();

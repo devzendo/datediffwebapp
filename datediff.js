@@ -3,10 +3,13 @@ var groups = [];
 
 function startup()
 {
+    inEditNameChanged = false;
+
 	initMobiscroller();
 	loadData();
 	drawGroups();
 	drawFavourites();
+	wireGlobalHandlers();
 }
 
 function initMobiscroller()
@@ -44,11 +47,24 @@ function loadData()
     groups = [ 
        grBday, grCv
     ];
-	
-	inEditNameChanged = false;
 }
 
 // -----------------------------------------------------------------------------
+
+function storageSaveGroups() {
+	
+}
+
+function storageLoadGroups() {
+    
+}
+
+// -----------------------------------------------------------------------------
+
+function deleteAll() {
+	groups = [];
+    storageSaveGroups();    
+}
 
 function getDetail(groupIndex, detailIndex) {
     return groups[groupIndex].getDetails()[detailIndex];
@@ -56,6 +72,7 @@ function getDetail(groupIndex, detailIndex) {
 
 function deleteDetail(groupIndex, detailIndex) {
 	getGroup(groupIndex).getDetails().splice(detailIndex, 1);
+    storageSaveGroups();	
 }
 
 function getGroup(groupIndex) {
@@ -65,10 +82,12 @@ function getGroup(groupIndex) {
 function createGroup(newName) {
     groups.push(new Group(newName));
     groups.sort(orderByName);
+	storageSaveGroups();
 }
 
 function deleteGroup(groupIndex) {
     groups.splice(groupIndex, 1);
+	storageSaveGroups();
 }
 
 
@@ -83,6 +102,7 @@ Group.prototype.getName = function() {
 
 Group.prototype.setName = function(newName) {
     this.name = newName;
+	storageSaveGroups();
 };
 
 Group.prototype.getDetails = function() {
@@ -91,6 +111,7 @@ Group.prototype.getDetails = function() {
 
 Group.prototype.addDetail = function(newDetail) {
     this.details.push(newDetail);
+	storageSaveGroups();
 	return this.details.length - 1;
 };
 
@@ -99,6 +120,7 @@ Group.prototype.addDetails = function(newDetails) {
 	newDetails.forEach(function(detail, index) {
         groupDetails.push(detail);
 	});
+	storageSaveGroups();
 };
 
 Group.prototype.numDetails = function() {
@@ -117,6 +139,7 @@ function DateDetail(name, note, dateA, dateB, dateALocked, dateBLocked, isFavour
 
 DateDetail.prototype.setName = function(newName) {
 	this.name = newName;
+	storageSaveGroups();
 };
 
 DateDetail.prototype.getName = function() {
@@ -125,6 +148,7 @@ DateDetail.prototype.getName = function() {
 
 DateDetail.prototype.setNote = function(newNote) {
     this.note = newNote;
+	storageSaveGroups();
 };
 
 DateDetail.prototype.getNote = function() {
@@ -137,6 +161,7 @@ DateDetail.prototype.hasNote = function() {
 
 DateDetail.prototype.setDateA = function(newDate) {
     this.dateA = newDate;
+	storageSaveGroups();
 };
 
 DateDetail.prototype.getDateA = function() {
@@ -145,6 +170,7 @@ DateDetail.prototype.getDateA = function() {
 
 DateDetail.prototype.setDateB = function(newDate) {
     this.dateB = newDate;
+	storageSaveGroups();
 };
 
 DateDetail.prototype.getDateB = function() {
@@ -153,6 +179,7 @@ DateDetail.prototype.getDateB = function() {
 
 DateDetail.prototype.setDateALocked = function(newDateLocked) {
     this.dateALocked = newDateLocked;
+	storageSaveGroups();
 };
 
 DateDetail.prototype.isDateALocked = function() {
@@ -161,6 +188,7 @@ DateDetail.prototype.isDateALocked = function() {
 
 DateDetail.prototype.setDateBLocked = function(newDateLocked) {
     this.dateBLocked = newDateLocked;
+	storageSaveGroups();
 };
 
 DateDetail.prototype.isDateBLocked = function() {
@@ -169,11 +197,14 @@ DateDetail.prototype.isDateBLocked = function() {
 
 DateDetail.prototype.setIsFavourite = function(newIsFavourite) {
     this.isFav = newIsFavourite;
+	storageSaveGroups();
 };
 
 DateDetail.prototype.isFavourite = function() {
     return this.isFav;
 };
+
+// -----------------------------------------------------------------------------
 
 function DiffComputer(dateStrA, dateALocked, dateStrB, dateBLocked, todayFullDate) {
 	this.todayDateStr = jQuery.scroller.formatDate("dd/mm/yy", todayFullDate || new Date());
@@ -287,6 +318,24 @@ function enableBack() {
 }
 
 // -----------------------------------------------------------------------------
+
+function wireGlobalHandlers() {
+   $("a#deleteAllDataButton").off("click").on("click", 
+        function() {
+            confirmDeleteAll();
+        }
+    );
+}
+
+function confirmDeleteAll() {
+    if (confirm("Are you sure you want to delete all data?")) {
+        deleteAll();
+        //
+        drawGroups();
+        drawFavourites();
+        iui.showPageById("storage");
+    }
+}
 
 function inlineFavIcon(detail) {
     return detail.isFavourite() ? ' &nbsp;&nbsp; <img style="position: relative; top: -2px;" src="28-star-yellow.png">' : ''; 

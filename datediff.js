@@ -3,10 +3,16 @@ var groups = [];
 
 function startup()
 {
-    inEditNameChanged = false;
+    groups = [];
 
+    inEditNameChanged = false;
+    storageIdentifier = "datediff";
+	
 	initMobiscroller();
-	loadData();
+
+//	loadSampleData();
+    storageLoadGroups();
+
 	drawGroups();
 	drawFavourites();
 	wireGlobalHandlers();
@@ -27,7 +33,7 @@ function initMobiscroller()
 	});
 }
 
-function loadData()
+function loadSampleData()
 {
 	var grBday = new Group("Birthdays");
 	grBday.addDetails([ 
@@ -51,19 +57,60 @@ function loadData()
 
 // -----------------------------------------------------------------------------
 
+function marshalIndented() {
+	return JSON.stringify(groups, function(name, value) { return value; }, 2);
+}
+
+function marshal() {
+    return JSON.stringify(groups);
+}
+
+function unmarshal(json) {
+	return JSON.parse(json);
+}
+
 function storageSaveGroups() {
-	
+	var json = marshal();
+    localStorage.setItem(storageIdentifier, json);	
 }
 
 function storageLoadGroups() {
-    
+	var json = localStorage.getItem(storageIdentifier);
+	var raw = [];
+    if (json !== null) {
+        raw = unmarshal(json);
+	}
+	groups = [];
+    raw.forEach(
+        function(group, groupIndex) {
+            var newGroup = new Group(group.name);
+			addGroupNoSave(newGroup);
+            group.details.forEach(
+                    function(detail, detailIndex) {
+					var newDetail = new DateDetail(
+                       detail.name,
+                       detail.note,
+                       detail.dateA,
+                       detail.dateB,
+                       detail.dateALocked,
+                       detail.dateBLocked,
+                       detail.isFav);
+                   newGroup.addDetailNoSave(newDetail);
+               });
+        }
+	);
 }
+
+function storageDeleteGroups() {
+	localStorage.removeItem(storageIdentifier);
+}
+
 
 // -----------------------------------------------------------------------------
 
 function deleteAll() {
 	groups = [];
-    storageSaveGroups();    
+    storageDeleteGroups();    
 }
 
 function getDetail(groupIndex, detailIndex) {
@@ -77,6 +124,11 @@ function deleteDetail(groupIndex, detailIndex) {
 
 function getGroup(groupIndex) {
 	return groups[groupIndex];
+}
+
+function addGroupNoSave(group) {
+    groups.push(group);
+    groups.sort(orderByName);	
 }
 
 function createGroup(newName) {
@@ -107,6 +159,11 @@ Group.prototype.setName = function(newName) {
 
 Group.prototype.getDetails = function() {
     return this.details;
+};
+
+Group.prototype.addDetailNoSave = function(newDetail) {
+    this.details.push(newDetail);
+    return this.details.length - 1;
 };
 
 Group.prototype.addDetail = function(newDetail) {
@@ -802,4 +859,8 @@ function toggleLock(detail, startDateStr, startLockState, setLockStateFn, drawGr
 	drawGroupFn();
 
     computeDiff(detail);
+}
+
+function seeJson() {
+    $("div#seeJson").find("textarea").attr("value", marshalIndented());
 }

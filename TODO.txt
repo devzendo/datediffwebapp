@@ -19,9 +19,6 @@ Settings brings up Settings dialog
     3 Dropbox import
     3 Dropbox export
 
-1 Persist the data to local storage upon change.
-1 Load the data from local storage on startup.
-
 3 How do I get a pretty alert with a user-defined title rather than the hostname?
 3 Help on how to add to home screen
 

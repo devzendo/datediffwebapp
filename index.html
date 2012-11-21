@@ -343,6 +343,7 @@
 	            <li><a href="#setupWebDAV">Set up export to WebDAV</a></li>
 	            <li><a href="#importWebDAV">Import from WebDAV</a></li>
 	            <li><a href="#importEmail">Import from an Email</a></li>
+				<li><a href="#seeJson">See JSON</a></li>
 				<li><a class="redrow" href="#deleteAllData">Delete all data</a></li>
             </ul>
         </div>
@@ -361,6 +362,9 @@
         </div>
         <div class="panel" title="Export" id="exportEmail">
             The export to email goes here.
+        </div>
+        <div class="panel" title="JSON Dump" id="seeJson" onfocus="seeJson();">
+        	<textarea id="json" class="fullTextArea"></textarea>
         </div>
         <div class="panel" title="Delete" id="deleteAllData">
             Pressing "Delete All Data" below will remove all groups and events.

@@ -1,5 +1,3 @@
-Note editing:
-  3 The textarea is grey text, not black.
 
 Edit date details page:
   3 new date should focus caret on name field

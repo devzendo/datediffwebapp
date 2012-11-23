@@ -10,8 +10,6 @@ Edit note dialog:
     
 Settings brings up Settings dialog
   Storage:
-    2 Email import
-    2 Email export
     3 WebDAV import
     3 WebDAV export
     3 Dropbox import

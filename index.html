@@ -358,10 +358,31 @@
             The setup webdav export goes here.
         </div>
         <div class="panel" title="Import" id="importEmail">
-            The email import goes here.
+            <font size="-1">
+	        	Paste the contents of an email export into the box below, and then
+				tap "Import from Email". Don't include the text of any email signature.
+				<br>
+	            <br>
+				<font color="#f00">THIS WILL REPLACE ALL YOUR EXISTING DATA!</font>
+			</font>
+            <br>
+            <br>
+			<textarea id="importEmailJson" class="tallTextArea"></textarea>
+            <br>
+            <br>
+            <a class="redButton autoButton" style="position: relative;" align="center" id="importEmailButton">Import from Email</a>
         </div>
-        <div class="panel" title="Export" id="exportEmail">
-            The export to email goes here.
+        <div class="panel" title="Export" id="exportEmail" onfocus="setExportMailto();">
+            <font size="-1">
+	            Press "Export by Email" to send an email to yourself
+	            containing an export of your data. 
+				<br>
+				This can later be imported by copying
+	            it from the email and pasting it into the import screen.
+            </font>
+            <br>
+            <br>
+            <a class="grayButton autoButton" style="position: relative;" align="center" id="exportEmailButton">Export by Email</a>
         </div>
         <div class="panel" title="JSON Dump" id="seeJson" onfocus="seeJson();">
         	<textarea id="json" class="fullTextArea"></textarea>

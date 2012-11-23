@@ -74,12 +74,17 @@ function storageSaveGroups() {
     localStorage.setItem(storageIdentifier, json);	
 }
 
-function storageLoadGroups() {
+function storageLoadGroups(){
 	var json = localStorage.getItem(storageIdentifier);
 	var raw = [];
-    if (json !== null) {
-        raw = unmarshal(json);
+	if (json !== null) {
+		raw = unmarshal(json);
 	}
+	loadFromRawJson(raw);
+}
+
+function loadFromRawJson(raw)
+{
 	groups = [];
     raw.forEach(
         function(group, groupIndex) {
@@ -382,6 +387,12 @@ function wireGlobalHandlers() {
             confirmDeleteAll();
         }
     );
+
+   $("a#importEmailButton").off("click").on("click", 
+        function() {
+            importEmail();
+        }
+    );
 }
 
 function confirmDeleteAll() {
@@ -392,6 +403,30 @@ function confirmDeleteAll() {
         drawFavourites();
         iui.showPageById("storage");
     }
+}
+
+function setExportMailto() {
+    $("a#exportEmailButton").attr("href", "mailto:?subject=DateDiff export&body=" + escape(marshal())); 
+}
+
+function importEmail() {
+    var json = $("textarea#importEmailJson").val();
+    if (json.length === 0) {
+		alert("Nothing pasted to import");
+	}
+	else {
+		// TODO remove leading spaces
+		// TODO remove trailing spaces and 'Sent from my ....'
+		var raw = unmarshal(json);
+		if (raw === null) {
+			alert("Malformed import data - did you paste all of it, correctly?");
+		} else {
+			loadFromRawJson(raw);
+            drawGroups();
+            drawFavourites();
+            iui.showPageById("home");
+		}
+	}
 }
 
 function inlineFavIcon(detail) {

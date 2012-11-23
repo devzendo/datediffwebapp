@@ -415,16 +415,22 @@ function importEmail() {
 		alert("Nothing pasted to import");
 	}
 	else {
-		// TODO remove leading spaces
-		// TODO remove trailing spaces and 'Sent from my ....'
-		var raw = unmarshal(json);
-		if (raw === null) {
-			alert("Malformed import data - did you paste all of it, correctly?");
+		var jsonPattern = /^\s*(\[.*\]).*?$/m;
+		var result;
+		if ((result = jsonPattern.exec(json)) != null) {
+			var jsonGroup = result[1];
+		    var raw = unmarshal(jsonGroup);
+            if (raw === null) {
+                alert("Could not process import - did you paste all of it, correctly?");
+            } else {
+	            loadFromRawJson(raw);
+				storageSaveGroups();
+	            drawGroups();
+	            drawFavourites();
+	            iui.showPageById("home");
+	        }
 		} else {
-			loadFromRawJson(raw);
-            drawGroups();
-            drawFavourites();
-            iui.showPageById("home");
+			alert("Malformed import data - did you paste all of it, correctly?");
 		}
 	}
 }

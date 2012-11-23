@@ -8,13 +8,6 @@ Edit group name dialog:
 Edit note dialog:
   3 should focus caret on text field
     
-Settings brings up Settings dialog
-  Storage:
-    3 WebDAV import
-    3 WebDAV export
-    3 Dropbox import
-    3 Dropbox export
-
 3 How do I get a pretty alert with a user-defined title rather than the hostname?
 3 Help on how to add to home screen
 

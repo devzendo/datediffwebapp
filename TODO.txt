@@ -11,8 +11,11 @@ Edit note dialog:
 3 How do I get a pretty alert with a user-defined title rather than the hostname?
 3 Help on how to add to home screen
 
-Packaging, manifest.
+Packaging - minifying the .js.
+
 Website.
+Add the .htaccess file to the web server.
+Create a dir to hold the app distribution, upload it.
 
 Known bugs:
   Creating a group with a duplicate name alerts, but closes the name editing

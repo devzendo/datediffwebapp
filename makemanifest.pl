@@ -6,6 +6,8 @@ use strict;
 use Data::Dumper;
 use File::Find;
 
+`rm -rf build`;
+my $buildnum = incBuildNum();
 my @scanfiles = ("index.html", "datediff.js", "datediff.css");
 my @libdirs = ("lib/iui", "lib/jquery", "lib/mobiscroll");
 
@@ -20,10 +22,11 @@ my @uniqfiles = sort(keys (%uniq));
 my $out;
 open $out, ">cache.manifest" or die "Can't create cache.manifest: $!\n";
 print $out "CACHE MANIFEST\n";
+print $out "# build $buildnum\n";
 foreach (@uniqfiles) { 
 	print $out "$_\n";
 }
-print "cache.manifest created\n";
+print "cache.manifest created, build number $buildnum\n";
 close $out;
 
 #print Dumper(\@uniqfiles) . "\n";
@@ -68,3 +71,16 @@ sub findFiles {
 	return @out;
 }
 
+sub incBuildNum {
+	my $fh;
+	my $in = "buildnum.txt";
+	open $fh, "<$in" or die "Cannot open $in: $!\n";
+	my $count = <$fh>;
+	chomp $count;
+	close $fh;
+	$count++;
+	open $fh, ">$in" or die "Cannot write to $in: $!\n";
+	print $fh "$count\n";
+	close $fh;
+	return $count;
+}

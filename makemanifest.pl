@@ -5,8 +5,10 @@ use warnings;
 use strict;
 use Data::Dumper;
 use File::Find;
+use File::Basename;
 
 `rm -rf build`;
+mkdir 'build';
 my $buildnum = incBuildNum();
 my @scanfiles = ("index.html", "datediff.js", "datediff.css");
 my @libdirs = ("lib/iui", "lib/jquery", "lib/mobiscroll");
@@ -23,14 +25,26 @@ my $out;
 open $out, ">cache.manifest" or die "Can't create cache.manifest: $!\n";
 print $out "CACHE MANIFEST\n";
 print $out "# build $buildnum\n";
-foreach (@uniqfiles) { 
+foreach (@uniqfiles) {
 	print $out "$_\n";
 }
 print "cache.manifest created, build number $buildnum\n";
 close $out;
+copy('cache.manifest');
+copy('.htaccess');
+foreach (@uniqfiles) { 
+    copy($_);
+}
 
 #print Dumper(\@uniqfiles) . "\n";
 
+sub copy {
+	my $filepath = shift;
+	my $dir = dirname($filepath);
+	my $dest = $dir eq '.' ? 'build' : "build/$dir";
+	`mkdir -p $dest`;
+	`cp $filepath $dest`;
+}
 sub scan {
 	my $file = shift;
 #	print "scanning $file\n";
